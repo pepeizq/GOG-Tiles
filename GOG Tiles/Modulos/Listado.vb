@@ -124,44 +124,46 @@ Module Listado
 
                                 '---------------------------
 
-                                Dim temp7, temp8, temp9 As String
-                                Dim int7, int8, int9 As Integer
+                                'Dim temp7, temp8, temp9 As String
+                                'Dim int7, int8, int9 As Integer
 
-                                int7 = texto.IndexOf(ChrW(34) + "path" + ChrW(34))
-                                temp7 = texto.Remove(0, int7 + 6)
+                                'int7 = texto.IndexOf(ChrW(34) + "path" + ChrW(34))
+                                'temp7 = texto.Remove(0, int7 + 6)
 
-                                int8 = temp7.IndexOf(ChrW(34))
-                                temp8 = temp7.Remove(0, int8 + 1)
+                                'int8 = temp7.IndexOf(ChrW(34))
+                                'temp8 = temp7.Remove(0, int8 + 1)
 
-                                int9 = temp8.IndexOf(ChrW(34))
-                                temp9 = temp8.Remove(int9, temp8.Length - int9)
+                                'int9 = temp8.IndexOf(ChrW(34))
+                                'temp9 = temp8.Remove(int9, temp8.Length - int9)
 
                                 Dim acceso As String = Nothing
 
-                                If Not texto.Contains(ChrW(34) + "arguments" + ChrW(34)) Then
-                                    acceso = carpeta.Path + "\" + temp9.Trim
-                                Else
-                                    Dim temp10, temp11, temp12 As String
-                                    Dim int10, int11, int12 As Integer
+                                'If Not texto.Contains(ChrW(34) + "arguments" + ChrW(34)) Then
+                                '    acceso = carpeta.Path + "\" + temp9.Trim
+                                'Else
+                                '    Dim temp10, temp11, temp12 As String
+                                '    Dim int10, int11, int12 As Integer
 
-                                    int10 = texto.IndexOf(ChrW(34) + "arguments" + ChrW(34))
-                                    temp10 = texto.Remove(0, int10 + 9)
+                                '    int10 = texto.IndexOf(ChrW(34) + "arguments" + ChrW(34))
+                                '    temp10 = texto.Remove(0, int10 + 9)
 
-                                    int11 = temp10.IndexOf(ChrW(34))
-                                    temp11 = temp10.Remove(0, int11 + 1)
+                                '    int11 = temp10.IndexOf(ChrW(34))
+                                '    temp11 = temp10.Remove(0, int11 + 1)
 
-                                    int12 = temp11.IndexOf("}")
-                                    temp12 = temp11.Remove(int12, temp11.Length - int12)
+                                '    int12 = temp11.IndexOf("}")
+                                '    temp12 = temp11.Remove(int12, temp11.Length - int12)
 
-                                    temp12 = temp12.Trim
-                                    temp12 = temp12.Remove(temp12.Length - 1, 1)
+                                '    temp12 = temp12.Trim
+                                '    temp12 = temp12.Remove(temp12.Length - 1, 1)
 
-                                    acceso = carpeta.Path + "\" + temp9.Trim + temp12.Trim
-                                End If
+                                '    acceso = carpeta.Path + "\" + temp9.Trim + temp12.Trim
+                                'End If
 
-                                If Not acceso = Nothing Then
-                                    acceso = acceso.Replace("\\", "\")
-                                End If
+                                'If Not acceso = Nothing Then
+                                '    acceso = acceso.Replace("\\", "\")
+                                'End If
+
+                                acceso = "goggalaxy://openGameView/" + id
 
                                 '---------------------------
 
