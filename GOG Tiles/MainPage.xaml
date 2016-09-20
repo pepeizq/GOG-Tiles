@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="GOG_Tiles.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GOG_Tiles"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Loading="Page_Loading">
+
+    <Page.Resources>
+        <DataTemplate x:Key="dataTemplateTilesGOG">
+            <Grid Width="224" Height="103" Margin="1">
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <Image Source="{Binding Path=imagen}" ToolTipService.ToolTip="{Binding Path=titulo}" Stretch="UniformToFill" />
+                </Border>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Border>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="Gray" Offset="0.5" />
+                    <GradientStop Color="LightGray" Offset="1.0" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="#FFE4E4E4" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="tbDirectorioGOGJuego" Grid.Row="0" x:Uid="Directorio" Margin="10" />
+
+                <Grid Grid.Row="1" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="buttonAñadirGOGJuego" Grid.Column="0" x:Uid="Boton Busqueda" Padding="10,5" Margin="0,0,10,0" BorderBrush="DarkGray" Background="Transparent" />
+                    <ProgressRing x:Name="progressRingCarga" Grid.Column="1" IsActive="True"/>
+                    <CheckBox x:Name="checkboxTilesGOGTitulo" Grid.Column="2" x:Uid="Titulo Tile" HorizontalAlignment="Right" Margin="0,0,20,0" />
+                    <Button x:Name="buttonVotaciones" Grid.Column="3" x:Uid="Boton Votar" Padding="10,5" BorderBrush="DarkGray" Background="Transparent" Margin="0,0,10,0" />
+                    <Button x:Name="buttonContactar" Grid.Column="4" x:Uid="Boton Contactar" Padding="10,5" BorderBrush="DarkGray" Background="Transparent" Margin="0,0,10,0" />
+                    <Button x:Name="buttonWeb" Grid.Column="5" x:Uid="Boton Web" Padding="10,5" BorderBrush="DarkGray" Background="Transparent" />
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="gridTilesGOG" Margin="10" Grid.Row="1" HorizontalAlignment="Center">
+                <ScrollViewer x:Name="scrollViewerGridGOG" VerticalScrollMode="Auto" Visibility="Collapsed" >
+                    <GridView x:Name="gridViewTilesGOG" ItemTemplate="{StaticResource dataTemplateTilesGOG}" IsItemClickEnabled="True" Padding="0,0,15,0" />
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
