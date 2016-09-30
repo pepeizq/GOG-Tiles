@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Boton Busqueda" xml:space="preserve">
+  <data name="Boton Añadir" xml:space="preserve">
     <value>Añadir Carpeta</value>
+  </data>
+  <data name="Boton Compartir" xml:space="preserve">
+    <value>Compartir</value>
   </data>
   <data name="Boton Contactar" xml:space="preserve">
     <value>Contactar</value>
@@ -127,7 +130,10 @@
     <value>Vota la App</value>
   </data>
   <data name="Boton Web" xml:space="preserve">
-    <value>Otras Apps</value>
+    <value>Más Apps</value>
+  </data>
+  <data name="Cargando" xml:space="preserve">
+    <value>Cargando</value>
   </data>
   <data name="Directorio" xml:space="preserve">
     <value>Añade la carpeta de GOG Galaxy siguiendo este ejemplo: C:\GalaxyClient\Games\</value>
