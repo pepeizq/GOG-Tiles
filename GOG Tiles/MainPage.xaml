@@ -5,7 +5,6 @@
     xmlns:local="using:GOG_Tiles"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ads="using:Microsoft.Advertising.WinRT.UI"
     mc:Ignorable="d" Loading="Page_Loading">
 
     <Page.Resources>
@@ -103,14 +102,11 @@
             <Grid x:Name="gridTilesGOG" Margin="10" Grid.Row="2" HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                
+
                 <ScrollViewer x:Name="scrollViewerGridGOG" Grid.Row="0" VerticalScrollMode="Auto" Visibility="Collapsed" >
                     <GridView x:Name="gridViewTilesGOG" ItemTemplate="{StaticResource dataTemplateTilesGOG}" IsItemClickEnabled="True" Padding="0,0,15,0" />
                 </ScrollViewer>
-
-                <ads:AdControl x:Name="adControl" Grid.Row="1" Height="90" Width="728" ApplicationId="763e5581-6049-4707-b5e2-badb10f908a2" AdUnitId="315862" AutoRefreshIntervalInSeconds="30"/>
             </Grid>
 
             <Grid x:Name="gridWebContacto" Margin="10" Grid.Row="2" Visibility="Collapsed">
