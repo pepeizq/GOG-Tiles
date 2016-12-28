@@ -120,8 +120,14 @@
   <data name="Boton Añadir" xml:space="preserve">
     <value>Add Folder</value>
   </data>
+  <data name="Boton Cambiar" xml:space="preserve">
+    <value>Change</value>
+  </data>
   <data name="Boton Compartir" xml:space="preserve">
     <value>Share</value>
+  </data>
+  <data name="Boton Config" xml:space="preserve">
+    <value>Configuration</value>
   </data>
   <data name="Boton Contactar" xml:space="preserve">
     <value>Contact</value>
@@ -137,6 +143,12 @@
   </data>
   <data name="Cargando" xml:space="preserve">
     <value>Loading</value>
+  </data>
+  <data name="Carpeta Aviso" xml:space="preserve">
+    <value>Because the way GOG Galaxy works the app will open the gameview of the game, not the executable</value>
+  </data>
+  <data name="Carpeta No" xml:space="preserve">
+    <value>No folder selected</value>
   </data>
   <data name="Directorio" xml:space="preserve">
     <value>Add your GOG Galaxy folder following this example: C:\GalaxyClient\Games</value>

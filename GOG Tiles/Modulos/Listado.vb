@@ -7,14 +7,16 @@ Imports Windows.Storage.Streams
 
 Module Listado
 
-    Dim clave As String = "carpetagog03"
+    Dim clave As String = "carpetagog05"
 
-    Public Async Sub Generar(gridview As GridView, button As Button, gridCargando As Grid, sv As ScrollViewer, boolBuscarCarpeta As Boolean)
+    Public Async Sub Generar(gridview As GridView, button As Button, pr As ProgressRing, sv As ScrollViewer, boolBuscarCarpeta As Boolean)
 
         button.IsEnabled = False
-        gridCargando.Visibility = Visibility.Visible
+        pr.Visibility = Visibility.Visible
 
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        Dim carpetaTemp As StorageFolder = Nothing
 
         Dim i As Integer = 0
         If boolBuscarCarpeta = True Then
@@ -25,25 +27,70 @@ Module Listado
                 picker.ViewMode = PickerViewMode.List
 
                 Dim carpeta As StorageFolder = Await picker.PickSingleFolderAsync()
-                Dim carpetaTemp As StorageFolder = Nothing
 
-                i = 0
-                While i < (carpetas.Values("numCarpetas") + 1)
+                If Not carpeta Is Nothing Then
+                    Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
+                    Dim detectadoBool As Boolean = False
 
-                    Try
-                        carpetaTemp = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
-                    Catch ex As Exception
-                        StorageApplicationPermissions.FutureAccessList.AddOrReplace(clave + i.ToString, carpeta)
-                        carpetas.Values("numCarpetas") = i + 1
-                        Exit While
-                    End Try
+                    For Each carpetaJuego As StorageFolder In carpetasJuegos
+                        Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaJuego.GetFilesAsync()
 
-                    i += 1
-                End While
+                        For Each fichero As StorageFile In ficheros
+                            If fichero.DisplayName.Contains("goggame-") Then
+                                detectadoBool = True
+                            End If
+                        Next
+                    Next
+
+                    If detectadoBool = True Then
+                        i = 0
+                        While i < (carpetas.Values("numCarpetas") + 1)
+                            Try
+                                carpetaTemp = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
+                            Catch ex As Exception
+                                StorageApplicationPermissions.FutureAccessList.AddOrReplace(clave + i.ToString, carpeta)
+                                carpetas.Values("numCarpetas") = i + 1
+                                Exit While
+                            End Try
+                            i += 1
+                        End While
+                    End If
+                End If
 
             Catch ex As Exception
 
             End Try
+        End If
+
+        Dim boolMain As Boolean = False
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        While i < carpetas.Values("numCarpetas")
+            Try
+                carpetaTemp = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
+            Catch ex As Exception
+
+            End Try
+
+            If Not carpetaTemp Is Nothing Then
+                Dim textoCambiar As TextBlock = pagina.FindName("buttonGOGConfigPathTexto")
+                textoCambiar.Text = recursos.GetString("Boton Cambiar")
+
+                Dim configPathTexto As TextBlock = pagina.FindName("tbGOGConfigPath")
+                configPathTexto.Text = carpetaTemp.Path
+
+                boolMain = True
+            End If
+            i += 1
+        End While
+
+        If boolMain = False Then
+            Dim gridTilesGOG As Grid = pagina.FindName("gridTilesGOG")
+            gridTilesGOG.Visibility = Visibility.Visible
+
+            Dim gridConfig As Grid = pagina.FindName("gridConfig")
+            gridConfig.Visibility = Visibility.Visible
         End If
 
         '-------------------------------------------------------------
@@ -185,15 +232,14 @@ Module Listado
             sv.Visibility = Visibility.Visible
         Else
             If boolBuscarCarpeta = True Then
-                Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-                MessageBox.EnseñarMensaje(recursos.GetString("Fallo1"))
+                Toast("GOG Tiles", recursos.GetString("Fallo1"))
             End If
         End If
 
         gridview.ItemsSource = listaFinal
 
         button.IsEnabled = True
-        gridCargando.Visibility = Visibility.Collapsed
+        pr.Visibility = Visibility.Collapsed
 
     End Sub
 End Module
