@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="App" xml:space="preserve">
+    <value>Application</value>
+  </data>
   <data name="Boton Añadir" xml:space="preserve">
     <value>Add Folder</value>
+  </data>
+  <data name="Boton Borrar" xml:space="preserve">
+    <value>Delete Folders</value>
   </data>
   <data name="Boton Cambiar" xml:space="preserve">
     <value>Change</value>
@@ -150,16 +156,25 @@
   <data name="Carpeta No" xml:space="preserve">
     <value>No folder selected</value>
   </data>
+  <data name="Carpetas Añadidas" xml:space="preserve">
+    <value>Folders added:</value>
+  </data>
   <data name="Directorio" xml:space="preserve">
     <value>Add your GOG Galaxy folder following this example: C:\GalaxyClient\Games</value>
   </data>
   <data name="Fallo1" xml:space="preserve">
     <value>No games detected.</value>
   </data>
+  <data name="Juegos Detectados" xml:space="preserve">
+    <value>games detected</value>
+  </data>
+  <data name="Ninguna" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="Titulo App" xml:space="preserve">
     <value>GOG Tiles</value>
   </data>
   <data name="Titulo Tile" xml:space="preserve">
-    <value>Add title to the Tile</value>
+    <value>Add title</value>
   </data>
 </root>

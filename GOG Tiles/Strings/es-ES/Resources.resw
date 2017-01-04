@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="App" xml:space="preserve">
+    <value>Aplicación</value>
+  </data>
   <data name="Boton Añadir" xml:space="preserve">
     <value>Añadir Carpeta</value>
+  </data>
+  <data name="Boton Borrar" xml:space="preserve">
+    <value>Borrar Carpetas</value>
   </data>
   <data name="Boton Cambiar" xml:space="preserve">
     <value>Cambiar</value>
@@ -150,16 +156,25 @@
   <data name="Carpeta No" xml:space="preserve">
     <value>No se ha seleccionado una carpeta</value>
   </data>
+  <data name="Carpetas Añadidas" xml:space="preserve">
+    <value>Carpetas añadidas:</value>
+  </data>
   <data name="Directorio" xml:space="preserve">
     <value>Añade la carpeta de GOG Galaxy siguiendo este ejemplo: C:\GalaxyClient\Games\</value>
   </data>
   <data name="Fallo1" xml:space="preserve">
     <value>No se han detectado juegos.</value>
   </data>
+  <data name="Juegos Detectados" xml:space="preserve">
+    <value>juegos detectados</value>
+  </data>
+  <data name="Ninguna" xml:space="preserve">
+    <value>Ninguna</value>
+  </data>
   <data name="Titulo App" xml:space="preserve">
     <value>GOG Tiles</value>
   </data>
   <data name="Titulo Tile" xml:space="preserve">
-    <value>Añadir titulo a la Tile</value>
+    <value>Añadir titulo</value>
   </data>
 </root>

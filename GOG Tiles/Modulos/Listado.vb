@@ -1,22 +1,41 @@
 ﻿Imports System.Text
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 Imports Windows.Storage.Search
 Imports Windows.Storage.Streams
+Imports Windows.UI
 
 Module Listado
 
     Dim clave As String = "carpetagog05"
 
-    Public Async Sub Generar(gridview As GridView, button As Button, pr As ProgressRing, sv As ScrollViewer, boolBuscarCarpeta As Boolean)
+    Public Async Sub Generar(boolBuscarCarpeta As Boolean)
 
-        button.IsEnabled = False
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim buttonAñadir As Button = pagina.FindName("buttonAñadirCarpeta")
+        buttonAñadir.IsEnabled = False
+
+        Dim buttonBorrar As Button = pagina.FindName("buttonBorrarCarpetas")
+        buttonBorrar.IsEnabled = False
+
+        Dim pr As ProgressRing = pagina.FindName("prTiles")
         pr.Visibility = Visibility.Visible
+
+        Dim sv As ScrollViewer = pagina.FindName("scrollViewerGrid")
+        Dim gridview As GridView = pagina.FindName("gridViewTiles")
+
+        Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadas")
+
+        If Not tbCarpetas.Text = Nothing Then
+            tbCarpetas.Text = ""
+        End If
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
-        Dim carpetaTemp As StorageFolder = Nothing
 
         Dim i As Integer = 0
         If boolBuscarCarpeta = True Then
@@ -46,7 +65,7 @@ Module Listado
                         i = 0
                         While i < (carpetas.Values("numCarpetas") + 1)
                             Try
-                                carpetaTemp = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
+                                Dim carpetaTemp As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
                             Catch ex As Exception
                                 StorageApplicationPermissions.FutureAccessList.AddOrReplace(clave + i.ToString, carpeta)
                                 carpetas.Values("numCarpetas") = i + 1
@@ -62,35 +81,33 @@ Module Listado
             End Try
         End If
 
-        Dim boolMain As Boolean = False
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-
         While i < carpetas.Values("numCarpetas")
             Try
-                carpetaTemp = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
+                Dim carpetaTemp As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
+                tbCarpetas.Text = tbCarpetas.Text + carpetaTemp.Path + Environment.NewLine
             Catch ex As Exception
 
             End Try
-
-            If Not carpetaTemp Is Nothing Then
-                Dim textoCambiar As TextBlock = pagina.FindName("buttonGOGConfigPathTexto")
-                textoCambiar.Text = recursos.GetString("Boton Cambiar")
-
-                Dim configPathTexto As TextBlock = pagina.FindName("tbGOGConfigPath")
-                configPathTexto.Text = carpetaTemp.Path
-
-                boolMain = True
-            End If
             i += 1
         End While
 
-        If boolMain = False Then
-            Dim gridTilesGOG As Grid = pagina.FindName("gridTilesGOG")
-            gridTilesGOG.Visibility = Visibility.Visible
+        If tbCarpetas.Text = Nothing Then
+            tbCarpetas.Text = recursos.GetString("Ninguna")
+
+            Dim gridTiles As Grid = pagina.FindName("gridTiles")
+            gridTiles.Visibility = Visibility.Visible
 
             Dim gridConfig As Grid = pagina.FindName("gridConfig")
             gridConfig.Visibility = Visibility.Visible
+
+            Dim gridConfigApp As Grid = pagina.FindName("gridConfigApp")
+            gridConfigApp.Visibility = Visibility.Visible
+
+            Dim buttonConfigApp As Button = pagina.FindName("buttonConfigApp")
+            buttonConfigApp.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#bfbfbf"))
+            buttonConfigApp.BorderBrush = New SolidColorBrush(Colors.Black)
+        Else
+            tbCarpetas.Text = tbCarpetas.Text.Trim
         End If
 
         '-------------------------------------------------------------
@@ -100,19 +117,20 @@ Module Listado
         i = 0
         If gridview.Items.Count > 0 Then
             While i < gridview.Items.Count
-                Dim tile As Tiles = gridview.Items(i)
+                Dim grid As Grid = gridview.Items(i)
+                Dim tile As Tiles = grid.Tag
 
                 Dim tituloBool As Boolean = False
                 Dim g As Integer = 0
                 While g < listaFinal.Count
-                    If listaFinal(g).titulo = tile.titulo Then
+                    If listaFinal(g).Titulo = tile.Titulo Then
                         tituloBool = True
                     End If
                     g += 1
                 End While
 
                 If tituloBool = False Then
-                    listaFinal.Add(New Tiles(tile.titulo, tile.id, tile.enlace, tile.imagen, tile.imagenUri))
+                    listaFinal.Add(New Tiles(tile.Titulo, tile.ID, tile.Enlace, tile.Imagen, tile.ImagenUri))
                 End If
 
                 i += 1
@@ -208,7 +226,7 @@ Module Listado
                                     Dim tituloBool As Boolean = False
                                     Dim g As Integer = 0
                                     While g < listaFinal.Count
-                                        If listaFinal(g).titulo = titulo Then
+                                        If listaFinal(g).Titulo = titulo Then
                                             tituloBool = True
                                         End If
                                         g += 1
@@ -228,18 +246,59 @@ Module Listado
         End While
 
         If listaFinal.Count > 0 Then
-            listaFinal.Sort(Function(x, y) x.titulo.CompareTo(y.titulo))
+            listaFinal.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
             sv.Visibility = Visibility.Visible
+
+            gridview.Items.Clear()
+
+            For Each tile In listaFinal
+                Dim grid As New Grid
+                grid.Margin = New Thickness(1, 1, 1, 1)
+                grid.Tag = tile
+                grid.BorderBrush = New SolidColorBrush(Colors.Black)
+                grid.BorderThickness = New Thickness(1, 1, 1, 1)
+                grid.Width = 224
+                grid.Height = 103
+
+                Dim imagen As New ImageEx
+                imagen.Source = New BitmapImage(tile.ImagenUri)
+                imagen.Stretch = Stretch.UniformToFill
+
+                grid.Children.Add(imagen)
+
+                gridview.Items.Add(grid)
+            Next
+
+            If boolBuscarCarpeta = True Then
+                Toast("GOG Tiles", listaFinal.Count.ToString + " " + recursos.GetString("Juegos Detectados"))
+            End If
         Else
             If boolBuscarCarpeta = True Then
                 Toast("GOG Tiles", recursos.GetString("Fallo1"))
             End If
         End If
 
-        gridview.ItemsSource = listaFinal
-
-        button.IsEnabled = True
+        buttonAñadir.IsEnabled = True
+        buttonBorrar.IsEnabled = True
         pr.Visibility = Visibility.Collapsed
+
+    End Sub
+
+    Public Sub Borrar()
+
+        StorageApplicationPermissions.FutureAccessList.Clear()
+
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim numCarpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        numCarpetas.Values("numCarpetas") = 0
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+        Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadas")
+
+        tbCarpetas.Text = recursos.GetString("Ninguna")
+
+        Generar(False)
 
     End Sub
 End Module

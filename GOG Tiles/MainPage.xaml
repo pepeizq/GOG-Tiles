@@ -6,17 +6,9 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Loading="Page_Loading">
+    mc:Ignorable="d" Loaded="Page_Loaded">
 
     <Page.Resources>
-        <DataTemplate x:Key="TileGOG">
-            <Grid Width="224" Height="103" Margin="1">
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <Image Source="{Binding Path=imagen}" ToolTipService.ToolTip="{Binding Path=titulo}" Stretch="UniformToFill" />
-                </Border>
-            </Grid>
-        </DataTemplate>
-
         <DataTemplate x:Key="HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuGlyphItem">
             <Grid Height="64">
                 <Grid.ColumnDefinitions>
@@ -66,7 +58,7 @@
                 </controls:HamburgerMenu.OptionsItemsSource>
 
                 <Grid>
-                    <Grid x:Name="gridTilesGOG" Padding="10">
+                    <Grid x:Name="gridTiles" Padding="10">
                         <Grid.Background>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Color="Gray" Offset="0.5" />
@@ -78,19 +70,15 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <ScrollViewer x:Name="scrollViewerGridGOG" Grid.Row="0" VerticalScrollMode="Auto" Visibility="Collapsed">
-                            <GridView x:Name="gridViewTilesGOG" ItemTemplate="{StaticResource TileGOG}" IsItemClickEnabled="True" Padding="0,0,15,0" />
+                        <ScrollViewer x:Name="scrollViewerGrid" Grid.Row="0" VerticalScrollMode="Auto" Visibility="Collapsed">
+                            <GridView x:Name="gridViewTiles" IsItemClickEnabled="True" Padding="0,0,15,0" />
                         </ScrollViewer>
 
-                        <ProgressRing x:Name="prTilesGOG" Grid.Row="0" IsActive="True" Width="64" Height="64" Foreground="#FFF0F0F0" Visibility="Collapsed"/>
+                        <ProgressRing x:Name="prTiles" Grid.Row="0" IsActive="True" Width="64" Height="64" Foreground="#FFF0F0F0" Visibility="Collapsed"/>
                     </Grid>
 
                     <Grid x:Name="gridConfig" Background="#FFF0F0F0" Visibility="Collapsed" Padding="10">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -99,43 +87,81 @@
                         <TextBlock x:Name="tbConfig" Grid.Row="0" FontSize="23" Margin="5,0,0,20"/>
                         <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="Black" Margin="0,0,0,15"/>
 
-                        <TextBlock x:Name="tbGOGConfigInstrucciones" Grid.Row="2" Margin="5" TextWrapping="Wrap" />
-                        <Grid Grid.Row="3" Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Button x:Name="buttonGOGConfigPath" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" >
-                                    <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="buttonGOGConfigPathTexto"/>
-                                </StackPanel>
-                            </Button>
-                            <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                            <TextBlock x:Name="tbGOGConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                        </Grid>
-
-                        <Grid Grid.Row="4" Padding="10" Margin="0,10" HorizontalAlignment="Left">
+                        <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <SymbolIcon Grid.Column="0" Symbol="Help" VerticalAlignment="Center" />
-                            <TextBlock x:Name="tbCarpetaAvisoGOG" Grid.Column="1" Margin="10,0" TextWrapping="Wrap"/>
-                        </Grid>
+                            <StackPanel Grid.Column="0" VerticalAlignment="Top" BorderThickness="0,0,1,0" BorderBrush="Black" Padding="0,0,20,0">
 
-                        <Border Grid.Row="5" BorderThickness="0,1,0,0" BorderBrush="Black" Margin="0,20" Width="300" HorizontalAlignment="Left"/>
-                        <CheckBox x:Name="checkboxTilesGOGTitulo" Grid.Row="6" Padding="10" Margin="10,0" VerticalContentAlignment="Center" />
+                                <Button x:Name="buttonConfigApp" Width="160" Margin="0,0,0,5" Padding="5" Background="#FFE4E4E4"/>
+                                <Button x:Name="buttonConfigTiles" Width="160" Margin="0,0,0,5" Padding="5" Background="#FFE4E4E4" Content="Tiles"/>
+
+                            </StackPanel>
+
+                            <Grid x:Name="gridConfigApp" Grid.Column="1" Padding="20,0,0,0" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button x:Name="buttonAñadirCarpeta" Grid.Column="0" Padding="10" Background="#FFE4E4E4">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <SymbolIcon Symbol="Add" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="buttonAñadirCarpetaTexto"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <TextBlock x:Name="tbCarpetaInstrucciones" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap"/>
+                                </Grid>
+
+                                <TextBlock x:Name="tbCarpetasAñadidas" Grid.Row="1" Margin="10,20,10,5"/>
+                                <TextBlock x:Name="tbCarpetasDetectadas" Grid.Row="2" Margin="10,10,10,20"/>
+
+                                <Button x:Name="buttonBorrarCarpetas" Grid.Row="3" Padding="10" Background="#FFE4E4E4">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <SymbolIcon Symbol="Delete" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="buttonBorrarCarpetasTexto"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <Grid Grid.Row="4" Padding="10" Margin="0,10" HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <SymbolIcon Grid.Column="0" Symbol="Important" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="tbCarpetaAvisoGOG" Grid.Column="1" Margin="10,0" TextWrapping="Wrap"/>
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="gridConfigTiles" Grid.Column="1" Padding="20,0,0,0" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <CheckBox x:Name="checkboxTilesTitulo" Grid.Row="0" Padding="10,0" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+                                <controls:ImageEx x:Name="imageTileTitulo" Grid.Row="1" HorizontalAlignment="Left" Width="206" Height="102"/>
+                            </Grid>
+                        </Grid>
                     </Grid>
 
-                    <Grid x:Name="gridWebContacto" Background="#FFF0F0F0" Visibility="Collapsed">
+                    <Grid x:Name="gridWebContacto" Background="#FFF0F0F0" Visibility="Collapsed" Padding="10">
                         <WebView x:Name="webViewContacto" Source="https://pepeizqapps.com/contact/" />
                     </Grid>
 
-                    <Grid x:Name="gridWeb" Background="#FFF0F0F0" Visibility="Collapsed">
+                    <Grid x:Name="gridWeb" Background="#FFF0F0F0" Visibility="Collapsed" Padding="10">
                         <WebView x:Name="webViewWeb" Source="https://pepeizqapps.com/" />
                     </Grid>
                 </Grid>
