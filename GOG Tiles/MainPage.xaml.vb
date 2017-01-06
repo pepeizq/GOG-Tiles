@@ -14,10 +14,10 @@ Public NotInheritable Class MainPage
 
         Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
 
-        barra.BackgroundColor = Colors.DarkGray
+        barra.BackgroundColor = Colors.DarkOrchid
         barra.ForegroundColor = Colors.White
         barra.InactiveForegroundColor = Colors.White
-        barra.ButtonBackgroundColor = Colors.DarkGray
+        barra.ButtonBackgroundColor = Colors.DarkOrchid
         barra.ButtonForegroundColor = Colors.White
         barra.ButtonInactiveForegroundColor = Colors.White
 
