@@ -95,7 +95,7 @@ Module Listado
             tbCarpetas.Text = recursos.GetString("Ninguna")
 
             Dim gridTiles As Grid = pagina.FindName("gridTiles")
-            gridTiles.Visibility = Visibility.Visible
+            gridTiles.Visibility = Visibility.Collapsed
 
             Dim gridConfig As Grid = pagina.FindName("gridConfig")
             gridConfig.Visibility = Visibility.Visible

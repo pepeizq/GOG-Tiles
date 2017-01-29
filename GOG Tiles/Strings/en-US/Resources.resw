@@ -171,6 +171,9 @@
   <data name="Ninguna" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Tiles</value>
+  </data>
   <data name="Titulo App" xml:space="preserve">
     <value>GOG Tiles</value>
   </data>
