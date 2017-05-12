@@ -120,6 +120,9 @@
   <data name="App" xml:space="preserve">
     <value>Application</value>
   </data>
+  <data name="Añadir Tile" xml:space="preserve">
+    <value>Add Tile</value>
+  </data>
   <data name="Boton Añadir" xml:space="preserve">
     <value>Add Folder</value>
   </data>
@@ -150,20 +153,20 @@
   <data name="Cargando" xml:space="preserve">
     <value>Loading</value>
   </data>
-  <data name="Carpeta Aviso" xml:space="preserve">
-    <value>Because the way GOG Galaxy works the app will open the gameview of the game, not the executable</value>
-  </data>
   <data name="Carpeta No" xml:space="preserve">
     <value>No folder selected</value>
   </data>
   <data name="Carpetas Añadidas" xml:space="preserve">
     <value>Folders added:</value>
   </data>
-  <data name="Directorio" xml:space="preserve">
-    <value>Add your GOG Galaxy folder following this example: C:\GalaxyClient\Games</value>
-  </data>
   <data name="Fallo1" xml:space="preserve">
-    <value>No games detected.</value>
+    <value>No games detected</value>
+  </data>
+  <data name="GOGGalaxy Carpetas Aviso" xml:space="preserve">
+    <value>Because the way GOG Galaxy works the app will open the gameview of the game, not the executable</value>
+  </data>
+  <data name="GOGGalaxy Carpetas Añadir" xml:space="preserve">
+    <value>Add your GOG Galaxy folder following this example: C:\GalaxyClient\Games</value>
   </data>
   <data name="Juegos Detectados" xml:space="preserve">
     <value>games detected</value>
@@ -171,16 +174,19 @@
   <data name="Ninguna" xml:space="preserve">
     <value>None</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Tiles</value>
+  <data name="No Config" xml:space="preserve">
+    <value>No games detected, go to Configuration</value>
   </data>
-  <data name="Titulo App" xml:space="preserve">
-    <value>GOG Tiles</value>
+  <data name="Seleccionar" xml:space="preserve">
+    <value>Select a game</value>
   </data>
-  <data name="Titulo Tile" xml:space="preserve">
+  <data name="Tile Logo" xml:space="preserve">
+    <value>Add icon</value>
+  </data>
+  <data name="Tile Titulo" xml:space="preserve">
     <value>Add title</value>
   </data>
-  <data name="Twitter" xml:space="preserve">
-    <value>Show latest news from @pepeizqapps</value>
+  <data name="Tiles" xml:space="preserve">
+    <value>Tiles</value>
   </data>
 </root>

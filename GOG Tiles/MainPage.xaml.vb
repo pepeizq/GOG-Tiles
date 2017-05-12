@@ -1,254 +1,235 @@
-﻿Imports Windows.ApplicationModel.DataTransfer
-Imports Windows.Networking.BackgroundTransfer
+﻿Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
 Imports Windows.System
 Imports Windows.UI
-Imports Windows.UI.Core
-Imports Windows.UI.StartScreen
 
 Public NotInheritable Class MainPage
     Inherits Page
 
-    Private Async Sub Page_Loaded(sender As FrameworkElement, args As Object)
+    Private Sub Page_Loaded(sender As FrameworkElement, args As Object)
+
+        'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
+        'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
+
+        Acrilico.Generar(gridTopAcrilico)
+        Acrilico.Generar(gridMenuAcrilico)
 
         Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
-
-        barra.BackgroundColor = Colors.DarkOrchid
-        barra.ForegroundColor = Colors.White
-        barra.InactiveForegroundColor = Colors.White
-        barra.ButtonBackgroundColor = Colors.DarkOrchid
+        barra.ButtonBackgroundColor = Colors.Transparent
         barra.ButtonForegroundColor = Colors.White
-        barra.ButtonInactiveForegroundColor = Colors.White
+        barra.ButtonPressedBackgroundColor = Colors.DarkOrchid
+        barra.ButtonInactiveBackgroundColor = Colors.Transparent
+        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
+        coreBarra.ExtendViewIntoTitleBar = True
 
         '--------------------------------------------------------
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
-        botonPrincipal.Label = recursos.GetString("Tiles")
-        botonConfig.Label = recursos.GetString("Boton Config")
-        botonVotar.Label = recursos.GetString("Boton Votar")
-        botonCompartir.Label = recursos.GetString("Boton Compartir")
-        botonContacto.Label = recursos.GetString("Boton Contactar")
-        botonMasApps.Label = recursos.GetString("Boton Web")
+        botonTilesTexto.Text = recursos.GetString("Tiles")
+        botonConfigTexto.Text = recursos.GetString("Boton Config")
+        botonVotarTexto.Text = recursos.GetString("Boton Votar")
+        botonMasAppsTexto.Text = recursos.GetString("Boton Web")
 
-        commadBarTop.DefaultLabelPosition = CommandBarDefaultLabelPosition.Right
+        tbNoJuegosGOG.Text = recursos.GetString("No Config")
+        tbAvisoSeleccionar.Text = recursos.GetString("Seleccionar")
 
-        tbConfig.Text = recursos.GetString("Boton Config")
-        buttonConfigApp.Content = recursos.GetString("App")
-        tbCarpetaInstrucciones.Text = recursos.GetString("Directorio")
-        buttonAñadirCarpetaTexto.Text = recursos.GetString("Boton Añadir")
-        tbCarpetasAñadidas.Text = recursos.GetString("Carpetas Añadidas")
-        buttonBorrarCarpetasTexto.Text = recursos.GetString("Boton Borrar")
-        tbCarpetaAvisoGOG.Text = recursos.GetString("Carpeta Aviso")
+        botonAñadirTileTexto.Text = recursos.GetString("Añadir Tile")
 
-        checkboxTilesTitulo.Content = recursos.GetString("Titulo Tile")
+        cbTilesTitulo.Content = recursos.GetString("Tile Titulo")
+        cbTilesIconos.Content = recursos.GetString("Tile Logo")
 
-        tbTwitterConfig.Text = recursos.GetString("Twitter")
+        tbGOGGalaxyCarpetaInstrucciones.Text = recursos.GetString("GOGGalaxy Carpetas Añadir")
+        buttonAñadirCarpetaGOGGalaxyTexto.Text = recursos.GetString("Boton Añadir")
+        tbCarpetasAñadidasGOGGalaxy.Text = recursos.GetString("Carpetas Añadidas")
+        tbCarpetaAvisoGOGGalaxy.Text = recursos.GetString("GOGGalaxy Carpetas Aviso")
+        buttonBorrarCarpetasGOGGalaxyTexto.Text = recursos.GetString("Boton Borrar")
 
         '--------------------------------------------------------
 
-        Await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, Sub()
-                                                                     Listado.Generar(False)
-                                                                 End Sub)
-
-        If ApplicationData.Current.LocalSettings.Values("titulotilegog") = "on" Then
-            checkboxTilesTitulo.IsChecked = True
-            imageTileTitulo.Source = New BitmapImage(New Uri(Me.BaseUri, "/Assets/Otros/titulo1.png"))
-        Else
-            imageTileTitulo.Source = New BitmapImage(New Uri(Me.BaseUri, "/Assets/Otros/titulo0.png"))
-        End If
-
-        Twitter.Generar()
+        GridVisibilidad(gridTilesGOG, botonTiles, recursos.GetString("Tiles"))
+        GOGGalaxy.Generar(False)
+        Config.Generar()
 
     End Sub
 
-    'AÑADIRCARPETA-----------------------------------------------------------------------------
+    Private Sub GridVisibilidad(grid As Grid, boton As Button, seccion As String)
 
-    Private Async Sub buttonAñadirCarpeta_Click(sender As Object, e As RoutedEventArgs) Handles buttonAñadirCarpeta.Click
+        tbTitulo.Text = "GOG Tiles (" + SystemInformation.ApplicationVersion.Major.ToString + "." + SystemInformation.ApplicationVersion.Minor.ToString + "." + SystemInformation.ApplicationVersion.Build.ToString + "." + SystemInformation.ApplicationVersion.Revision.ToString + ") - " + seccion
 
-        Await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, Sub()
-                                                                     Listado.Generar(True)
-                                                                 End Sub)
-
-    End Sub
-
-    '-----------------------------------------------------------------------------
-
-    Private Sub checkboxTilesTitulo_Checked(sender As Object, e As RoutedEventArgs) Handles checkboxTilesTitulo.Checked
-
-        ApplicationData.Current.LocalSettings.Values("titulotilegog") = "on"
-        imageTileTitulo.Source = New BitmapImage(New Uri(Me.BaseUri, "/Assets/Otros/titulo1.png"))
-
-    End Sub
-
-    Private Sub checkboxTilesTitulo_Unchecked(sender As Object, e As RoutedEventArgs) Handles checkboxTilesTitulo.Unchecked
-
-        ApplicationData.Current.LocalSettings.Values("titulotilegog") = "off"
-        imageTileTitulo.Source = New BitmapImage(New Uri(Me.BaseUri, "/Assets/Otros/titulo0.png"))
-
-    End Sub
-
-    '-----------------------------------------------------------------------------
-
-    Private Async Sub gridviewTiles_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gridViewTiles.ItemClick
-
-        Dim grid As Grid = e.ClickedItem
-        Dim tile As Tiles = grid.Tag
-
-        Dim ficheroImagen As StorageFile = Await ApplicationData.Current.LocalFolder.CreateFileAsync("headergog.png", CreationCollisionOption.GenerateUniqueName)
-        Dim downloader As BackgroundDownloader = New BackgroundDownloader()
-        Dim descarga As DownloadOperation = downloader.CreateDownload(tile.ImagenUri, ficheroImagen)
-        Await descarga.StartAsync
-
-        Dim nuevaTile As SecondaryTile = New SecondaryTile(tile.ID, tile.Titulo, tile.Enlace.AbsolutePath, New Uri("ms-appdata:///local/" + ficheroImagen.Name, UriKind.RelativeOrAbsolute), TileSize.Wide310x150)
-
-        Dim frame As FrameworkElement = TryCast(sender, FrameworkElement)
-        Dim button As GeneralTransform = frame.TransformToVisual(Nothing)
-        Dim point As Point = button.TransformPoint(New Point())
-        Dim rect As Rect = New Rect(point, New Size(frame.ActualWidth, frame.ActualHeight))
-
-        nuevaTile.RoamingEnabled = False
-        nuevaTile.VisualElements.Wide310x150Logo = New Uri("ms-appdata:///local/" + ficheroImagen.Name, UriKind.RelativeOrAbsolute)
-
-        If ApplicationData.Current.LocalSettings.Values("titulotilegog") = "on" Then
-            nuevaTile.VisualElements.ShowNameOnWide310x150Logo = True
-        End If
-
-        Await nuevaTile.RequestCreateForSelectionAsync(rect)
-
-    End Sub
-
-    '-----------------------------------------------------------------------------
-
-    Private Sub GridVisibilidad(grid As Grid)
-
-        gridTiles.Visibility = Visibility.Collapsed
+        gridTilesGOG.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
-        gridWebContacto.Visibility = Visibility.Collapsed
-        gridWeb.Visibility = Visibility.Collapsed
 
         grid.Visibility = Visibility.Visible
 
+        If gridTilesGOG.Visibility = Visibility.Visible Then
+            If gridAñadirTiles.Visibility = Visibility.Collapsed Then
+                If panelAvisoNoJuegosGOG.Visibility = Visibility.Collapsed Then
+                    popupAvisoSeleccionar.IsOpen = True
+                End If
+            End If
+        End If
+
+        botonTiles.Background = New SolidColorBrush(Colors.Transparent)
+        botonConfig.Background = New SolidColorBrush(Colors.Transparent)
+
+        If Not boton Is Nothing Then
+            boton.Background = New SolidColorBrush(Colors.MediumOrchid)
+        End If
+
     End Sub
 
-    Private Sub botonPrincipal_Click(sender As Object, e As RoutedEventArgs) Handles botonPrincipal.Click
+    Private Sub BotonTiles_Click(sender As Object, e As RoutedEventArgs) Handles botonTiles.Click
 
-        GridVisibilidad(gridTiles)
-
-    End Sub
-
-    Private Sub botonConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonConfig.Click
-
-        GridVisibilidad(gridConfig)
-        GridConfigVisibilidad(gridConfigApp, buttonConfigApp)
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        GridVisibilidad(gridTilesGOG, botonTiles, recursos.GetString("Tiles"))
 
     End Sub
 
-    Private Async Sub botonVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonVotar.Click
+    Private Sub BotonConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonConfig.Click
+
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        GridVisibilidad(gridConfig, botonConfig, recursos.GetString("Boton Config"))
+        GridConfigVisibilidad(gridConfigGOG, buttonConfigGOG)
+
+    End Sub
+
+    Private Async Sub BotonVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonVotar.Click
 
         Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
 
     End Sub
 
-    Private Sub botonCompartir_Click(sender As Object, e As RoutedEventArgs) Handles botonCompartir.Click
+    Private Sub BotonMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonMasApps.Click
 
-        Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
-        AddHandler datos.DataRequested, AddressOf MainPage_DataRequested
-        DataTransferManager.ShowShareUI()
-
-    End Sub
-
-    Private Sub MainPage_DataRequested(sender As DataTransferManager, e As DataRequestedEventArgs)
-
-        Dim request As DataRequest = e.Request
-        request.Data.SetText("Download: https://www.microsoft.com/store/apps/9nblggh52swd")
-        request.Data.Properties.Title = "GOG Tiles"
-        request.Data.Properties.Description = "Add Tiles for your GOG Galaxy games in the Start Menu of Windows 10"
+        If popupMasApps.IsOpen = True Then
+            botonMasApps.Background = New SolidColorBrush(Colors.Transparent)
+            popupMasApps.IsOpen = False
+        Else
+            botonMasApps.Background = New SolidColorBrush(Colors.MediumOrchid)
+            popupMasApps.IsOpen = True
+        End If
 
     End Sub
 
-    Private Sub botonContacto_Click(sender As Object, e As RoutedEventArgs) Handles botonContacto.Click
+    Private Async Sub BotonAppSteamTiles_Click(sender As Object, e As RoutedEventArgs) Handles botonAppSteamTiles.Click
 
-        GridVisibilidad(gridWebContacto)
-
-    End Sub
-
-    Private Sub botonMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonMasApps.Click
-
-        GridVisibilidad(gridWeb)
+        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store://pdp/?productid=9nblggh51sb3"))
 
     End Sub
 
-    '-----------------------------------------------------------------------------
+    Private Async Sub BotonAppSteamDeals_Click(sender As Object, e As RoutedEventArgs) Handles botonAppSteamDeals.Click
 
-    Private Sub GridConfigVisibilidad(grid As Grid, button As Button)
+        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store://pdp/?productid=9p7836m1tw15"))
 
-        buttonConfigApp.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
-        buttonConfigApp.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        buttonConfigTiles.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#e3e3e3"))
-        buttonConfigTiles.BorderBrush = New SolidColorBrush(Colors.Transparent)
+    End Sub
 
-        button.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#bfbfbf"))
-        button.BorderBrush = New SolidColorBrush(Colors.Black)
+    Private Async Sub BotonAppSteamCategories_Click(sender As Object, e As RoutedEventArgs) Handles botonAppSteamCategories.Click
 
-        gridConfigApp.Visibility = Visibility.Collapsed
-        gridConfigTiles.Visibility = Visibility.Collapsed
+        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store://pdp/?productid=9p54scg1n6bm"))
+
+    End Sub
+
+    Private Async Sub BotonAppSteamBridge_Click(sender As Object, e As RoutedEventArgs) Handles botonAppSteamBridge.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store://pdp/?productid=9nblggh441c9"))
+
+    End Sub
+
+    Private Async Sub BotonAppSteamSkins_Click(sender As Object, e As RoutedEventArgs) Handles botonAppSteamSkins.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store://pdp/?productid=9nblggh55b7f"))
+
+    End Sub
+
+    Private Async Sub BotonAppBlizzardTiles_Click(sender As Object, e As RoutedEventArgs) Handles botonAppBlizzardTiles.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store://pdp/?productid=9nlkv74dds0m"))
+
+    End Sub
+
+    'TILES-----------------------------------------------------------------------------
+
+    Private Sub BotonAñadirTile_Click(sender As Object, e As RoutedEventArgs) Handles botonAñadirTile.Click
+
+        Dim tile As Tile = botonAñadirTile.Tag
+        Tiles.Generar(tile)
+
+    End Sub
+
+    Private Sub PopupAvisoSeleccionar_LayoutUpdated(sender As Object, e As Object) Handles popupAvisoSeleccionar.LayoutUpdated
+
+        popupAvisoSeleccionar.Width = panelAvisoSeleccionar.ActualWidth
+        popupAvisoSeleccionar.Height = panelAvisoSeleccionar.ActualHeight
+
+    End Sub
+
+    'CONFIG-----------------------------------------------------------------------------
+
+    Private Sub GridConfigVisibilidad(grid As Grid, boton As Button)
+
+        If popupAvisoSeleccionar.IsOpen = True Then
+            popupAvisoSeleccionar.IsOpen = False
+        End If
+
+        buttonConfigGOG.Background = New SolidColorBrush(Colors.MediumOrchid)
+
+        boton.Background = New SolidColorBrush(Colors.DarkOrchid)
+
+        gridConfigGOG.Visibility = Visibility.Collapsed
 
         grid.Visibility = Visibility.Visible
 
     End Sub
 
+    Private Sub ButtonConfigGOG_Click(sender As Object, e As RoutedEventArgs) Handles buttonConfigGOG.Click
 
-    Private Sub buttonConfigApp_Click(sender As Object, e As RoutedEventArgs) Handles buttonConfigApp.Click
-
-        GridConfigVisibilidad(gridConfigApp, buttonConfigApp)
-
-    End Sub
-
-    Private Sub buttonConfigTiles_Click(sender As Object, e As RoutedEventArgs) Handles buttonConfigTiles.Click
-
-        GridConfigVisibilidad(gridConfigTiles, buttonConfigTiles)
+        GridConfigVisibilidad(gridConfigGOG, buttonConfigGOG)
 
     End Sub
 
-    Private Async Sub buttonBorrarCarpetas_Click(sender As Object, e As RoutedEventArgs) Handles buttonBorrarCarpetas.Click
+    'CONFIGTILES-----------------------------------------------------------------------------
 
-        Await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, Sub()
-                                                                     Listado.Borrar()
-                                                                 End Sub)
+    Private Sub CbTilesTitulo_Checked(sender As Object, e As RoutedEventArgs) Handles cbTilesTitulo.Checked
 
-    End Sub
-
-    '-----------------------------------------------------------------------------
-
-    Private Async Sub buttonTwitter_Click(sender As Object, e As RoutedEventArgs) Handles buttonTwitter.Click
-
-        Dim boton As Button = e.OriginalSource
-        Dim enlace As Uri = boton.Tag
-
-        Await Launcher.LaunchUriAsync(enlace)
+        ApplicationData.Current.LocalSettings.Values("titulotile") = "on"
+        Config.Generar()
 
     End Sub
 
-    Private Sub buttonTwitterCancelar_Click(sender As Object, e As RoutedEventArgs) Handles buttonTwitterCancelar.Click
+    Private Sub CbTilesTitulo_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbTilesTitulo.Unchecked
 
-        gridTwitter.Visibility = Visibility.Collapsed
-        ApplicationData.Current.LocalSettings.Values("twitter") = "off"
-        cbTwitter.IsChecked = False
-
-    End Sub
-
-    Private Sub cbTwitter_Checked(sender As Object, e As RoutedEventArgs) Handles cbTwitter.Checked
-
-        gridTwitter.Visibility = Visibility.Visible
-        ApplicationData.Current.LocalSettings.Values("twitter") = "on"
+        ApplicationData.Current.LocalSettings.Values("titulotile") = "off"
+        Config.Generar()
 
     End Sub
 
-    Private Sub cbTwitter_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbTwitter.Unchecked
+    Private Sub CbTilesIconos_Checked(sender As Object, e As RoutedEventArgs) Handles cbTilesIconos.Checked
 
-        gridTwitter.Visibility = Visibility.Collapsed
-        ApplicationData.Current.LocalSettings.Values("twitter") = "off"
+        ApplicationData.Current.LocalSettings.Values("logotile") = "on"
+        Config.Generar()
+
+    End Sub
+
+    Private Sub CbTilesIconos_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbTilesIconos.Unchecked
+
+        ApplicationData.Current.LocalSettings.Values("logotile") = "off"
+        Config.Generar()
+
+    End Sub
+
+    'CONFIGGOG-----------------------------------------------------------------------------
+
+    Private Sub ButtonAñadirCarpetaGOGGalaxy_Click(sender As Object, e As RoutedEventArgs) Handles buttonAñadirCarpetaGOGGalaxy.Click
+
+        GOGGalaxy.Generar(True)
+
+    End Sub
+
+    Private Sub ButtonBorrarCarpetasGOGGalaxy_Click(sender As Object, e As RoutedEventArgs) Handles buttonBorrarCarpetasGOGGalaxy.Click
+
+        GOGGalaxy.Borrar()
 
     End Sub
 

@@ -7,28 +7,27 @@ Imports Windows.Storage.Search
 Imports Windows.Storage.Streams
 Imports Windows.UI
 
-Module Listado
+Module GOGGalaxy
 
-    Dim clave As String = "carpetagog05"
+    Dim clave As String = "carpetagog01"
 
     Public Async Sub Generar(boolBuscarCarpeta As Boolean)
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim buttonAñadir As Button = pagina.FindName("buttonAñadirCarpeta")
+        Dim buttonAñadir As Button = pagina.FindName("buttonAñadirCarpetaGOGGalaxy")
         buttonAñadir.IsEnabled = False
 
-        Dim buttonBorrar As Button = pagina.FindName("buttonBorrarCarpetas")
+        Dim buttonBorrar As Button = pagina.FindName("buttonBorrarCarpetasGOGGalaxy")
         buttonBorrar.IsEnabled = False
 
-        Dim pr As ProgressRing = pagina.FindName("prTiles")
+        Dim pr As ProgressRing = pagina.FindName("prTilesGOG")
         pr.Visibility = Visibility.Visible
 
-        Dim sv As ScrollViewer = pagina.FindName("scrollViewerGrid")
-        Dim gridview As GridView = pagina.FindName("gridViewTiles")
+        Dim gv As GridView = pagina.FindName("gridViewTilesGOG")
 
-        Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadas")
+        Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadasGOGGalaxy")
 
         If Not tbCarpetas.Text = Nothing Then
             tbCarpetas.Text = ""
@@ -63,12 +62,12 @@ Module Listado
 
                     If detectadoBool = True Then
                         i = 0
-                        While i < (carpetas.Values("numCarpetas") + 1)
+                        While i < (carpetas.Values("numCarpetasGOG") + 1)
                             Try
                                 Dim carpetaTemp As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
                             Catch ex As Exception
                                 StorageApplicationPermissions.FutureAccessList.AddOrReplace(clave + i.ToString, carpeta)
-                                carpetas.Values("numCarpetas") = i + 1
+                                carpetas.Values("numCarpetasGOG") = i + 1
                                 Exit While
                             End Try
                             i += 1
@@ -81,7 +80,7 @@ Module Listado
             End Try
         End If
 
-        While i < carpetas.Values("numCarpetas")
+        While i < carpetas.Values("numCarpetasGOG")
             Try
                 Dim carpetaTemp As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
                 tbCarpetas.Text = tbCarpetas.Text + carpetaTemp.Path + Environment.NewLine
@@ -93,54 +92,16 @@ Module Listado
 
         If tbCarpetas.Text = Nothing Then
             tbCarpetas.Text = recursos.GetString("Ninguna")
-
-            Dim gridTiles As Grid = pagina.FindName("gridTiles")
-            gridTiles.Visibility = Visibility.Collapsed
-
-            Dim gridConfig As Grid = pagina.FindName("gridConfig")
-            gridConfig.Visibility = Visibility.Visible
-
-            Dim gridConfigApp As Grid = pagina.FindName("gridConfigApp")
-            gridConfigApp.Visibility = Visibility.Visible
-
-            Dim buttonConfigApp As Button = pagina.FindName("buttonConfigApp")
-            buttonConfigApp.Background = New SolidColorBrush(Microsoft.Toolkit.Uwp.ColorHelper.ToColor("#bfbfbf"))
-            buttonConfigApp.BorderBrush = New SolidColorBrush(Colors.Black)
         Else
             tbCarpetas.Text = tbCarpetas.Text.Trim
         End If
 
         '-------------------------------------------------------------
 
-        Dim listaFinal As List(Of Tiles) = New List(Of Tiles)
+        Dim listaFinal As List(Of Tile) = New List(Of Tile)
 
         i = 0
-        If gridview.Items.Count > 0 Then
-            While i < gridview.Items.Count
-                Dim grid As Grid = gridview.Items(i)
-                Dim tile As Tiles = grid.Tag
-
-                Dim tituloBool As Boolean = False
-                Dim g As Integer = 0
-                While g < listaFinal.Count
-                    If listaFinal(g).Titulo = tile.Titulo Then
-                        tituloBool = True
-                    End If
-                    g += 1
-                End While
-
-                If tituloBool = False Then
-                    listaFinal.Add(New Tiles(tile.Titulo, tile.ID, tile.Enlace, tile.Imagen, tile.ImagenUri))
-                End If
-
-                i += 1
-            End While
-        End If
-
-        '-------------------------------------------------------------
-
-        i = 0
-        While i < carpetas.Values("numCarpetas") + 1
+        While i < carpetas.Values("numCarpetasGOG") + 1
             Dim carpeta As StorageFolder = Nothing
 
             Try
@@ -157,9 +118,7 @@ Module Listado
 
                     For Each fichero As StorageFile In ficheros
                         If fichero.DisplayName.Contains("goggame-") And fichero.FileType.Contains(".dll") Then
-
                             Dim id As String = fichero.DisplayName.Replace("goggame-", Nothing)
-
                             Dim buffer As IBuffer = Await FileIO.ReadBufferAsync(fichero)
                             Dim lector As DataReader = DataReader.FromBuffer(buffer)
                             Dim contenido(lector.UnconsumedBufferLength - 1) As Byte
@@ -177,8 +136,6 @@ Module Listado
                                 temp2 = temp.Remove(int2, temp.Length - int2)
 
                                 Dim titulo As String = temp2.Trim
-
-                                Dim acceso As String = "goggalaxy://openGameView/" + id
 
                                 Dim temp3, temp4, temp5, temp6 As String
                                 Dim int3, int4, int5, int6 As Integer
@@ -219,9 +176,21 @@ Module Listado
 
                                     Dim imagen As Uri = New Uri(temp9, UriKind.RelativeOrAbsolute)
 
-                                    Dim bitmap As New BitmapImage
-                                    bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache
-                                    bitmap.UriSource = imagen
+                                    'Dim temp10, temp11 As String
+                                    'Dim int10, int11 As Integer
+
+                                    'int10 = texto.IndexOf("<GameExecutable")
+                                    'temp10 = texto.Remove(0, int10)
+
+                                    'int10 = temp10.IndexOf("path=")
+                                    'temp10 = temp10.Remove(0, int10 + 6)
+
+                                    'int11 = temp10.IndexOf(ChrW(34))
+                                    'temp11 = temp10.Remove(int11, temp10.Length - int11)
+
+                                    'temp11 = carpetaJuego.Path + "\" + temp11
+
+                                    Dim ejecutable As String = "goggalaxy://openGameView/" + id
 
                                     Dim tituloBool As Boolean = False
                                     Dim g As Integer = 0
@@ -233,7 +202,10 @@ Module Listado
                                     End While
 
                                     If tituloBool = False Then
-                                        listaFinal.Add(New Tiles(titulo, id, New Uri(acceso), bitmap, imagen))
+                                        Dim juego As New Tile(titulo, id, New Uri(ejecutable), imagen, "GOG Galaxy", Nothing)
+                                        juego.Tile = juego
+
+                                        listaFinal.Add(juego)
                                     End If
                                 End If
                             End If
@@ -244,34 +216,48 @@ Module Listado
             i += 1
         End While
 
+        Dim panelAvisoNoJuegosGOG As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosGOG")
+        Dim popupAvisoSeleccionar As Popup = pagina.FindName("popupAvisoSeleccionar")
+
         If listaFinal.Count > 0 Then
+            panelAvisoNoJuegosGOG.Visibility = Visibility.Collapsed
             listaFinal.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
-            sv.Visibility = Visibility.Visible
 
-            gridview.Items.Clear()
+            gv.Items.Clear()
 
-            For Each tile In listaFinal
-                Dim grid As New Grid
-                grid.Margin = New Thickness(1, 1, 1, 1)
-                grid.Tag = tile
-                grid.BorderBrush = New SolidColorBrush(Colors.Black)
-                grid.BorderThickness = New Thickness(1, 1, 1, 1)
-                grid.Width = 224
-                grid.Height = 103
+            For Each juego In listaFinal
+                Dim boton As New Button
 
                 Dim imagen As New ImageEx
-                imagen.Source = New BitmapImage(tile.ImagenUri)
+
+                Try
+                    imagen.Source = New BitmapImage(juego.Imagen)
+                Catch ex As Exception
+
+                End Try
+
                 imagen.Stretch = Stretch.UniformToFill
+                imagen.Padding = New Thickness(0, 0, 0, 0)
 
-                grid.Children.Add(imagen)
+                boton.Tag = juego
+                boton.Content = imagen
+                boton.Padding = New Thickness(0, 0, 0, 0)
+                boton.BorderThickness = New Thickness(1, 1, 1, 1)
+                boton.BorderBrush = New SolidColorBrush(Colors.Black)
+                boton.Background = New SolidColorBrush(Colors.Transparent)
 
-                gridview.Items.Add(grid)
+                AddHandler boton.Click, AddressOf botonTile_Click
+
+                gv.Items.Add(boton)
             Next
 
             If boolBuscarCarpeta = True Then
                 Toast("GOG Tiles", listaFinal.Count.ToString + " " + recursos.GetString("Juegos Detectados"))
             End If
         Else
+            panelAvisoNoJuegosGOG.Visibility = Visibility.Visible
+            popupAvisoSeleccionar.IsOpen = False
+
             If boolBuscarCarpeta = True Then
                 Toast("GOG Tiles", recursos.GetString("Fallo1"))
             End If
@@ -283,21 +269,72 @@ Module Listado
 
     End Sub
 
+    Private Sub BotonTile_Click(sender As Object, e As RoutedEventArgs)
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim gv As GridView = pagina.FindName("gridViewTilesGOG")
+
+        Dim botonJuego As Button = e.OriginalSource
+
+        Dim borde As Thickness = New Thickness(6, 6, 6, 6)
+        If botonJuego.BorderThickness = borde Then
+            botonJuego.BorderThickness = New Thickness(1, 1, 1, 1)
+            botonJuego.BorderBrush = New SolidColorBrush(Colors.Black)
+
+            Dim popupAviso As Popup = pagina.FindName("popupAvisoSeleccionar")
+            popupAviso.IsOpen = True
+
+            Dim grid As Grid = pagina.FindName("gridAñadirTiles")
+            grid.Visibility = Visibility.Collapsed
+        Else
+            For Each item In gv.Items
+                Dim itemBoton As Button = item
+                itemBoton.BorderThickness = New Thickness(1, 1, 1, 1)
+                itemBoton.BorderBrush = New SolidColorBrush(Colors.Black)
+            Next
+
+            botonJuego.BorderThickness = New Thickness(6, 6, 6, 6)
+            botonJuego.BorderBrush = New SolidColorBrush(Colors.DarkOrchid)
+
+            Dim botonAñadirTile As Button = pagina.FindName("botonAñadirTile")
+            Dim juego As Tile = botonJuego.Tag
+            botonAñadirTile.Tag = juego
+
+            Dim imageJuegoSeleccionado As ImageEx = pagina.FindName("imageJuegoSeleccionado")
+            Dim imagenCapsula As String = juego.Imagen.ToString
+
+            imageJuegoSeleccionado.Source = New BitmapImage(New Uri(imagenCapsula))
+
+            Dim tbJuegoSeleccionado As TextBlock = pagina.FindName("tbJuegoSeleccionado")
+            tbJuegoSeleccionado.Text = juego.Titulo
+
+            Dim popupAviso As Popup = pagina.FindName("popupAvisoSeleccionar")
+            popupAviso.IsOpen = False
+
+            Dim grid As Grid = pagina.FindName("gridAñadirTiles")
+            grid.Visibility = Visibility.Visible
+        End If
+
+    End Sub
+
     Public Sub Borrar()
 
         StorageApplicationPermissions.FutureAccessList.Clear()
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim numCarpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
-        numCarpetas.Values("numCarpetas") = 0
+        numCarpetas.Values("numCarpetasGOG") = 0
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
-        Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadas")
+        Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadasGOGGalaxy")
 
         tbCarpetas.Text = recursos.GetString("Ninguna")
 
         Generar(False)
 
     End Sub
+
 End Module

@@ -120,6 +120,9 @@
   <data name="App" xml:space="preserve">
     <value>Aplicación</value>
   </data>
+  <data name="Añadir Tile" xml:space="preserve">
+    <value>Añadir Tile</value>
+  </data>
   <data name="Boton Añadir" xml:space="preserve">
     <value>Añadir Carpeta</value>
   </data>
@@ -150,20 +153,20 @@
   <data name="Cargando" xml:space="preserve">
     <value>Cargando</value>
   </data>
-  <data name="Carpeta Aviso" xml:space="preserve">
-    <value>Debido a como funciona GOG Galaxy la app abrirá el gameview del juego, no su ejecutable</value>
-  </data>
   <data name="Carpeta No" xml:space="preserve">
     <value>No se ha seleccionado una carpeta</value>
   </data>
   <data name="Carpetas Añadidas" xml:space="preserve">
     <value>Carpetas añadidas:</value>
   </data>
-  <data name="Directorio" xml:space="preserve">
-    <value>Añade la carpeta de GOG Galaxy siguiendo este ejemplo: C:\GalaxyClient\Games\</value>
-  </data>
   <data name="Fallo1" xml:space="preserve">
-    <value>No se han detectado juegos.</value>
+    <value>No se han detectado juegos</value>
+  </data>
+  <data name="GOGGalaxy Carpetas Aviso" xml:space="preserve">
+    <value>Debido a como funciona GOG Galaxy la app abrirá el gameview del juego, no su ejecutable</value>
+  </data>
+  <data name="GOGGalaxy Carpetas Añadir" xml:space="preserve">
+    <value>Añade la carpeta de GOG Galaxy siguiendo este ejemplo: C:\GalaxyClient\Games\</value>
   </data>
   <data name="Juegos Detectados" xml:space="preserve">
     <value>juegos detectados</value>
@@ -171,16 +174,19 @@
   <data name="Ninguna" xml:space="preserve">
     <value>Ninguna</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Tiles</value>
+  <data name="No Config" xml:space="preserve">
+    <value>No se han detectado juegos, ve a Configuración</value>
   </data>
-  <data name="Titulo App" xml:space="preserve">
-    <value>GOG Tiles</value>
+  <data name="Seleccionar" xml:space="preserve">
+    <value>Selecciona un juego</value>
   </data>
-  <data name="Titulo Tile" xml:space="preserve">
+  <data name="Tile Logo" xml:space="preserve">
+    <value>Añadir icono</value>
+  </data>
+  <data name="Tile Titulo" xml:space="preserve">
     <value>Añadir titulo</value>
   </data>
-  <data name="Twitter" xml:space="preserve">
-    <value>Enseñar últimas noticias de @pepeizqapps</value>
+  <data name="Tiles" xml:space="preserve">
+    <value>Tiles</value>
   </data>
 </root>
