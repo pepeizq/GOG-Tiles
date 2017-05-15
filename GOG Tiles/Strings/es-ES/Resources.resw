@@ -132,6 +132,9 @@
   <data name="Boton Cambiar" xml:space="preserve">
     <value>Cambiar</value>
   </data>
+  <data name="Boton Codigo Fuente" xml:space="preserve">
+    <value>Código Fuente</value>
+  </data>
   <data name="Boton Compartir" xml:space="preserve">
     <value>Compartir</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="Boton Contactar" xml:space="preserve">
     <value>Contactar</value>
+  </data>
+  <data name="Boton Cosas" xml:space="preserve">
+    <value>Más Cosas</value>
   </data>
   <data name="Boton Volver" xml:space="preserve">
     <value>Volver</value>
