@@ -187,6 +187,7 @@
     <Content Include="Assets\Small\Small71x71Logo.scale-150.png" />
     <Content Include="Assets\Small\Small71x71Logo.scale-200.png" />
     <Content Include="Assets\Small\Small71x71Logo.scale-400.png" />
+    <Content Include="Assets\social_feedback.png" />
     <Content Include="Assets\social_github.png" />
     <Content Include="Assets\social_pepeizq.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-100.png" />
@@ -248,6 +249,9 @@
     <Import Include="Windows.UI.Xaml.Navigation" />
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
+      <Name>Microsoft Engagement Framework</Name>
+    </SDKReference>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
@@ -255,6 +259,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Services.Store.SDK">
+      <Version>10.1705.11001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>1.4.1</Version>
