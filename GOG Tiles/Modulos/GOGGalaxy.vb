@@ -246,6 +246,14 @@ Module GOGGalaxy
                 boton.BorderBrush = New SolidColorBrush(Colors.Black)
                 boton.Background = New SolidColorBrush(Colors.Transparent)
 
+                Dim tbToolTip As TextBlock = New TextBlock With {
+                    .Text = juego.Titulo,
+                    .FontSize = 16
+                }
+
+                ToolTipService.SetToolTip(boton, tbToolTip)
+                ToolTipService.SetPlacement(boton, PlacementMode.Mouse)
+
                 AddHandler boton.Click, AddressOf botonTile_Click
 
                 gv.Items.Add(boton)
