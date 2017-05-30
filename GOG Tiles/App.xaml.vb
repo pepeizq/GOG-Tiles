@@ -58,7 +58,17 @@ NotInheritable Class App
 
             Window.Current.Activate()
         Else
-            CoreApplication.Exit()
+            Try
+                CoreApplication.Exit()
+            Catch ex As Exception
+
+            End Try
+
+            Try
+                Application.Current.Exit()
+            Catch ex As Exception
+
+            End Try
         End If
     End Sub
 
