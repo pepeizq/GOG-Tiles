@@ -236,7 +236,7 @@ Module GOGGalaxy
 
                 End Try
 
-                imagen.Stretch = Stretch.UniformToFill
+                imagen.Stretch = Stretch.Uniform
                 imagen.Padding = New Thickness(0, 0, 0, 0)
 
                 boton.Tag = juego
