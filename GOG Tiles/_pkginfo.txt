@@ -1,1 +1,1 @@
-E:\Proyectos\GOG Tiles\GOG Tiles\bin\x64\Release\Upload\GOG Tiles_1.0.7.0\GOG Tiles_1.0.7.0_x86_x64.appxbundle
+E:\Proyectos\GOG Tiles\GOG Tiles\bin\x64\Release\Upload\GOG Tiles_1.0.8.0\GOG Tiles_1.0.8.0_x86_x64.appxbundle
