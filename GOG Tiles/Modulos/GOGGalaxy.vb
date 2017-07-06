@@ -236,6 +236,7 @@ Module GOGGalaxy
 
                 End Try
 
+                imagen.IsCacheEnabled = True
                 imagen.Stretch = Stretch.Uniform
                 imagen.Padding = New Thickness(0, 0, 0, 0)
 
