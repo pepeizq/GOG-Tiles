@@ -111,7 +111,6 @@
     <Compile Include="App.xaml.vb">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Clases\FeedRSS.vb" />
     <Compile Include="Clases\Tile.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -121,7 +120,6 @@
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\GOGGalaxy.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
-    <Compile Include="Modulos\RSS.vb" />
     <Compile Include="Modulos\Tiles.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
@@ -244,19 +242,19 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.3</Version>
+      <Version>5.3.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Services.Store.SDK">
       <Version>10.1705.16001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>1.5.0</Version>
+      <Version>1.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>1.5.0</Version>
+      <Version>1.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>1.5.0</Version>
+      <Version>1.5.1</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
