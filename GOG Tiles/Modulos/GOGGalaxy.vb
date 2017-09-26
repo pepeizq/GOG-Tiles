@@ -16,11 +16,11 @@ Module GOGGalaxy
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim buttonAñadir As Button = pagina.FindName("buttonAñadirCarpetaGOGGalaxy")
-        buttonAñadir.IsEnabled = False
+        Dim botonAñadir As Button = pagina.FindName("botonAñadirCarpetaGOGGalaxy")
+        botonAñadir.IsEnabled = False
 
-        Dim buttonBorrar As Button = pagina.FindName("buttonBorrarCarpetasGOGGalaxy")
-        buttonBorrar.IsEnabled = False
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCarpetasGOGGalaxy")
+        botonBorrar.IsEnabled = False
 
         Dim pr As ProgressRing = pagina.FindName("prTilesGOG")
         pr.Visibility = Visibility.Visible
@@ -91,7 +91,7 @@ Module GOGGalaxy
         End While
 
         If tbCarpetas.Text = Nothing Then
-            tbCarpetas.Text = recursos.GetString("Ninguna")
+            tbCarpetas.Text = recursos.GetString("NoFoldersDetected")
         Else
             tbCarpetas.Text = tbCarpetas.Text.Trim
         End If
@@ -216,11 +216,13 @@ Module GOGGalaxy
             i += 1
         End While
 
-        Dim panelAvisoNoJuegosGOG As DropShadowPanel = pagina.FindName("panelAvisoNoJuegosGOG")
-        Dim popupAvisoSeleccionar As Popup = pagina.FindName("popupAvisoSeleccionar")
+        Dim panelAvisoNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegos")
+        Dim gridSeleccionar As Grid = pagina.FindName("gridSeleccionarJuego")
 
         If listaFinal.Count > 0 Then
-            panelAvisoNoJuegosGOG.Visibility = Visibility.Collapsed
+            panelAvisoNoJuegos.Visibility = Visibility.Collapsed
+            gridSeleccionar.Visibility = Visibility.Visible
+
             listaFinal.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
 
             gv.Items.Clear()
@@ -255,25 +257,21 @@ Module GOGGalaxy
                 ToolTipService.SetToolTip(boton, tbToolTip)
                 ToolTipService.SetPlacement(boton, PlacementMode.Mouse)
 
-                AddHandler boton.Click, AddressOf botonTile_Click
+                AddHandler boton.Click, AddressOf BotonTile_Click
 
                 gv.Items.Add(boton)
             Next
 
             If boolBuscarCarpeta = True Then
-                Toast("GOG Tiles", listaFinal.Count.ToString + " " + recursos.GetString("Juegos Detectados"))
+                Toast(listaFinal.Count.ToString + " " + recursos.GetString("GamesDetected"), Nothing)
             End If
         Else
-            panelAvisoNoJuegosGOG.Visibility = Visibility.Visible
-            popupAvisoSeleccionar.IsOpen = False
-
-            If boolBuscarCarpeta = True Then
-                Toast("GOG Tiles", recursos.GetString("Fallo1"))
-            End If
+            panelAvisoNoJuegos.Visibility = Visibility.Visible
+            gridSeleccionar.Visibility = Visibility.Collapsed
         End If
 
-        buttonAñadir.IsEnabled = True
-        buttonBorrar.IsEnabled = True
+        botonAñadir.IsEnabled = True
+        botonBorrar.IsEnabled = True
         pr.Visibility = Visibility.Collapsed
 
     End Sub
@@ -292,11 +290,11 @@ Module GOGGalaxy
             botonJuego.BorderThickness = New Thickness(1, 1, 1, 1)
             botonJuego.BorderBrush = New SolidColorBrush(Colors.Black)
 
-            Dim popupAviso As Popup = pagina.FindName("popupAvisoSeleccionar")
-            popupAviso.IsOpen = True
-
             Dim grid As Grid = pagina.FindName("gridAñadirTiles")
             grid.Visibility = Visibility.Collapsed
+
+            Dim gridSeleccionar As Grid = pagina.FindName("gridSeleccionarJuego")
+            gridSeleccionar.Visibility = Visibility.Visible
         Else
             For Each item In gv.Items
                 Dim itemBoton As Button = item
@@ -319,11 +317,11 @@ Module GOGGalaxy
             Dim tbJuegoSeleccionado As TextBlock = pagina.FindName("tbJuegoSeleccionado")
             tbJuegoSeleccionado.Text = juego.Titulo
 
-            Dim popupAviso As Popup = pagina.FindName("popupAvisoSeleccionar")
-            popupAviso.IsOpen = False
-
             Dim grid As Grid = pagina.FindName("gridAñadirTiles")
             grid.Visibility = Visibility.Visible
+
+            Dim gridSeleccionar As Grid = pagina.FindName("gridSeleccionarJuego")
+            gridSeleccionar.Visibility = Visibility.Collapsed
         End If
 
     End Sub
@@ -340,7 +338,7 @@ Module GOGGalaxy
         Dim pagina As Page = frame.Content
         Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadasGOGGalaxy")
 
-        tbCarpetas.Text = recursos.GetString("Ninguna")
+        tbCarpetas.Text = recursos.GetString("NoFoldersDetected")
 
         Generar(False)
 

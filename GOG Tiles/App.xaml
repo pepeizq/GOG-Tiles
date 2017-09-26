@@ -2,7 +2,34 @@
     x:Class="GOG_Tiles.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:GOG_Tiles"
     RequestedTheme="Light">
 
+    <Application.Resources>
+        <Style x:Key="EllipsisButton" TargetType="Button">
+            <Setter Property="MaxWidth" Value="0"/>
+        </Style>
+
+        <SolidColorBrush x:Key="NavigationViewItemForeground" Color="White"/>
+        <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="White"/>
+        <SolidColorBrush x:Key="NavigationViewItemForegroundPressed" Color="White"/>
+
+        <Color x:Key="ColorPrimario">DarkOrchid</Color>
+        <Color x:Key="ColorSecundario">MediumOrchid</Color>
+        <Color x:Key="ColorTerciario">#cc98e6</Color>
+
+        <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent"/>
+        <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="{StaticResource ColorPrimario}"/>
+        <SolidColorBrush x:Key="ListViewItemForegroundPointerOver" Color="White"/>
+        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ColorPrimario}"/>
+
+        <SolidColorBrush x:Key="ColorGridPrincipal" Color="{StaticResource ColorPrimario}"/>
+        <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{StaticResource ColorPrimario}"/>
+        <SolidColorBrush x:Key="SystemControlForegroundAccentBrush" Color="{StaticResource ColorTerciario}" />
+
+        <AcrylicBrush x:Key="GridTituloBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource ColorPrimario}" TintOpacity=".7"/>
+        <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource ColorPrimario}" TintOpacity=".7"/>
+        <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource ColorPrimario}" TintOpacity=".7"/>
+
+        <SolidColorBrush x:Key="BrushSecundario" Color="{StaticResource ColorSecundario}"/>
+    </Application.Resources>
 </Application>
