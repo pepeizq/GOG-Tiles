@@ -226,12 +226,6 @@
                                     </StackPanel>
                                 </ListViewItem>
                                 <ListViewItem Background="{StaticResource BrushSecundario}">
-                                    <StackPanel Orientation="Horizontal" Tag="4">
-                                        <controls:ImageEx Source="Assets\MasCosas\poeditor.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                        <TextBlock x:Uid="HelpTranslate" Foreground="White" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem Background="{StaticResource BrushSecundario}">
                                     <StackPanel Orientation="Horizontal" Tag="5">
                                         <controls:ImageEx Source="Assets\MasCosas\github.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
                                         <TextBlock x:Uid="SourceCode" Foreground="White" VerticalAlignment="Center"/>

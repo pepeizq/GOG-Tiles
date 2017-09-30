@@ -152,10 +152,6 @@ Public NotInheritable Class MainPage
                 wvMasCosas.Navigate(New Uri("https://pepeizqapps.com/contact/"))
             End If
 
-        ElseIf sp.Tag.ToString = 4 Then
-
-            wvMasCosas.Navigate(New Uri("https://poeditor.com/join/project/YaZAR0uIW4"))
-
         ElseIf sp.Tag.ToString = 5 Then
 
             wvMasCosas.Navigate(New Uri("https://github.com/pepeizq/GOG-Tiles"))
