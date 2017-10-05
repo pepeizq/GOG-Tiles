@@ -231,35 +231,38 @@ Module GOGGalaxy
                 Dim boton As New Button
 
                 Dim imagen As New ImageEx
+                Dim boolImagen As Boolean = True
 
                 Try
                     imagen.Source = New BitmapImage(juego.Imagen)
                 Catch ex As Exception
-
+                    boolImagen = False
                 End Try
 
-                imagen.IsCacheEnabled = True
-                imagen.Stretch = Stretch.Uniform
-                imagen.Padding = New Thickness(0, 0, 0, 0)
+                If boolImagen = True Then
+                    imagen.IsCacheEnabled = True
+                    imagen.Stretch = Stretch.Uniform
+                    imagen.Padding = New Thickness(0, 0, 0, 0)
 
-                boton.Tag = juego
-                boton.Content = imagen
-                boton.Padding = New Thickness(0, 0, 0, 0)
-                boton.BorderThickness = New Thickness(1, 1, 1, 1)
-                boton.BorderBrush = New SolidColorBrush(Colors.Black)
-                boton.Background = New SolidColorBrush(Colors.Transparent)
+                    boton.Tag = juego
+                    boton.Content = imagen
+                    boton.Padding = New Thickness(0, 0, 0, 0)
+                    boton.BorderThickness = New Thickness(1, 1, 1, 1)
+                    boton.BorderBrush = New SolidColorBrush(Colors.Black)
+                    boton.Background = New SolidColorBrush(Colors.Transparent)
 
-                Dim tbToolTip As TextBlock = New TextBlock With {
-                    .Text = juego.Titulo,
-                    .FontSize = 16
-                }
+                    Dim tbToolTip As TextBlock = New TextBlock With {
+                        .Text = juego.Titulo,
+                        .FontSize = 16
+                    }
 
-                ToolTipService.SetToolTip(boton, tbToolTip)
-                ToolTipService.SetPlacement(boton, PlacementMode.Mouse)
+                    ToolTipService.SetToolTip(boton, tbToolTip)
+                    ToolTipService.SetPlacement(boton, PlacementMode.Mouse)
 
-                AddHandler boton.Click, AddressOf BotonTile_Click
+                    AddHandler boton.Click, AddressOf BotonTile_Click
 
-                gv.Items.Add(boton)
+                    gv.Items.Add(boton)
+                End If
             Next
 
             If boolBuscarCarpeta = True Then

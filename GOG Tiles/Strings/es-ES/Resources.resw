@@ -198,4 +198,22 @@
   <data name="ConfigGOGFoldersWarning.Text" xml:space="preserve">
     <value>Debido a como funciona GOG Galaxy la app abrirá el gameview del juego, no su ejecutable</value>
   </data>
+  <data name="ConfigTwitchFolderMessage.Text" xml:space="preserve">
+    <value>Añade la carpeta C:\Users\[Tu Usuario]\AppData\Roaming\Twitch</value>
+  </data>
+  <data name="DescriptionStoreBlizzard" xml:space="preserve">
+    <value>Añade Tiles para tus juegos de la aplicación de Blizzard en el menú de Inicio de Windows 10.</value>
+  </data>
+  <data name="DescriptionStoreGOG" xml:space="preserve">
+    <value>Añade Tiles para tus juegos de GOG Galaxy en el menú de Inicio de Windows 10.</value>
+  </data>
+  <data name="DescriptionStoreOrigin" xml:space="preserve">
+    <value>Añade Tiles en el menú de Inicio de Windows 10 para tus juegos de Origin.</value>
+  </data>
+  <data name="DescriptionStoreSteam" xml:space="preserve">
+    <value>Añade Tiles en el menú de Inicio de Windows 10 para tus juegos de Steam.</value>
+  </data>
+  <data name="DescriptionStoreTwitch" xml:space="preserve">
+    <value>Añade Tiles en el menú de Inicio de Windows 10 para tus juegos de Twitch Desktop App.</value>
+  </data>
 </root>
