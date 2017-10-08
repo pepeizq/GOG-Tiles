@@ -9,15 +9,14 @@ Module Tiles
 
     Public Async Sub Generar(tile As Tile)
 
-        Dim ficheroImagen As StorageFile = Await ApplicationData.Current.LocalFolder.CreateFileAsync("header.png", CreationCollisionOption.GenerateUniqueName)
-        Dim downloader As BackgroundDownloader = New BackgroundDownloader()
-        Dim descarga As DownloadOperation = downloader.CreateDownload(tile.Imagen, ficheroImagen)
-        Await descarga.StartAsync
+        DescargaImagen(tile.ImagenWide, tile.ID + "wide")
+        DescargaImagen(tile.ImagenLarge, tile.ID + "large")
+        DescargaImagen(tile.ImagenSmall, tile.ID + "small")
 
-        Dim nuevaTile As SecondaryTile = New SecondaryTile(tile.ID, tile.Titulo, tile.Enlace.ToString, New Uri("ms-appdata:///local/" + ficheroImagen.Name, UriKind.RelativeOrAbsolute), TileSize.Wide310x150)
+        Dim nuevaTile As SecondaryTile = New SecondaryTile(tile.ID, tile.Titulo, tile.Enlace.ToString, New Uri("ms-appdata:///local/" + tile.ID + "wide.png", UriKind.RelativeOrAbsolute), TileSize.Wide310x150)
 
-        nuevaTile.VisualElements.Wide310x150Logo = New Uri("ms-appdata:///local/" + ficheroImagen.Name, UriKind.RelativeOrAbsolute)
-        nuevaTile.VisualElements.Square310x310Logo = New Uri("ms-appdata:///local/" + ficheroImagen.Name, UriKind.RelativeOrAbsolute)
+        nuevaTile.VisualElements.Wide310x150Logo = New Uri("ms-appdata:///local/" + tile.ID + "wide.png", UriKind.RelativeOrAbsolute)
+        nuevaTile.VisualElements.Square310x310Logo = New Uri("ms-appdata:///local/" + tile.ID + "large.png", UriKind.RelativeOrAbsolute)
 
         Await nuevaTile.RequestCreateAsync()
 
@@ -38,21 +37,31 @@ Module Tiles
         End If
 
         Dim imagen As AdaptiveImage = New AdaptiveImage With {
-            .Source = "ms-appdata:///local/" + ficheroImagen.Name,
+            .Source = "ms-appdata:///local/" + tile.ID + "wide.png",
             .HintRemoveMargin = True,
             .HintAlign = AdaptiveImageAlign.Stretch,
             .HintCrop = AdaptiveImageCrop.Default
         }
 
-        Dim fondoImagen As TileBackgroundImage = New TileBackgroundImage With {
-            .Source = "ms-appdata:///local/" + ficheroImagen.Name,
+        Dim fondoImagenSmall As TileBackgroundImage = New TileBackgroundImage With {
+            .Source = "ms-appdata:///local/" + tile.ID + "small.png",
+            .HintCrop = AdaptiveImageCrop.Default
+        }
+
+        Dim fondoImagenWide As TileBackgroundImage = New TileBackgroundImage With {
+            .Source = "ms-appdata:///local/" + tile.ID + "wide.png",
+            .HintCrop = AdaptiveImageCrop.Default
+        }
+
+        Dim fondoImagenLarge As TileBackgroundImage = New TileBackgroundImage With {
+            .Source = "ms-appdata:///local/" + tile.ID + "large.png",
             .HintCrop = AdaptiveImageCrop.Default
         }
 
         '-----------------------
 
         Dim contenidoWide As TileBindingContentAdaptive = New TileBindingContentAdaptive With {
-            .BackgroundImage = fondoImagen
+            .BackgroundImage = fondoImagenWide
         }
 
         If Not imagenDRM Is Nothing Then
@@ -65,8 +74,9 @@ Module Tiles
 
         '-----------------------
 
-        Dim contenidoSmall As TileBindingContentAdaptive = New TileBindingContentAdaptive
-        contenidoSmall.Children.Add(imagen)
+        Dim contenidoSmall As TileBindingContentAdaptive = New TileBindingContentAdaptive With {
+            .BackgroundImage = fondoImagenSmall
+        }
 
         'If Not imagenDRM Is Nothing Then
         '    contenidoSmall.Children.Add(imagenDRM)
@@ -78,8 +88,9 @@ Module Tiles
 
         '-----------------------
 
-        Dim contenidoMedium As TileBindingContentAdaptive = New TileBindingContentAdaptive
-        contenidoMedium.Children.Add(imagen)
+        Dim contenidoMedium As TileBindingContentAdaptive = New TileBindingContentAdaptive With {
+            .BackgroundImage = fondoImagenSmall
+        }
 
         If Not imagenDRM Is Nothing Then
             contenidoMedium.Children.Add(imagenDRM)
@@ -91,8 +102,9 @@ Module Tiles
 
         '-----------------------
 
-        Dim contenidoLarge As TileBindingContentAdaptive = New TileBindingContentAdaptive
-        contenidoLarge.Children.Add(imagen)
+        Dim contenidoLarge As TileBindingContentAdaptive = New TileBindingContentAdaptive With {
+            .BackgroundImage = fondoImagenLarge
+        }
 
         If Not imagenDRM Is Nothing Then
             contenidoLarge.Children.Add(imagenDRM)
@@ -129,6 +141,18 @@ Module Tiles
         Catch ex As Exception
 
         End Try
+
+    End Sub
+
+    Private Async Sub DescargaImagen(uri As Uri, clave As String)
+
+        Dim ficheroImagen As StorageFile = Await ApplicationData.Current.LocalFolder.CreateFileAsync(clave + ".png", CreationCollisionOption.GenerateUniqueName)
+        Dim descargador As BackgroundDownloader = New BackgroundDownloader()
+
+        If Not uri = Nothing Then
+            Dim descarga As DownloadOperation = descargador.CreateDownload(uri, ficheroImagen)
+            Await descarga.StartAsync
+        End If
 
     End Sub
 
