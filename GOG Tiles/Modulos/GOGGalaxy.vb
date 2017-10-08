@@ -6,6 +6,7 @@ Imports Windows.Storage.Pickers
 Imports Windows.Storage.Search
 Imports Windows.Storage.Streams
 Imports Windows.UI
+Imports Windows.UI.Xaml.Media.Animation
 
 Module GOGGalaxy
 
@@ -293,8 +294,8 @@ Module GOGGalaxy
             botonJuego.BorderThickness = New Thickness(1, 1, 1, 1)
             botonJuego.BorderBrush = New SolidColorBrush(Colors.Black)
 
-            Dim grid As Grid = pagina.FindName("gridAñadirTiles")
-            grid.Visibility = Visibility.Collapsed
+            Dim gridAñadir As Grid = pagina.FindName("gridAñadirTiles")
+            gridAñadir.Visibility = Visibility.Collapsed
 
             Dim gridSeleccionar As Grid = pagina.FindName("gridSeleccionarJuego")
             gridSeleccionar.Visibility = Visibility.Visible
@@ -320,8 +321,16 @@ Module GOGGalaxy
             Dim tbJuegoSeleccionado As TextBlock = pagina.FindName("tbJuegoSeleccionado")
             tbJuegoSeleccionado.Text = juego.Titulo
 
-            Dim grid As Grid = pagina.FindName("gridAñadirTiles")
-            grid.Visibility = Visibility.Visible
+            Dim gridAñadir As Grid = pagina.FindName("gridAñadirTiles")
+            gridAñadir.Visibility = Visibility.Visible
+
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("tile", botonJuego)
+
+            Dim animacion As ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("tile")
+
+            If Not animacion Is Nothing Then
+                animacion.TryStart(gridAñadir)
+            End If
 
             Dim gridSeleccionar As Grid = pagina.FindName("gridSeleccionarJuego")
             gridSeleccionar.Visibility = Visibility.Collapsed
