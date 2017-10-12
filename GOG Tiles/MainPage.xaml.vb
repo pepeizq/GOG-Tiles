@@ -31,6 +31,7 @@ Public NotInheritable Class MainPage
             GridVisibilidad(gridConfig, item.Text)
         ElseIf item.Text = recursos.GetString("MoreThings") Then
             GridVisibilidad(gridMasCosas, item.Text)
+            NavegarMasCosas(lvMasCosasMasApps, "https://pepeizqapps.com/")
         End If
 
     End Sub
@@ -137,34 +138,42 @@ Public NotInheritable Class MainPage
 
         ElseIf sp.Tag.ToString = 1 Then
 
-            NavegarMasCosas("https://pepeizqapps.com/")
+            NavegarMasCosas(lvMasCosasMasApps, "https://pepeizqapps.com/")
 
         ElseIf sp.Tag.ToString = 2 Then
 
-            NavegarMasCosas("https://pepeizqapps.com/contact/")
+            NavegarMasCosas(lvMasCosasActualizaciones, "https://pepeizqapps.com/updates/")
 
         ElseIf sp.Tag.ToString = 3 Then
+
+            NavegarMasCosas(lvMasCosasContacto, "https://pepeizqapps.com/contact/")
+
+        ElseIf sp.Tag.ToString = 4 Then
 
             If StoreServicesFeedbackLauncher.IsSupported = True Then
                 Dim ejecutador As StoreServicesFeedbackLauncher = StoreServicesFeedbackLauncher.GetDefault()
                 Await ejecutador.LaunchAsync()
             Else
-                NavegarMasCosas("https://pepeizqapps.com/contact/")
+                NavegarMasCosas(lvMasCosasReportarFallo, "https://pepeizqapps.com/contact/")
             End If
-
-        ElseIf sp.Tag.ToString = 5 Then
-
-            NavegarMasCosas("https://github.com/pepeizq/GOG-Tiles")
 
         ElseIf sp.Tag.ToString = 6 Then
 
-            NavegarMasCosas("https://pepeizqapps.com/thanks/")
+            NavegarMasCosas(lvMasCosasCodigoFuente, "https://github.com/pepeizq/GOG-Tiles")
 
         End If
 
     End Sub
 
-    Private Sub NavegarMasCosas(url As String)
+    Private Sub NavegarMasCosas(lvItem As ListViewItem, url As String)
+
+        lvMasCosasMasApps.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        lvMasCosasActualizaciones.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        lvMasCosasContacto.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        lvMasCosasReportarFallo.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        lvMasCosasCodigoFuente.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+
+        lvItem.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
 
         pbMasCosas.Visibility = Visibility.Visible
 

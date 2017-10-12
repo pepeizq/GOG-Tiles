@@ -159,8 +159,8 @@
   <data name="NoGamesDetected.Text" xml:space="preserve">
     <value>No se han detectado juegos, ve a Configuración</value>
   </data>
-  <data name="OtherApps.Text" xml:space="preserve">
-    <value>Otras Apps</value>
+  <data name="MoreApps.Text" xml:space="preserve">
+    <value>Más Apps</value>
   </data>
   <data name="ReportBug.Text" xml:space="preserve">
     <value>Informa de un Fallo</value>
@@ -170,9 +170,6 @@
   </data>
   <data name="SourceCode.Text" xml:space="preserve">
     <value>Código Fuente</value>
-  </data>
-  <data name="ThanksTo.Text" xml:space="preserve">
-    <value>Agradecimientos</value>
   </data>
   <data name="TileIcon.Text" xml:space="preserve">
     <value>Añadir icono</value>
@@ -215,5 +212,8 @@
   </data>
   <data name="DescriptionStoreTwitch" xml:space="preserve">
     <value>Añade Tiles en el menú de Inicio de Windows 10 para tus juegos de Twitch Desktop App.</value>
+  </data>
+  <data name="Updates.Text" xml:space="preserve">
+    <value>Actualizaciones</value>
   </data>
 </root>
