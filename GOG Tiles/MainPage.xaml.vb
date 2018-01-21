@@ -76,7 +76,6 @@ Public NotInheritable Class MainPage
 
         tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + tag
 
-        gridTiles.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
         gridMasCosas.Visibility = Visibility.Collapsed
 
