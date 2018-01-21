@@ -65,7 +65,9 @@ Public NotInheritable Class MainPage
         Dim boolTranspariencia As Boolean = transpariencia.AdvancedEffectsEnabled
 
         If boolTranspariencia = False Then
+            gridConfig.Background = New SolidColorBrush(Colors.LightGray)
             gridConfigTiles.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+            gridMasCosas.Background = New SolidColorBrush(Colors.LightGray)
         End If
 
     End Sub
