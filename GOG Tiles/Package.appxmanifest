@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="2a830a11-b832-4261-b8de-6666651efb7f" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>GOG Tiles</DisplayName>
-    <PublisherDisplayName>pepeizq</PublisherDisplayName>
+    <PublisherDisplayName>pepeizq's apps</PublisherDisplayName>
     <Logo>assets\Logos\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
