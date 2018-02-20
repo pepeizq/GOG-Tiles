@@ -41,63 +41,6 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Grid x:Name="gridAñadirTiles" Grid.Row="0" Visibility="Collapsed" Padding="10,15" Margin="-10">
-                        <Grid.Background>
-                            <SolidColorBrush Color="{StaticResource ColorCuarto}"/>
-                        </Grid.Background>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Button x:Name="botonAñadirTile" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
-                            <StackPanel Orientation="Horizontal">
-                                <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Add" Foreground="White"/>
-                                <TextBlock x:Uid="AddTile" Foreground="White"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Border Grid.Column="1" Margin="15,0,5,0" BorderThickness="1" BorderBrush="Black" Width="70" Height="40" VerticalAlignment="Center">
-                            <controls:ImageEx x:Name="imageJuegoSeleccionado" Stretch="UniformToFill" IsCacheEnabled="True"/>
-                        </Border>
-
-                        <TextBlock x:Name="tbJuegoSeleccionado" Grid.Column="2" VerticalAlignment="Center" Margin="5,0" TextWrapping="Wrap"/>
-
-                        <CheckBox x:Name="cbTilesTitulo" Grid.Column="3" VerticalAlignment="Center" Margin="10,0" MinWidth="0">
-                            <CheckBox.Content>
-                                <TextBlock x:Uid="TileTitle"/>
-                            </CheckBox.Content>
-                        </CheckBox>
-                        <CheckBox x:Name="cbTilesIconos" Grid.Column="4" VerticalAlignment="Center" Margin="10,0" MinWidth="0">
-                            <CheckBox.Content>
-                                <TextBlock x:Uid="TileIcon"/>
-                            </CheckBox.Content>
-                        </CheckBox>
-
-                        <ComboBox x:Name="cbTilesIconosLista" Grid.Column="5" VerticalAlignment="Center" Margin="5,0" Visibility="Collapsed" Width="40" Padding="5,0,0,0">
-                            <ComboBox.ItemContainerStyle>
-                                <Style TargetType="ComboBoxItem">
-                                    <Setter Property="Width" Value="70"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                </Style>
-                            </ComboBox.ItemContainerStyle>
-
-                            <ComboBox.ItemContainerTransitions>
-                                <TransitionCollection>
-                                    <PaneThemeTransition Edge="Top"/>
-                                </TransitionCollection>
-                            </ComboBox.ItemContainerTransitions>
-
-                            <controls:ImageEx Source="Assets/gog_logo_mini1.png" Width="16" Height="16" IsCacheEnabled="True"/>
-                            <controls:ImageEx Source="Assets/gog_logo_mini2.png" Width="16" Height="16" IsCacheEnabled="True"/>
-                        </ComboBox>
-                    </Grid>
-
                     <Grid x:Name="gridSeleccionarJuego" Grid.Row="0" Visibility="Collapsed">
                         <Grid.ChildrenTransitions>
                             <TransitionCollection>
@@ -114,7 +57,7 @@
                     </Grid>
 
                     <controls:AdaptiveGridView x:Name="gridViewTilesGOG" Grid.Row="1" Margin="0,20,0,0"
-                                       IsItemClickEnabled="True" DesiredWidth="196" ItemHeight="110" 
+                                       IsItemClickEnabled="True" DesiredWidth="200" ItemHeight="120" 
                                        animations:ReorderGridAnimation.Duration="250">
                     </controls:AdaptiveGridView>
 
@@ -128,7 +71,130 @@
                     <ProgressRing x:Name="prTilesGOG" Grid.Row="1" IsActive="True" Width="64" Height="64" Foreground="{StaticResource BrushSecundario}" Visibility="Collapsed"/>
                 </Grid>
 
-                <Grid x:Name="gridConfig" Visibility="Collapsed" Background="{StaticResource GridAcrilico}">
+                <Grid x:Name="gridAñadirTile" Visibility="Collapsed">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1">
+                            <StackPanel.Background>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#FFE4E4E4" Offset="0.5" />
+                                    <GradientStop Color="#FFBFBFBF" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </StackPanel.Background>
+
+                            <StackPanel Orientation="Horizontal" Padding="20,15">
+                                <Border BorderThickness="1" BorderBrush="{StaticResource BrushSecundario}" Width="100" Height="60" VerticalAlignment="Center">
+                                    <controls:ImageEx x:Name="imagenJuegoSeleccionado" Stretch="UniformToFill" IsCacheEnabled="True"/>
+                                </Border>
+
+                                <TextBlock x:Name="tbJuegoSeleccionado" VerticalAlignment="Center" Margin="10,0" TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <Grid Padding="20,10" Background="{StaticResource BrushCuarto}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="botonAñadirTile" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Margin="0,0,10,0" VerticalAlignment="Center" Symbol="Add" Foreground="White"/>
+                                        <TextBlock x:Uid="AddTile" Foreground="White"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <CheckBox x:Name="cbTilesTitulo" VerticalAlignment="Center" Margin="10,0" MinWidth="0">
+                                        <CheckBox.Content>
+                                            <TextBlock x:Uid="TileTitle"/>
+                                        </CheckBox.Content>
+                                    </CheckBox>
+                                    <CheckBox x:Name="cbTilesIconos" VerticalAlignment="Center" Margin="10,0" MinWidth="0">
+                                        <CheckBox.Content>
+                                            <TextBlock x:Uid="TileIcon"/>
+                                        </CheckBox.Content>
+                                    </CheckBox>
+
+                                    <ComboBox x:Name="cbTilesIconosLista" VerticalAlignment="Center" Margin="5,0" Visibility="Collapsed" Width="40" Padding="5,0,0,0">
+                                        <ComboBox.ItemContainerStyle>
+                                            <Style TargetType="ComboBoxItem">
+                                                <Setter Property="Width" Value="70"/>
+                                                <Setter Property="Margin" Value="0"/>
+                                            </Style>
+                                        </ComboBox.ItemContainerStyle>
+
+                                        <ComboBox.ItemContainerTransitions>
+                                            <TransitionCollection>
+                                                <PaneThemeTransition Edge="Top"/>
+                                            </TransitionCollection>
+                                        </ComboBox.ItemContainerTransitions>
+
+                                        <controls:ImageEx Source="Assets/gog_logo_mini1.png" Width="16" Height="16" IsCacheEnabled="True"/>
+                                        <controls:ImageEx Source="Assets/gog_logo_mini2.png" Width="16" Height="16" IsCacheEnabled="True"/>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+
+                            <StackPanel Orientation="Vertical" Padding="20">
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock x:Uid="GameSelectedTiles" Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                    <TextBlock Grid.Column="1" FontFamily="Segoe MDL2 Assets" Text="&#59718;" Foreground="{StaticResource BrushSecundario}" FontSize="28">
+                                         <ToolTipService.ToolTip>
+                                             <TextBlock x:Uid="TooltipChangeImage" TextWrapping="Wrap" FontSize="15"/>
+                                         </ToolTipService.ToolTip> 
+                                    </TextBlock>
+                                </Grid>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="botonImagenTilePequeña" Width="71" Height="71" Background="Transparent" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1" Padding="0" VerticalAlignment="Top" Margin="0,0,10,0">
+                                        <Button.Content>
+                                            <Grid>
+                                                <controls:ImageEx x:Name="imagenTilePequeña" IsCacheEnabled="True" Stretch="UniformToFill"/>
+                                                <TextBlock x:Name="tbTilePequeña" FontFamily="Segoe MDL2 Assets" Text="&#59166;" Foreground="{StaticResource BrushSecundario}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Visibility="Collapsed"/>
+                                            </Grid>
+                                        </Button.Content>
+                                    </Button>
+
+                                    <Button x:Name="botonImagenTileMediana" Width="150" Height="150" Background="Transparent" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1" Padding="0" VerticalAlignment="Top" Margin="0,0,10,0">
+                                        <Button.Content>
+                                            <Grid>
+                                                <controls:ImageEx x:Name="imagenTileMediana" IsCacheEnabled="True" Stretch="UniformToFill"/>
+                                                <TextBlock x:Name="tbTileMediana" FontFamily="Segoe MDL2 Assets" Text="&#59166;" Foreground="{StaticResource BrushSecundario}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Visibility="Collapsed"/>
+                                            </Grid>
+                                        </Button.Content>
+                                    </Button>
+
+                                    <Button x:Name="botonImagenTileAncha" Width="310" Height="150" Background="Transparent" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1" Padding="0" VerticalAlignment="Top" Margin="0,0,10,0">
+                                        <Button.Content>
+                                            <Grid>
+                                                <controls:ImageEx x:Name="imagenTileAncha" IsCacheEnabled="True" Stretch="UniformToFill"/>
+                                                <TextBlock x:Name="tbTileAncha" FontFamily="Segoe MDL2 Assets" Text="&#59166;" Foreground="{StaticResource BrushSecundario}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Visibility="Collapsed"/>
+                                            </Grid>
+                                        </Button.Content>
+                                    </Button>
+
+                                    <Button x:Name="botonImagenTileGrande" Width="310" Height="310" Background="Transparent" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1" Padding="0" VerticalAlignment="Top">
+                                        <Button.Content>
+                                            <Grid>
+                                                <Viewbox Stretch="UniformToFill" StretchDirection="DownOnly" HorizontalAlignment="Center">
+                                                    <controls:ImageEx x:Name="imagenTileGrande" IsCacheEnabled="True" Stretch="None"/>
+                                                </Viewbox>
+
+                                                <TextBlock x:Name="tbTileGrande" FontFamily="Segoe MDL2 Assets" Text="&#59166;" Foreground="{StaticResource BrushSecundario}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Visibility="Collapsed"/>
+                                            </Grid>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+
+                <Grid x:Name="gridConfig" Visibility="Collapsed">
                     <ScrollViewer>
                         <StackPanel Orientation="Vertical" Width="700" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <StackPanel Orientation="Vertical" Margin="40,20" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1">
@@ -181,74 +247,7 @@
                     </ScrollViewer> 
                 </Grid>
 
-                <Grid x:Name="gridMasCosas" Visibility="Collapsed" Background="{StaticResource GridAcrilico}">
-                    <ScrollViewer>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1" Padding="15" VerticalAlignment="Top">
-                                <StackPanel.Background>
-                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                        <GradientStop Color="#FFE4E4E4" Offset="0.5" />
-                                        <GradientStop Color="#FFBFBFBF" Offset="1.0" />
-                                    </LinearGradientBrush>
-                                </StackPanel.Background>
-
-                                <ListView IsItemClickEnabled="True" ItemClick="LvMasCosasItemClick">
-                                    <ListViewItem Background="{StaticResource BrushSecundario}" Margin="0,0,0,30">
-                                        <StackPanel Orientation="Horizontal" Tag="0">
-                                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8E1;" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="VoteApp" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasMasApps" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="1">
-                                            <controls:ImageEx Source="Assets\MasCosas\pepeizq.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="MoreApps" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasContacto" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="3">
-                                            <controls:ImageEx Source="Assets\MasCosas\contacto.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="Contact" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasReportarFallo" Background="{StaticResource BrushSecundario}" Margin="0,0,0,30">
-                                        <StackPanel Orientation="Horizontal" Tag="4">
-                                            <controls:ImageEx Source="Assets\MasCosas\feedback.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="ReportBug" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasTraduccion" Background="{StaticResource BrushSecundario}" Margin="0,0,0,5">
-                                        <StackPanel Orientation="Horizontal" Tag="5">
-                                            <controls:ImageEx Source="Assets\MasCosas\poeditor.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="HelpTranslate" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                    <ListViewItem x:Name="lvMasCosasCodigoFuente" Background="{StaticResource BrushSecundario}">
-                                        <StackPanel Orientation="Horizontal" Tag="6">
-                                            <controls:ImageEx Source="Assets\MasCosas\github.png" Margin="0,0,10,0" Width="15" Height="15" IsCacheEnabled="True" VerticalAlignment="Center"/>
-                                            <TextBlock x:Uid="SourceCode" Foreground="White" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </ListViewItem>
-                                </ListView>
-                            </StackPanel>
-
-                            <Grid Grid.Column="1" Margin="20">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <ProgressBar x:Name="pbMasCosas" Grid.Row="0" Foreground="{StaticResource BrushSecundario}" Visibility="Collapsed" Height="20" IsIndeterminate="True"/>
-                                <WebView x:Name="wvMasCosas" Grid.Row="1"/>
-                            </Grid>
-                        </Grid>
-                    </ScrollViewer>
-                </Grid>
+                <Grid x:Name="gridMasCosas" Visibility="Collapsed"/>
             </Grid> 
         </NavigationView>                          
     </Grid>
