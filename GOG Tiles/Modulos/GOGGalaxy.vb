@@ -120,7 +120,7 @@ Module GOGGalaxy
                         ".dll"
                     }
 
-                    Dim opciones As New QueryOptions(CommonFileQuery.OrderByName, filtro)
+                    Dim opciones As New QueryOptions(CommonFileQuery.DefaultQuery, filtro)
 
                     Dim query As StorageFileQueryResult = carpetaJuego.CreateFileQueryWithOptions(opciones)
                     Dim ficheros As IReadOnlyList(Of StorageFile) = Await query.GetFilesAsync()
