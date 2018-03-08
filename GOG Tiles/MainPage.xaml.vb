@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
 Imports Windows.Storage.Pickers
 Imports Windows.Storage.Streams
@@ -16,7 +15,6 @@ Public NotInheritable Class MainPage
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Tiles"), New SymbolIcon(Symbol.Home), 0))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Config"), New SymbolIcon(Symbol.Setting), 1))
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("MoreThings"), New SymbolIcon(Symbol.More), 2))
 
     End Sub
 
@@ -30,15 +28,6 @@ Public NotInheritable Class MainPage
             GridVisibilidad(gridTiles, item.Text)
         ElseIf item.Text = recursos.GetString("Config") Then
             GridVisibilidad(gridConfig, item.Text)
-        ElseIf item.Text = recursos.GetString("MoreThings") Then
-            GridVisibilidad(gridMasCosas, item.Text)
-
-            Dim sv As ScrollViewer = gridMasCosas.Children(0)
-            Dim gridRelleno As Grid = sv.Content
-            Dim sp As StackPanel = gridRelleno.Children(0)
-            Dim lv As ListView = sp.Children(0)
-
-            MasCosas.Navegar(lv, "2", "https://pepeizqapps.com/")
         End If
 
     End Sub
@@ -48,54 +37,15 @@ Public NotInheritable Class MainPage
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
-        coreBarra.ExtendViewIntoTitleBar = True
+        MasCosas.Generar()
 
-        Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
-        barra.ButtonBackgroundColor = Colors.Transparent
-        barra.ButtonForegroundColor = Colors.White
-        barra.ButtonInactiveBackgroundColor = Colors.Transparent
-
-        '--------------------------------------------------------
-
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
 
         GridVisibilidad(gridTiles, recursos.GetString("Tiles"))
         nvPrincipal.IsPaneOpen = False
 
         GOGGalaxy.Generar(False)
         Config.Generar()
-        MasCosas.Generar()
-
-        '--------------------------------------------------------
-
-        AddHandler botonAñadirTile.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonAñadirTile.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler cbTilesTitulo.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbTilesTitulo.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler cbTilesIconos.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbTilesIconos.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonImagenTilePequeña.Click, AddressOf UsuarioClickeaImagen
-        AddHandler botonImagenTilePequeña.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonImagenTilePequeña.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonImagenTileMediana.Click, AddressOf UsuarioClickeaImagen
-        AddHandler botonImagenTileMediana.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonImagenTileMediana.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonImagenTileAncha.Click, AddressOf UsuarioClickeaImagen
-        AddHandler botonImagenTileAncha.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonImagenTileAncha.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonImagenTileGrande.Click, AddressOf UsuarioClickeaImagen
-        AddHandler botonImagenTileGrande.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonImagenTileGrande.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonAñadirCarpetaGOGGalaxy.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonAñadirCarpetaGOGGalaxy.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonBorrarCarpetasGOGGalaxy.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonBorrarCarpetasGOGGalaxy.PointerExited, AddressOf UsuarioSaleBoton
 
         '--------------------------------------------------------
 
