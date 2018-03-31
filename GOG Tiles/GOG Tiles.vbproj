@@ -116,7 +116,7 @@
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modulos\Config.vb" />
+    <Compile Include="Modulos\Configuracion.vb" />
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\GOGGalaxy.vb" />
     <Compile Include="Modulos\MasCosas.vb" />

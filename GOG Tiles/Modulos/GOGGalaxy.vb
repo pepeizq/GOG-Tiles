@@ -1,10 +1,8 @@
-﻿Imports System.Text
-Imports Microsoft.Toolkit.Uwp.UI.Controls
+﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 Imports Windows.Storage.Search
-Imports Windows.Storage.Streams
 Imports Windows.UI
 Imports Windows.UI.Core
 Imports Windows.UI.Xaml.Media.Animation
@@ -35,7 +33,7 @@ Module GOGGalaxy
             tbCarpetas.Text = ""
         End If
 
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
         Dim carpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
         Dim i As Integer = 0
@@ -391,7 +389,7 @@ Module GOGGalaxy
 
         StorageApplicationPermissions.FutureAccessList.Clear()
 
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
         Dim numCarpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
         numCarpetas.Values("numCarpetasGOG") = 0
 
