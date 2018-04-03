@@ -1,4 +1,6 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
+﻿Imports System.Text.RegularExpressions
+Imports Microsoft.Toolkit.Uwp.UI.Animations
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
@@ -39,7 +41,7 @@ Module GOGGalaxy
         Dim i As Integer = 0
         If boolBuscarCarpeta = True Then
             Try
-                Dim picker As FolderPicker = New FolderPicker()
+                Dim picker As New FolderPicker()
 
                 picker.FileTypeFilter.Add("*")
                 picker.ViewMode = PickerViewMode.List
@@ -173,7 +175,8 @@ Module GOGGalaxy
                     int2 = temp.IndexOf(ChrW(34))
                     temp2 = temp.Remove(int2, temp.Length - int2)
 
-                    temp2 = temp2.Replace("\u2122", Nothing)
+                    temp2 = temp2.Trim
+                    temp2 = Regex.Unescape(temp2)
 
                     Dim titulo As String = temp2.Trim
 
@@ -264,7 +267,7 @@ Module GOGGalaxy
 
                 If boolImagen = True Then
                     imagen.IsCacheEnabled = True
-                    imagen.Stretch = Stretch.Uniform
+                    imagen.Stretch = Stretch.UniformToFill
                     imagen.Padding = New Thickness(0, 0, 0, 0)
 
                     boton.Tag = juego
@@ -375,11 +378,21 @@ Module GOGGalaxy
 
     Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
 
+        Dim boton As Button = sender
+        Dim imagen As ImageEx = boton.Content
+
+        imagen.Saturation(0).Start()
+
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
 
     End Sub
 
     Private Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
+
+        Dim boton As Button = sender
+        Dim imagen As ImageEx = boton.Content
+
+        imagen.Saturation(1).Start()
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
