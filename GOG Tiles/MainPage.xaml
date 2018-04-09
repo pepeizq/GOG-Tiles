@@ -60,7 +60,7 @@
                             </TransitionCollection>
                         </Grid.ChildrenTransitions>
 
-                        <Grid Padding="10" Background="IndianRed" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0">
+                        <Grid Padding="10" Background="IndianRed" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,0">
                             <TextBlock x:Uid="SelectGame" TextWrapping="Wrap" Foreground="White"/>
                         </Grid>
                     </Grid>
@@ -224,7 +224,7 @@
 
                                     <Button x:Name="botonAñadirCarpetaGOGGalaxy" Padding="10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <StackPanel Orientation="Horizontal">
-                                            <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                            <fa:FontAwesome Icon="Folder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                             <TextBlock x:Uid="ConfigAddFolder" Foreground="White"/>
                                         </StackPanel>
                                     </Button>
@@ -234,7 +234,7 @@
 
                                     <Button x:Name="botonBorrarCarpetasGOGGalaxy" Margin="0,25,0,0" Padding="10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <StackPanel Orientation="Horizontal">
-                                            <SymbolIcon Symbol="Delete" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                            <fa:FontAwesome Icon="Trash" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                             <TextBlock x:Uid="ConfigDeleteFolders" Foreground="White"/>
                                         </StackPanel>
                                     </Button>
@@ -246,7 +246,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <SymbolIcon Grid.Column="0" Symbol="Important" VerticalAlignment="Center" Foreground="White"/>
+                                    <fa:FontAwesome Grid.Column="0" Icon="Exclamation" Margin="5,0" VerticalAlignment="Center" Foreground="White"/>
                                     <TextBlock x:Uid="ConfigFoldersWarning" Grid.Column="1" Margin="10,0" TextWrapping="Wrap" Foreground="White"/>
                                 </Grid>
                             </StackPanel> 

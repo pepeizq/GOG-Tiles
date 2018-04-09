@@ -132,9 +132,9 @@
     <None Include="GOG Tiles_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\gog_logo.png" />
     <Content Include="Assets\gog_logo_mini2.png" />
     <Content Include="Assets\gog_logo_mini1.png" />
-    <Content Include="Assets\gog_logo.png" />
     <Content Include="Assets\Logos\AppList.altform-unplated_targetsize-16.png" />
     <Content Include="Assets\Logos\AppList.altform-unplated_targetsize-24.png" />
     <Content Include="Assets\Logos\AppList.altform-unplated_targetsize-256.png" />
