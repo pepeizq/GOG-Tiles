@@ -111,9 +111,19 @@ Public NotInheritable Class MainPage
 
     'TILES-----------------------------------------------------------------------------
 
-    Private Sub BotonAñadirTile_Click(sender As Object, e As RoutedEventArgs) Handles botonAñadirTile.Click
+    Private Async Sub BotonAñadirTile_Click(sender As Object, e As RoutedEventArgs) Handles botonAñadirTile.Click
 
         Dim tile As Tile = botonAñadirTile.Tag
+
+        Dim carpeta As StorageFolder = ApplicationData.Current.LocalFolder
+        Dim fichero As StorageFile = Await carpeta.CreateFileAsync("Ejecutable.txt", CreationCollisionOption.ReplaceExisting)
+        Await FileIO.WriteTextAsync(fichero, tile.Enlace.ToString)
+
+        Dim instalacion As StorageFolder = Package.Current.InstalledLocation
+        Dim carpetaLanzador As StorageFolder = Await instalacion.GetFolderAsync("Lanzador")
+
+        Await fichero.MoveAsync(carpetaLanzador, "Ejecutable.txt", NameCollisionOption.ReplaceExisting)
+
         Tiles.Generar(tile)
 
     End Sub

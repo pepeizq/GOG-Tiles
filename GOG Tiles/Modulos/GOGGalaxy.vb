@@ -100,7 +100,7 @@ Module GOGGalaxy
 
         '-------------------------------------------------------------
 
-        Dim listaIDs As New List(Of String)
+        Dim listaTemporal As New List(Of Tile)
 
         i = 0
         While i < carpetas.Values("numCarpetasGOG") + 1
@@ -117,7 +117,7 @@ Module GOGGalaxy
 
                 For Each carpetaJuego As StorageFolder In carpetasJuegos
                     Dim filtro As New List(Of String) From {
-                        ".dll"
+                        ".dll", ".info"
                     }
 
                     Dim opciones As New QueryOptions(CommonFileQuery.DefaultQuery, filtro)
@@ -127,10 +127,10 @@ Module GOGGalaxy
 
                     If Not ficheros.Count = 0 Then
                         For Each fichero As StorageFile In ficheros
-                            If fichero.DisplayName.Contains("goggame-") And fichero.FileType.Contains(".dll") Then
+                            If fichero.DisplayName.Contains("goggame-") And fichero.FileType.Contains(".info") Then
                                 Dim id As String = fichero.DisplayName.Replace("goggame-", Nothing)
-                                listaIDs.Add(id)
-
+                                Dim juego As New Tile(Nothing, id, carpetaJuego.Path, Nothing, Nothing, Nothing, Nothing)
+                                listaTemporal.Add(juego)
                                 Exit For
                             End If
                         Next
@@ -142,15 +142,15 @@ Module GOGGalaxy
 
         Dim listaFinal As New List(Of Tile)
 
-        If listaIDs.Count > 0 Then
+        If listaTemporal.Count > 0 Then
             Dim query As String = "http://api.gog.com/products?ids="
 
             i = 0
-            For Each id In listaIDs
+            For Each temporal In listaTemporal
                 If i = 0 Then
-                    query = query + id
+                    query = query + temporal.ID
                 Else
-                    query = query + "%2C" + id
+                    query = query + "%2C" + temporal.ID
                 End If
 
                 i += 1
@@ -159,11 +159,11 @@ Module GOGGalaxy
             Dim html As String = Await Decompiladores.HttpClient(New Uri(query))
 
             If Not html = Nothing Then
-                For Each id In listaIDs
+                For Each temporal In listaTemporal
                     Dim temp0 As String
                     Dim int0 As Integer
 
-                    int0 = html.IndexOf(ChrW(34) + "id" + ChrW(34) + ":" + id)
+                    int0 = html.IndexOf(ChrW(34) + "id" + ChrW(34) + ":" + temporal.ID)
                     temp0 = html.Remove(0, int0 + 6)
 
                     Dim temp, temp2 As String
@@ -222,7 +222,7 @@ Module GOGGalaxy
 
                     Dim imagenPequeña As String = temp8.Trim
 
-                    Dim ejecutable As String = "goggalaxy://openGameView/" + id
+                    Dim enlace As String = ChrW(34) + "C:\GOG Galaxy\GalaxyClient.exe" + ChrW(34) + " /gameId=" + temporal.ID + " /command=runGame /path=" + ChrW(34) + temporal.Enlace + ChrW(34)
 
                     Dim tituloBool As Boolean = False
                     Dim g As Integer = 0
@@ -234,7 +234,7 @@ Module GOGGalaxy
                     End While
 
                     If tituloBool = False Then
-                        Dim juego As New Tile(titulo, id, ejecutable, New Uri(imagenPequeña), New Uri(imagenPequeña), New Uri(imagenAncha), New Uri(imagenGrande))
+                        Dim juego As New Tile(titulo, temporal.ID, enlace, New Uri(imagenPequeña), New Uri(imagenPequeña), New Uri(imagenAncha), New Uri(imagenGrande))
 
                         listaFinal.Add(juego)
                     End If

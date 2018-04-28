@@ -1,5 +1,5 @@
 ﻿Imports Windows.ApplicationModel.Core
-Imports Windows.System
+
 ''' <summary>
 ''' Provides application-specific behavior to supplement the default Application class.
 ''' </summary>
@@ -25,14 +25,9 @@ NotInheritable Class App
         Dim arguments As String = e.Arguments
 
         Try
-            boolIniciarApp = Await Launcher.LaunchUriAsync(New Uri(arguments))
-        Catch ex As Exception
-
-        End Try
-
-        Try
-            If boolIniciarApp = False Then
-                boolIniciarApp = Await Launcher.LaunchFileAsync(New Uri(arguments))
+            If Not arguments = Nothing Then
+                Await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync()
+                boolIniciarApp = True
             End If
         Catch ex As Exception
 
