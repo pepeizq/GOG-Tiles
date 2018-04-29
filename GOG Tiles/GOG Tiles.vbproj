@@ -230,6 +230,7 @@
     <Content Include="Lanzador\clrjit.dll" />
     <Content Include="Lanzador\coreclr.dll" />
     <Content Include="Lanzador\dbgshim.dll" />
+    <Content Include="Lanzador\Ejecutable.txt" />
     <Content Include="Lanzador\hostfxr.dll" />
     <Content Include="Lanzador\hostpolicy.dll" />
     <Content Include="Lanzador\Lanzador.dll" />
