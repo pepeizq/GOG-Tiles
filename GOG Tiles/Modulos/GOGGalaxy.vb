@@ -344,7 +344,7 @@ Module GOGGalaxy
         imagenPequeña.Source = juego.ImagenPequeña
         imagenPequeña.Visibility = Visibility.Visible
 
-        Dim tbPequeña As TextBlock = pagina.FindName("tbTilePequeña")
+        Dim tbPequeña As FontAwesome.UWP.FontAwesome = pagina.FindName("tbTilePequeña")
         tbPequeña.Visibility = Visibility.Collapsed
 
         '---------------------------------------------
@@ -353,7 +353,7 @@ Module GOGGalaxy
         imagenMediana.Source = juego.ImagenMediana
         imagenMediana.Visibility = Visibility.Visible
 
-        Dim tbMediana As TextBlock = pagina.FindName("tbTileMediana")
+        Dim tbMediana As FontAwesome.UWP.FontAwesome = pagina.FindName("tbTileMediana")
         tbMediana.Visibility = Visibility.Collapsed
 
         '---------------------------------------------
@@ -362,7 +362,7 @@ Module GOGGalaxy
         imagenAncha.Source = juego.ImagenAncha
         imagenAncha.Visibility = Visibility.Visible
 
-        Dim tbAncha As TextBlock = pagina.FindName("tbTileAncha")
+        Dim tbAncha As FontAwesome.UWP.FontAwesome = pagina.FindName("tbTileAncha")
         tbAncha.Visibility = Visibility.Collapsed
 
         '---------------------------------------------
@@ -371,7 +371,7 @@ Module GOGGalaxy
         imagenGrande.Source = juego.ImagenGrande
         imagenGrande.Visibility = Visibility.Visible
 
-        Dim tbGrande As TextBlock = pagina.FindName("tbTileGrande")
+        Dim tbGrande As FontAwesome.UWP.FontAwesome = pagina.FindName("tbTileGrande")
         tbGrande.Visibility = Visibility.Collapsed
 
     End Sub
