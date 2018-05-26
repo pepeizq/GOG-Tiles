@@ -1,4 +1,5 @@
 ﻿Imports Windows.ApplicationModel.Core
+Imports Windows.System
 
 ''' <summary>
 ''' Provides application-specific behavior to supplement the default Application class.
@@ -26,8 +27,8 @@ NotInheritable Class App
 
         Try
             If Not arguments = Nothing Then
-                Await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync()
-                boolIniciarApp = True
+                'Await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync()
+                boolIniciarApp = Await Launcher.LaunchUriAsync(New Uri(arguments))
             End If
         Catch ex As Exception
 

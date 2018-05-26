@@ -21,6 +21,70 @@
             <TextBlock x:Name="tbTitulo" Margin="50,0,0,0" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
         </Grid>
 
+        <Grid x:Name="gridTilePequeñaGenerar" Background="{StaticResource BrushSecundario}" Width="71" Height="71" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.Clip>
+                <RectangleGeometry Rect="0,0,71,71"/>
+            </Grid.Clip>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <controls:ImageEx x:Name="imagenTilePequeñaGenerar" Grid.Row="0" Grid.Column="0" IsCacheEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None"/>
+        </Grid>
+
+        <Grid x:Name="gridTileMedianaGenerar" Background="{StaticResource BrushSecundario}" Width="150" Height="150" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.Clip>
+                <RectangleGeometry Rect="0,0,150,150"/>
+            </Grid.Clip>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <controls:ImageEx x:Name="imagenTileMedianaGenerar" Grid.Row="0" Grid.Column="0" IsCacheEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid x:Name="gridTileAnchaGenerar" Background="{StaticResource BrushSecundario}" Width="310" Height="150" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.Clip>
+                <RectangleGeometry Rect="0,0,310,150"/>
+            </Grid.Clip>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <controls:ImageEx x:Name="imagenTileAnchaGenerar" Grid.Row="0" Grid.Column="0" IsCacheEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"/>
+        </Grid>
+
+        <Grid x:Name="gridTileGrandeGenerar" Background="{StaticResource BrushSecundario}" Width="310" Height="310" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.Clip>
+                <RectangleGeometry Rect="0,0,310,310"/>
+            </Grid.Clip>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <controls:ImageEx x:Name="imagenTileGrandeGenerar" Grid.Row="0" Grid.Column="0" IsCacheEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
         <NavigationView x:Name="nvPrincipal" Grid.Row="1" Loaded="Nv_Loaded" ItemInvoked="Nv_ItemInvoked"
                         OpenPaneLength="200" AlwaysShowHeader="False" IsSettingsVisible="False">
             <NavigationView.PaneFooter>
@@ -70,12 +134,10 @@
                                        animations:ReorderGridAnimation.Duration="250">
                     </controls:AdaptiveGridView>
 
-                    <controls:DropShadowPanel x:Name="panelAvisoNoJuegos" Grid.Row="1" Margin="10" Color="Black" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                  BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed">
-                        <Grid Padding="10" Background="IndianRed">
-                            <TextBlock x:Uid="NoGamesDetected" TextWrapping="Wrap" Foreground="White"/>
-                        </Grid>
-                    </controls:DropShadowPanel>
+                    <Grid x:Name="panelAvisoNoJuegos" Grid.Row="1" Padding="10" Background="IndianRed"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                        <TextBlock x:Uid="NoGamesDetected" TextWrapping="Wrap" Foreground="White"/>
+                    </Grid>
 
                     <ProgressRing x:Name="prTilesGOG" Grid.Row="1" IsActive="True" Width="64" Height="64" Foreground="{StaticResource BrushSecundario}" Visibility="Collapsed"/>
                 </Grid>

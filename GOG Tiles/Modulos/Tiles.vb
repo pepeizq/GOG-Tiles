@@ -1,6 +1,5 @@
 ﻿Imports Microsoft.Toolkit.Uwp.Notifications
-Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports Windows.Networking.BackgroundTransfer
+Imports Windows.Graphics.Imaging
 Imports Windows.Storage
 Imports Windows.UI.Notifications
 Imports Windows.UI.StartScreen
@@ -15,82 +14,79 @@ Module Tiles
         Dim boton As Button = pagina.FindName("botonAñadirTile")
         boton.IsEnabled = False
 
+        Dim gridTilePequeña As Grid = pagina.FindName("gridTilePequeñaGenerar")
+        Await GenerarImagen(gridTilePequeña, tile.ID + "pequena.png", 71, 71)
+
+        Dim gridTileMediana As Grid = pagina.FindName("gridTileMedianaGenerar")
+        Await GenerarImagen(gridTileMediana, tile.ID + "mediana.png", 150, 150)
+
+        Dim gridTileAncha As Grid = pagina.FindName("gridTileAnchaGenerar")
+        Await GenerarImagen(gridTileAncha, tile.ID + "ancha.png", 310, 150)
+
+        Dim gridTileGrande As Grid = pagina.FindName("gridTileGrandeGenerar")
+        Await GenerarImagen(gridTileGrande, tile.ID + "grande.png", 310, 310)
+
+        '-----------------------
+
         Dim nuevaTile As New SecondaryTile(tile.ID, tile.Titulo, tile.Enlace, New Uri("ms-appdata:///local/" + tile.ID + "ancha.png", UriKind.RelativeOrAbsolute), TileSize.Wide310x150)
 
+        nuevaTile.VisualElements.Square71x71Logo = New Uri("ms-appdata:///local/" + tile.ID + "pequena.png", UriKind.RelativeOrAbsolute)
+        nuevaTile.VisualElements.Square150x150Logo = New Uri("ms-appdata:///local/" + tile.ID + "mediana.png", UriKind.RelativeOrAbsolute)
         nuevaTile.VisualElements.Wide310x150Logo = New Uri("ms-appdata:///local/" + tile.ID + "ancha.png", UriKind.RelativeOrAbsolute)
         nuevaTile.VisualElements.Square310x310Logo = New Uri("ms-appdata:///local/" + tile.ID + "grande.png", UriKind.RelativeOrAbsolute)
+
+        If ApplicationData.Current.LocalSettings.Values("tile_ancha_titulo") = True Then
+            nuevaTile.VisualElements.ShowNameOnWide310x150Logo = True
+        Else
+            nuevaTile.VisualElements.ShowNameOnWide310x150Logo = False
+        End If
+
+        If ApplicationData.Current.LocalSettings.Values("tile_grande_titulo") = True Then
+            nuevaTile.VisualElements.ShowNameOnSquare310x310Logo = True
+        Else
+            nuevaTile.VisualElements.ShowNameOnSquare310x310Logo = False
+        End If
+
+        If ApplicationData.Current.LocalSettings.Values("tiles_color_titulo") = 0 Then
+            nuevaTile.VisualElements.ForegroundText = ForegroundText.Light
+        Else
+            nuevaTile.VisualElements.ForegroundText = ForegroundText.Dark
+        End If
 
         Await nuevaTile.RequestCreateAsync()
 
         '-----------------------
 
-        Dim imagenDRM As AdaptiveImage = Nothing
-
-        If ApplicationData.Current.LocalSettings.Values("drm_tile") = True Then
-            imagenDRM = New AdaptiveImage With {
-                .HintRemoveMargin = True,
-                .HintAlign = AdaptiveImageAlign.Right
-            }
-
-            Dim cbIconosLista As ComboBox = pagina.FindName("cbTilesIconosLista")
-            Dim imagenIcono As ImageEx = cbIconosLista.SelectedItem
-            imagenDRM.Source = imagenIcono.Source
-        End If
-
-        '-----------------------
-
-        Dim imagenPequeña As ImageEx = pagina.FindName("imagenTilePequeña")
-        Dim boolImagenPequeña As Boolean = Await DescargaImagen(imagenPequeña, tile.ID + "pequena")
-
-        Dim imagenMediana As ImageEx = pagina.FindName("imagenTileMediana")
-        Dim boolImagenMediana As Boolean = Await DescargaImagen(imagenMediana, tile.ID + "mediana")
-
-        Dim imagenAncha As ImageEx = pagina.FindName("imagenTileAncha")
-        Dim boolImagenAncha As Boolean = Await DescargaImagen(imagenAncha, tile.ID + "ancha")
-
-        Dim imagenGrande As ImageEx = pagina.FindName("imagenTileGrande")
-        Dim boolImagenGrande As Boolean = Await DescargaImagen(imagenGrande, tile.ID + "grande")
-
-        '-----------------------
-
-        Dim contenidoPequeño As New TileBindingContentAdaptive
-
-        If boolImagenPequeña = True Then
-            Dim fondoImagenPequeña As New TileBackgroundImage With {
-                .Source = "ms-appdata:///local/" + tile.ID + "pequena.png",
-                .HintCrop = AdaptiveImageCrop.Default
-            }
-
-            contenidoPequeño = New TileBindingContentAdaptive With {
-                .BackgroundImage = fondoImagenPequeña
-            }
-        End If
-
-        'If Not imagenDRM Is Nothing Then
-        '    contenidoSmall.Children.Add(imagenDRM)
-        'End If
-
-        Dim tilePequeño As New TileBinding With {
-            .Content = contenidoPequeño
+        Dim imagenDRM As New AdaptiveImage With {
+            .HintRemoveMargin = True
         }
+
+        If ApplicationData.Current.LocalSettings.Values("tiles_drm_icono_posicion") = 0 Then
+            imagenDRM.HintAlign = AdaptiveImageAlign.Left
+        Else
+            imagenDRM.HintAlign = AdaptiveImageAlign.Right
+        End If
+
+        Dim cbDRMIcono As ComboBox = pagina.FindName("cbConfigTilesDRMIcono")
+        imagenDRM.Source = cbDRMIcono.SelectedItem.Source
 
         '-----------------------
 
         Dim contenidoMediano As New TileBindingContentAdaptive
 
-        If boolImagenMediana = True Then
-            Dim fondoImagenMediano As New TileBackgroundImage With {
-                .Source = "ms-appdata:///local/" + tile.ID + "mediana.png",
-                .HintCrop = AdaptiveImageCrop.Default
-            }
+        Dim fondoImagenMediano As New TileBackgroundImage With {
+            .Source = "ms-appdata:///local/" + tile.ID + "mediana.png",
+            .HintCrop = AdaptiveImageCrop.Default
+        }
 
-            contenidoMediano = New TileBindingContentAdaptive With {
-                .BackgroundImage = fondoImagenMediano
-            }
-        End If
+        contenidoMediano = New TileBindingContentAdaptive With {
+            .BackgroundImage = fondoImagenMediano
+        }
 
-        If Not imagenDRM Is Nothing Then
-            contenidoMediano.Children.Add(imagenDRM)
+        If ApplicationData.Current.LocalSettings.Values("tile_mediana_drm_mostrar") = True Then
+            If Not imagenDRM Is Nothing Then
+                contenidoMediano.Children.Add(imagenDRM)
+            End If
         End If
 
         Dim tileMediano As New TileBinding With {
@@ -101,19 +97,19 @@ Module Tiles
 
         Dim contenidoAncho As New TileBindingContentAdaptive
 
-        If boolImagenAncha = True Then
-            Dim fondoImagenAncha As New TileBackgroundImage With {
-                .Source = "ms-appdata:///local/" + tile.ID + "ancha.png",
-                .HintCrop = AdaptiveImageCrop.Default
-            }
+        Dim fondoImagenAncha As New TileBackgroundImage With {
+            .Source = "ms-appdata:///local/" + tile.ID + "ancha.png",
+            .HintCrop = AdaptiveImageCrop.Default
+        }
 
-            contenidoAncho = New TileBindingContentAdaptive With {
-                .BackgroundImage = fondoImagenAncha
-            }
-        End If
+        contenidoAncho = New TileBindingContentAdaptive With {
+            .BackgroundImage = fondoImagenAncha
+        }
 
-        If Not imagenDRM Is Nothing Then
-            contenidoAncho.Children.Add(imagenDRM)
+        If ApplicationData.Current.LocalSettings.Values("tile_ancha_drm_mostrar") = True Then
+            If Not imagenDRM Is Nothing Then
+                contenidoAncho.Children.Add(imagenDRM)
+            End If
         End If
 
         Dim tileAncha As New TileBinding With {
@@ -124,19 +120,19 @@ Module Tiles
 
         Dim contenidoGrande As New TileBindingContentAdaptive
 
-        If boolImagenGrande = True Then
-            Dim fondoImagenGrande As New TileBackgroundImage With {
-                .Source = "ms-appdata:///local/" + tile.ID + "grande.png",
-                .HintCrop = AdaptiveImageCrop.Default
-            }
+        Dim fondoImagenGrande As New TileBackgroundImage With {
+            .Source = "ms-appdata:///local/" + tile.ID + "grande.png",
+            .HintCrop = AdaptiveImageCrop.Default
+        }
 
-            contenidoGrande = New TileBindingContentAdaptive With {
-                .BackgroundImage = fondoImagenGrande
-            }
-        End If
+        contenidoGrande = New TileBindingContentAdaptive With {
+            .BackgroundImage = fondoImagenGrande
+        }
 
-        If Not imagenDRM Is Nothing Then
-            contenidoGrande.Children.Add(imagenDRM)
+        If ApplicationData.Current.LocalSettings.Values("tile_grande_drm_mostrar") = True Then
+            If Not imagenDRM Is Nothing Then
+                contenidoGrande.Children.Add(imagenDRM)
+            End If
         End If
 
         Dim tileGrande As New TileBinding With {
@@ -145,17 +141,17 @@ Module Tiles
 
         '-----------------------
 
-        If ApplicationData.Current.LocalSettings.Values("titulo_tile") = True Then
+        If ApplicationData.Current.LocalSettings.Values("tile_ancha_titulo") = True Then
             tileAncha.Branding = TileBranding.Name
-            tilePequeño.Branding = TileBranding.Name
-            tileMediano.Branding = TileBranding.Name
+        End If
+
+        If ApplicationData.Current.LocalSettings.Values("tile_grande_titulo") = True Then
             tileGrande.Branding = TileBranding.Name
         End If
 
         Dim visual As New TileVisual With {
-            .TileWide = tileAncha,
-            .TileSmall = tilePequeño,
             .TileMedium = tileMediano,
+            .TileWide = tileAncha,
             .TileLarge = tileGrande
         }
 
@@ -175,32 +171,35 @@ Module Tiles
 
     End Sub
 
-    Public Async Function DescargaImagen(imagen As ImageEx, clave As String) As Task(Of Boolean)
+    Public Async Function GenerarImagen(gridImagen As Grid, clave As String, ancho As Integer, alto As Integer) As Task(Of Boolean)
 
         Dim descargaFinalizada As Boolean = False
 
-        Dim fuente As Object = imagen.Source
+        Dim carpetaInstalacion As StorageFolder = ApplicationData.Current.LocalFolder
+        Dim ficheroImagen As StorageFile = Await carpetaInstalacion.CreateFileAsync(clave, CreationCollisionOption.ReplaceExisting)
 
-        If TypeOf fuente Is Uri Then
-            Dim ficheroImagen As StorageFile = Await ApplicationData.Current.LocalFolder.CreateFileAsync(clave + ".png", CreationCollisionOption.ReplaceExisting)
-            Dim descargador As New BackgroundDownloader
+        Dim resultado As New RenderTargetBitmap()
+        Await resultado.RenderAsync(gridImagen)
 
-            Try
-                Dim descarga As DownloadOperation = descargador.CreateDownload(fuente, ficheroImagen)
-                Await descarga.StartAsync
-                descargaFinalizada = True
-            Catch ex As Exception
+        Dim buffer As Streams.IBuffer = Await resultado.GetPixelsAsync
+        Dim pixeles As Byte() = buffer.ToArray
+        Dim rawdpi As DisplayInformation = DisplayInformation.GetForCurrentView()
 
-            End Try
-        End If
+        Using stream As Streams.IRandomAccessStream = Await ficheroImagen.OpenAsync(FileAccessMode.ReadWrite)
+            Dim encoder As BitmapEncoder = Await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream)
+            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, resultado.PixelWidth, resultado.PixelHeight, rawdpi.RawDpiX, rawdpi.RawDpiY, pixeles)
 
-        If TypeOf fuente Is BitmapImage Then
-            Dim ficheroOrigen As StorageFile = imagen.Tag
-            Dim ficheroNuevo As StorageFile = Await ApplicationData.Current.LocalFolder.CreateFileAsync(clave + ".png", CreationCollisionOption.ReplaceExisting)
+            Dim limites As New BitmapBounds With {
+                .X = resultado.PixelWidth - gridImagen.Width,
+                .Y = resultado.PixelHeight - gridImagen.Height,
+                .Width = ancho,
+                .Height = alto
+            }
 
-            Await ficheroOrigen.CopyAndReplaceAsync(ficheroNuevo)
-            descargaFinalizada = True
-        End If
+            encoder.BitmapTransform.Bounds = limites
+
+            Await encoder.FlushAsync
+        End Using
 
         Return descargaFinalizada
     End Function

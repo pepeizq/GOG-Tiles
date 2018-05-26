@@ -222,7 +222,8 @@ Module GOGGalaxy
 
                     Dim imagenPequeña As String = temp8.Trim
 
-                    Dim enlace As String = ChrW(34) + "C:\GOG Galaxy\GalaxyClient.exe" + ChrW(34) + " /gameId=" + temporal.ID + " /command=runGame /path=" + ChrW(34) + temporal.Enlace + ChrW(34)
+                    'Dim enlace As String = ChrW(34) + "C:\GOG Galaxy\GalaxyClient.exe" + ChrW(34) + " /gameId=" + temporal.ID + " /command=runGame /path=" + ChrW(34) + temporal.Enlace + ChrW(34)
+                    Dim enlace As String = "goggalaxy://openGameView/" + temporal.ID
 
                     Dim tituloBool As Boolean = False
                     Dim g As Integer = 0
@@ -242,7 +243,7 @@ Module GOGGalaxy
             End If
         End If
 
-        Dim panelAvisoNoJuegos As DropShadowPanel = pagina.FindName("panelAvisoNoJuegos")
+        Dim panelAvisoNoJuegos As Grid = pagina.FindName("panelAvisoNoJuegos")
         Dim gridSeleccionar As Grid = pagina.FindName("gridSeleccionarJuego")
 
         If listaFinal.Count > 0 Then
@@ -340,39 +341,73 @@ Module GOGGalaxy
 
         '---------------------------------------------
 
-        Dim imagenPequeña As ImageEx = pagina.FindName("imagenTilePequeña")
-        imagenPequeña.Source = juego.ImagenPequeña
-        imagenPequeña.Visibility = Visibility.Visible
+        Dim titulo1 As TextBlock = pagina.FindName("tituloTileAnchaEnseñar")
+        Dim titulo2 As TextBlock = pagina.FindName("tituloTileAnchaPersonalizar")
 
-        Dim tbPequeña As FontAwesome.UWP.FontAwesome = pagina.FindName("tbTilePequeña")
-        tbPequeña.Visibility = Visibility.Collapsed
+        Dim titulo3 As TextBlock = pagina.FindName("tituloTileGrandeEnseñar")
+        Dim titulo4 As TextBlock = pagina.FindName("tituloTileGrandePersonalizar")
 
-        '---------------------------------------------
+        titulo1.Text = juego.Titulo
+        titulo2.Text = juego.Titulo
 
-        Dim imagenMediana As ImageEx = pagina.FindName("imagenTileMediana")
-        imagenMediana.Source = juego.ImagenMediana
-        imagenMediana.Visibility = Visibility.Visible
+        titulo3.Text = juego.Titulo
+        titulo4.Text = juego.Titulo
 
-        Dim tbMediana As FontAwesome.UWP.FontAwesome = pagina.FindName("tbTileMediana")
-        tbMediana.Visibility = Visibility.Collapsed
+        If Not juego.ImagenPequeña = Nothing Then
+            Dim imagenPequeña1 As ImageEx = pagina.FindName("imagenTilePequeñaEnseñar")
+            Dim imagenPequeña2 As ImageEx = pagina.FindName("imagenTilePequeñaGenerar")
+            Dim imagenPequeña3 As ImageEx = pagina.FindName("imagenTilePequeñaPersonalizar")
 
-        '---------------------------------------------
+            imagenPequeña1.Source = juego.ImagenPequeña
+            imagenPequeña2.Source = juego.ImagenPequeña
+            imagenPequeña3.Source = juego.ImagenPequeña
 
-        Dim imagenAncha As ImageEx = pagina.FindName("imagenTileAncha")
-        imagenAncha.Source = juego.ImagenAncha
-        imagenAncha.Visibility = Visibility.Visible
+            imagenPequeña1.Tag = juego.ImagenPequeña
+            imagenPequeña2.Tag = juego.ImagenPequeña
+            imagenPequeña3.Tag = juego.ImagenPequeña
+        End If
 
-        Dim tbAncha As FontAwesome.UWP.FontAwesome = pagina.FindName("tbTileAncha")
-        tbAncha.Visibility = Visibility.Collapsed
+        If Not juego.ImagenMediana = Nothing Then
+            Dim imagenMediana1 As ImageEx = pagina.FindName("imagenTileMedianaEnseñar")
+            Dim imagenMediana2 As ImageEx = pagina.FindName("imagenTileMedianaGenerar")
+            Dim imagenMediana3 As ImageEx = pagina.FindName("imagenTileMedianaPersonalizar")
 
-        '---------------------------------------------
+            imagenMediana1.Source = juego.ImagenMediana
+            imagenMediana2.Source = juego.ImagenMediana
+            imagenMediana3.Source = juego.ImagenMediana
 
-        Dim imagenGrande As ImageEx = pagina.FindName("imagenTileGrande")
-        imagenGrande.Source = juego.ImagenGrande
-        imagenGrande.Visibility = Visibility.Visible
+            imagenMediana1.Tag = juego.ImagenMediana
+            imagenMediana2.Tag = juego.ImagenMediana
+            imagenMediana3.Tag = juego.ImagenMediana
+        End If
 
-        Dim tbGrande As FontAwesome.UWP.FontAwesome = pagina.FindName("tbTileGrande")
-        tbGrande.Visibility = Visibility.Collapsed
+        If Not juego.ImagenAncha = Nothing Then
+            Dim imagenAncha1 As ImageEx = pagina.FindName("imagenTileAnchaEnseñar")
+            Dim imagenAncha2 As ImageEx = pagina.FindName("imagenTileAnchaGenerar")
+            Dim imagenAncha3 As ImageEx = pagina.FindName("imagenTileAnchaPersonalizar")
+
+            imagenAncha1.Source = juego.ImagenAncha
+            imagenAncha2.Source = juego.ImagenAncha
+            imagenAncha3.Source = juego.ImagenAncha
+
+            imagenAncha1.Tag = juego.ImagenAncha
+            imagenAncha2.Tag = juego.ImagenAncha
+            imagenAncha3.Tag = juego.ImagenAncha
+        End If
+
+        If Not juego.ImagenGrande = Nothing Then
+            Dim imagenGrande1 As ImageEx = pagina.FindName("imagenTileGrandeEnseñar")
+            Dim imagenGrande2 As ImageEx = pagina.FindName("imagenTileGrandeGenerar")
+            Dim imagenGrande3 As ImageEx = pagina.FindName("imagenTileGrandePersonalizar")
+
+            imagenGrande1.Source = juego.ImagenGrande
+            imagenGrande2.Source = juego.ImagenGrande
+            imagenGrande3.Source = juego.ImagenGrande
+
+            imagenGrande1.Tag = juego.ImagenGrande
+            imagenGrande2.Tag = juego.ImagenGrande
+            imagenGrande3.Tag = juego.ImagenGrande
+        End If
 
     End Sub
 
