@@ -194,19 +194,9 @@ Module GOGGalaxy
 
                     Dim imagenAncha As String = temp4.Trim
 
-                    Dim temp5, temp6 As String
-                    Dim int5, int6 As Integer
+                    Dim imagenGrande As String = imagenAncha
 
-                    int5 = temp0.IndexOf(ChrW(34) + "background" + ChrW(34))
-                    temp5 = temp0.Remove(0, int5 + 14)
-
-                    int6 = temp5.IndexOf(ChrW(34))
-                    temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                    temp6 = temp6.Replace("\/", "/")
-                    temp6 = "https:" + temp6
-
-                    Dim imagenGrande As String = temp6.Trim
+                    imagenGrande = imagenGrande.Replace("_glx_logo.jpg", "_800.jpg")
 
                     Dim temp7, temp8 As String
                     Dim int7, int8 As Integer
