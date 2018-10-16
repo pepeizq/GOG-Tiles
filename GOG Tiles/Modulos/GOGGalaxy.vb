@@ -194,9 +194,11 @@ Module GOGGalaxy
 
                     Dim imagenAncha As String = temp4.Trim
 
+                    imagenAncha = imagenAncha.Replace("_glx_logo_2x.jpg", "_product_tile_256.jpg")
+
                     Dim imagenGrande As String = imagenAncha
 
-                    imagenGrande = imagenGrande.Replace("_glx_logo.jpg", "_800.jpg")
+                    imagenGrande = imagenGrande.Replace("_glx_logo_2x.jpg", "_product_tile_536.jpg")
 
                     Dim temp7, temp8 As String
                     Dim int7, int8 As Integer
