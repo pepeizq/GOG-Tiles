@@ -174,9 +174,6 @@
   <data name="ConfigFolderMessage.Text" xml:space="preserve">
     <value>Añade la carpeta de GOG Galaxy siguiendo este ejemplo: C:\GalaxyClient\Games\</value>
   </data>
-  <data name="ConfigFoldersWarning.Text" xml:space="preserve">
-    <value>Debido a como funciona GOG Galaxy la app abrirá el gameview del juego, no su ejecutable</value>
-  </data>
   <data name="StoreDescription" xml:space="preserve">
     <value>Añade Tiles para tus juegos de GOG Galaxy en el menú de Inicio de Windows 10.</value>
   </data>
@@ -266,5 +263,8 @@
   </data>
   <data name="TileWide.Text" xml:space="preserve">
     <value>Tile Ancha</value>
+  </data>
+  <data name="ConfigCleanCache.Text" xml:space="preserve">
+    <value>Limpiar Cache</value>
   </data>
 </root>

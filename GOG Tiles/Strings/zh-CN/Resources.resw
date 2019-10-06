@@ -177,9 +177,6 @@
   <data name="ConfigFolderMessage.Text" xml:space="preserve">
     <value>添加GOG Galaxy客户端的目录，例如：C:\GalaxyClient\Games</value>
   </data>
-  <data name="ConfigFoldersWarning.Text" xml:space="preserve">
-    <value>因为GOG Galaxy客户端与本软件的兼容性问题，本软件将打开游戏的详情页面，而不是直接打开游戏。</value>
-  </data>
   <data name="StoreDescription" xml:space="preserve">
     <value>将你的GOG游戏以磁贴方式固定到开始菜单</value>
   </data>

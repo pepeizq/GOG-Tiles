@@ -182,9 +182,6 @@
     <value>Dodaj swój folder GOG Galaxy według tego przykładu:
 C:\GalaxyClient\Games</value>
   </data>
-  <data name="ConfigFoldersWarning.Text" xml:space="preserve">
-    <value>Ponieważ GOG Galaxy działa w ten sposób, aplikacja otworzy widok gry, a nie plik wykonywalny</value>
-  </data>
   <data name="StoreDescription" xml:space="preserve">
     <value>Przypnij Kafelki w menu Start systemu Windows 10 dla gier GOG Galaxy.</value>
   </data>

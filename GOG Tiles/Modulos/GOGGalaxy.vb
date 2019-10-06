@@ -1,4 +1,5 @@
 ﻿Imports System.Text.RegularExpressions
+Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
@@ -11,9 +12,11 @@ Imports Windows.UI.Xaml.Media.Animation
 
 Module GOGGalaxy
 
-    Dim clave As String = "carpetagog01"
+    Dim clave As String = "carpetagog02"
 
     Public Async Sub Generar(boolBuscarCarpeta As Boolean)
+
+        Dim helper As New LocalObjectStorageHelper
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
@@ -24,15 +27,25 @@ Module GOGGalaxy
         Dim botonBorrar As Button = pagina.FindName("botonBorrarCarpetasGOGGalaxy")
         botonBorrar.IsEnabled = False
 
-        Dim pr As ProgressRing = pagina.FindName("prTilesGOG")
+        Dim pr As ProgressRing = pagina.FindName("prTiles")
         pr.Visibility = Visibility.Visible
 
-        Dim gv As GridView = pagina.FindName("gridViewTilesGOG")
+        Dim botonCache As Button = pagina.FindName("botonConfigLimpiarCache")
+        botonCache.IsEnabled = False
+
+        Dim gv As GridView = pagina.FindName("gridViewTiles")
+        gv.Items.Clear()
+
+        Dim listaJuegos As New List(Of Tile)
+
+        If Await helper.FileExistsAsync("juegos") = True Then
+            listaJuegos = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
+        End If
 
         Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadasGOGGalaxy")
 
         If Not tbCarpetas.Text = Nothing Then
-            tbCarpetas.Text = ""
+            tbCarpetas.Text = String.Empty
         End If
 
         Dim recursos As New Resources.ResourceLoader()
@@ -140,113 +153,120 @@ Module GOGGalaxy
             i += 1
         End While
 
-        Dim listaFinal As New List(Of Tile)
-
         If listaTemporal.Count > 0 Then
             Dim query As String = "http://api.gog.com/products?ids="
 
             i = 0
             For Each temporal In listaTemporal
-                If i = 0 Then
-                    query = query + temporal.ID
-                Else
-                    query = query + "%2C" + temporal.ID
+                Dim añadir As Boolean = True
+                Dim g As Integer = 0
+                While g < listaJuegos.Count
+                    If listaJuegos(g).ID = temporal.ID Then
+                        añadir = False
+                    End If
+                    g += 1
+                End While
+
+                If añadir = True Then
+                    If query = "http://api.gog.com/products?ids=" Then
+                        query = query + temporal.ID
+                    Else
+                        query = query + "%2C" + temporal.ID
+                    End If
                 End If
 
                 i += 1
             Next
 
-            Dim html As String = Await Decompiladores.HttpClient(New Uri(query))
+            If i > 0 Then
+                Dim html As String = Await Decompiladores.HttpClient(New Uri(query))
 
-            If Not html = Nothing Then
-                For Each temporal In listaTemporal
-                    Dim temp0 As String
-                    Dim int0 As Integer
+                If Not html = Nothing Then
+                    For Each temporal In listaTemporal
+                        Dim temp0 As String
+                        Dim int0 As Integer
 
-                    int0 = html.IndexOf(ChrW(34) + "id" + ChrW(34) + ":" + temporal.ID)
-                    temp0 = html.Remove(0, int0 + 6)
+                        int0 = html.IndexOf(ChrW(34) + "id" + ChrW(34) + ":" + temporal.ID)
 
-                    Dim temp, temp2 As String
-                    Dim int, int2 As Integer
+                        If Not int0 = -1 Then
+                            temp0 = html.Remove(0, int0 + 6)
 
-                    int = temp0.IndexOf(ChrW(34) + "title" + ChrW(34))
-                    temp = temp0.Remove(0, int + 9)
+                            Dim temp, temp2 As String
+                            Dim int, int2 As Integer
 
-                    int2 = temp.IndexOf(ChrW(34))
-                    temp2 = temp.Remove(int2, temp.Length - int2)
+                            int = temp0.IndexOf(ChrW(34) + "title" + ChrW(34))
+                            temp = temp0.Remove(0, int + 9)
 
-                    temp2 = temp2.Trim
-                    temp2 = Regex.Unescape(temp2)
+                            int2 = temp.IndexOf(ChrW(34))
+                            temp2 = temp.Remove(int2, temp.Length - int2)
 
-                    Dim titulo As String = temp2.Trim
+                            temp2 = temp2.Trim
+                            temp2 = Regex.Unescape(temp2)
 
-                    Dim temp3, temp4 As String
-                    Dim int3, int4 As Integer
+                            Dim titulo As String = temp2.Trim
 
-                    int3 = temp0.IndexOf(ChrW(34) + "logo2x" + ChrW(34))
-                    temp3 = temp0.Remove(0, int3 + 10)
+                            Dim temp3, temp4 As String
+                            Dim int3, int4 As Integer
 
-                    int4 = temp3.IndexOf(ChrW(34))
-                    temp4 = temp3.Remove(int4, temp3.Length - int4)
+                            int3 = temp0.IndexOf(ChrW(34) + "logo2x" + ChrW(34))
+                            temp3 = temp0.Remove(0, int3 + 10)
 
-                    temp4 = temp4.Replace("\/", "/")
-                    temp4 = "https:" + temp4
+                            int4 = temp3.IndexOf(ChrW(34))
+                            temp4 = temp3.Remove(int4, temp3.Length - int4)
 
-                    Dim imagenAncha As String = temp4.Trim
+                            temp4 = temp4.Replace("\/", "/")
+                            temp4 = "https:" + temp4
 
-                    imagenAncha = imagenAncha.Replace("_glx_logo_2x.jpg", "_product_tile_256.jpg")
+                            Dim imagenAncha As String = temp4.Trim
 
-                    Dim imagenGrande As String = imagenAncha
+                            imagenAncha = imagenAncha.Replace("_glx_logo_2x.jpg", "_product_tile_256.jpg")
 
-                    imagenGrande = imagenGrande.Replace("_glx_logo_2x.jpg", "_product_tile_536.jpg")
+                            Dim imagenGrande As String = imagenAncha
 
-                    Dim temp7, temp8 As String
-                    Dim int7, int8 As Integer
+                            imagenGrande = imagenGrande.Replace("_glx_logo_2x.jpg", "_product_tile_536.jpg")
 
-                    int7 = temp0.IndexOf(ChrW(34) + "icon" + ChrW(34))
-                    temp7 = temp0.Remove(0, int7 + 8)
+                            Dim temp7, temp8 As String
+                            Dim int7, int8 As Integer
 
-                    int8 = temp7.IndexOf(ChrW(34))
-                    temp8 = temp7.Remove(int8, temp7.Length - int8)
+                            int7 = temp0.IndexOf(ChrW(34) + "icon" + ChrW(34))
+                            temp7 = temp0.Remove(0, int7 + 8)
 
-                    temp8 = temp8.Replace("\/", "/")
-                    temp8 = "https:" + temp8
+                            int8 = temp7.IndexOf(ChrW(34))
+                            temp8 = temp7.Remove(int8, temp7.Length - int8)
 
-                    Dim imagenPequeña As String = temp8.Trim
+                            temp8 = temp8.Replace("\/", "/")
+                            temp8 = "https:" + temp8
 
-                    'Dim enlace As String = ChrW(34) + "C:\GOG Galaxy\GalaxyClient.exe" + ChrW(34) + " /gameId=" + temporal.ID + " /command=runGame /path=" + ChrW(34) + temporal.Enlace + ChrW(34)
-                    Dim enlace As String = "goggalaxy://openGameView/" + temporal.ID
+                            Dim imagenPequeña As String = temp8.Trim
 
-                    Dim tituloBool As Boolean = False
-                    Dim g As Integer = 0
-                    While g < listaFinal.Count
-                        If listaFinal(g).Titulo = titulo Then
-                            tituloBool = True
+                            'Dim enlace As String = ChrW(34) + "C:\GOG Galaxy\GalaxyClient.exe" + ChrW(34) + " /gameId=" + temporal.ID + " /command=runGame /path=" + ChrW(34) + temporal.Enlace + ChrW(34)
+                            Dim enlace As String = "goggalaxy://openGameView/" + temporal.ID
+
+                            Dim juego As New Tile(titulo, temporal.ID, enlace, New Uri(imagenPequeña), New Uri(imagenPequeña), New Uri(imagenAncha), New Uri(imagenGrande))
+
+                            listaJuegos.Add(juego)
                         End If
-                        g += 1
-                    End While
-
-                    If tituloBool = False Then
-                        Dim juego As New Tile(titulo, temporal.ID, enlace, New Uri(imagenPequeña), New Uri(imagenPequeña), New Uri(imagenAncha), New Uri(imagenGrande))
-
-                        listaFinal.Add(juego)
-                    End If
-                Next
+                    Next
+                End If
             End If
         End If
+
+        Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
+
+        pr.Visibility = Visibility.Collapsed
 
         Dim panelAvisoNoJuegos As Grid = pagina.FindName("panelAvisoNoJuegos")
         Dim gridSeleccionar As Grid = pagina.FindName("gridSeleccionarJuego")
 
-        If listaFinal.Count > 0 Then
+        If listaJuegos.Count > 0 Then
             panelAvisoNoJuegos.Visibility = Visibility.Collapsed
             gridSeleccionar.Visibility = Visibility.Visible
 
-            listaFinal.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
+            listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
 
             gv.Items.Clear()
 
-            For Each juego In listaFinal
+            For Each juego In listaJuegos
                 Dim boton As New Button
 
                 Dim imagen As New ImageEx
@@ -287,7 +307,7 @@ Module GOGGalaxy
             Next
 
             If boolBuscarCarpeta = True Then
-                Toast(listaFinal.Count.ToString + " " + recursos.GetString("GamesDetected"), Nothing)
+                Toast(listaJuegos.Count.ToString + " " + recursos.GetString("GamesDetected"), Nothing)
             End If
         Else
             panelAvisoNoJuegos.Visibility = Visibility.Visible
@@ -296,7 +316,7 @@ Module GOGGalaxy
 
         botonAñadir.IsEnabled = True
         botonBorrar.IsEnabled = True
-        pr.Visibility = Visibility.Collapsed
+        botonCache.IsEnabled = True
 
     End Sub
 
