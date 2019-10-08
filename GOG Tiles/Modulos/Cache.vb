@@ -75,11 +75,7 @@ Module Cache
             Dim carpetaImagenes As StorageFolder = Await StorageFolder.GetFolderFromPathAsync(ApplicationData.Current.LocalFolder.Path + "\Cache")
 
             If Not carpetaImagenes Is Nothing Then
-                Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaImagenes.GetFilesAsync
-
-                For Each fichero As StorageFile In ficheros
-                    Await fichero.DeleteAsync()
-                Next
+                Await carpetaImagenes.DeleteAsync
             End If
         End If
 

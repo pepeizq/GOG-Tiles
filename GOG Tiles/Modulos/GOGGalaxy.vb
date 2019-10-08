@@ -27,8 +27,11 @@ Module GOGGalaxy
         Dim botonBorrar As Button = pagina.FindName("botonBorrarCarpetasGOGGalaxy")
         botonBorrar.IsEnabled = False
 
-        Dim pr As ProgressRing = pagina.FindName("prTiles")
-        pr.Visibility = Visibility.Visible
+        Dim spProgreso As StackPanel = pagina.FindName("spProgreso")
+        spProgreso.Visibility = Visibility.Visible
+
+        Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
+        tbProgreso.Text = String.Empty
 
         Dim botonCache As Button = pagina.FindName("botonConfigLimpiarCache")
         botonCache.IsEnabled = False
@@ -182,6 +185,7 @@ Module GOGGalaxy
                 Dim html As String = Await Decompiladores.HttpClient(New Uri(query))
 
                 If Not html = Nothing Then
+                    Dim k As Integer = 0
                     For Each temporal In listaTemporal
                         Dim temp0 As String
                         Dim int0 As Integer
@@ -246,6 +250,9 @@ Module GOGGalaxy
 
                             listaJuegos.Add(juego)
                         End If
+
+                        tbProgreso.Text = k.ToString + "/" + listaTemporal.Count.ToString
+                        k += 1
                     Next
                 End If
             End If
@@ -253,7 +260,7 @@ Module GOGGalaxy
 
         Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
 
-        pr.Visibility = Visibility.Collapsed
+        spProgreso.Visibility = Visibility.Collapsed
 
         Dim panelAvisoNoJuegos As Grid = pagina.FindName("panelAvisoNoJuegos")
         Dim gridSeleccionar As Grid = pagina.FindName("gridSeleccionarJuego")
