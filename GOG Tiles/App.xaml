@@ -13,10 +13,10 @@
         <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="White"/>
         <SolidColorBrush x:Key="NavigationViewItemForegroundPressed" Color="White"/>
 
-        <Color x:Key="ColorPrimario">DarkOrchid</Color>
-        <Color x:Key="ColorSecundario">MediumOrchid</Color>
+        <Color x:Key="ColorPrimario">#330135</Color>
+        <Color x:Key="ColorSecundario">#200122</Color>
         <Color x:Key="ColorTerciario">#cc98e6</Color>
-        <Color x:Key="ColorCuarto">#e1c1f0</Color>
+        <Color x:Key="ColorCuarto">#b9a7ba</Color>
 
         <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent"/>
         <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="{StaticResource ColorPrimario}"/>
@@ -32,7 +32,9 @@
         <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource ColorPrimario}" TintOpacity=".7"/>
         <AcrylicBrush x:Key="GridAcrilico" BackgroundSource="Backdrop" TintColor="{StaticResource ColorPrimario}" TintOpacity=".1"/>
 
+        <SolidColorBrush x:Key="BrushPrimario" Color="{StaticResource ColorPrimario}"/>
         <SolidColorBrush x:Key="BrushSecundario" Color="{StaticResource ColorSecundario}"/>
+        <SolidColorBrush x:Key="BrushTercero" Color="{StaticResource ColorTerciario}"/>
         <SolidColorBrush x:Key="BrushCuarto" Color="{StaticResource ColorCuarto}"/>
     </Application.Resources>
 </Application>

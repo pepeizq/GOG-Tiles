@@ -113,8 +113,12 @@
     <None Include="GOG Tiles_StoreKey.pfx" />
     <PRIResource Include="Strings\pl-PL\Resources.resw" />
     <PRIResource Include="Strings\zh-CN\Resources.resw" />
-    <PRIResource Include="Strings\es-ES\Resources.resw" />
-    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\es-ES\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
+    <PRIResource Include="Strings\en-US\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.vb">
@@ -131,7 +135,9 @@
     <Compile Include="Modulos\MasCosas.vb" />
     <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
-    <Compile Include="Modulos\Tiles.vb" />
+    <Compile Include="Modulos\Tiles\Añadir.vb" />
+    <Compile Include="Modulos\Tiles\Imagen.vb" />
+    <Compile Include="Modulos\Tiles\Personalizacion.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -142,8 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\gog_logo.png" />
-    <Content Include="Assets\gog_logo_mini2.png" />
-    <Content Include="Assets\gog_logo_mini1.png" />
+    <Content Include="Assets\Iconos\1.png" />
+    <Content Include="Assets\Iconos\2.png" />
+    <Content Include="Assets\Iconos\3.png" />
     <Content Include="Assets\Logos\AppList.altform-unplated_targetsize-16.png" />
     <Content Include="Assets\Logos\AppList.altform-unplated_targetsize-24.png" />
     <Content Include="Assets\Logos\AppList.altform-unplated_targetsize-256.png" />
@@ -269,6 +276,7 @@
       <Version>5.1.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
