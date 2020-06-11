@@ -1,4 +1,5 @@
 ﻿Imports FontAwesome.UWP
+Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Windows.Storage
 Imports Windows.UI
 Imports Windows.UI.Core
@@ -32,6 +33,10 @@ Public NotInheritable Class MainPage
 
                 If gridAvisoNoJuegos.Visibility = Visibility.Visible Then
                     gridSeleccionarJuego.Visibility = Visibility.Collapsed
+                End If
+
+                If gvTiles.Items.Count > 0 Then
+                    gridSeleccionarJuego.Visibility = Visibility.Visible
                 End If
 
                 If Not ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles") = 0 Then
@@ -104,6 +109,55 @@ Public NotInheritable Class MainPage
         grid.Visibility = Visibility.Visible
 
     End Sub
+
+    Private Async Sub TbBuscador_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbBuscador.TextChanged
+
+        Dim helper As New LocalObjectStorageHelper
+
+        Dim listaJuegos As New List(Of Tile)
+
+        If Await helper.FileExistsAsync("juegos") = True Then
+            listaJuegos = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
+        End If
+
+        If Not listaJuegos Is Nothing Then
+            gvTiles.Items.Clear()
+
+            listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
+
+            If tbBuscador.Text.Trim.Length > 0 Then
+                For Each juego In listaJuegos
+                    Dim busqueda As String = tbBuscador.Text.Trim
+
+                    If LimpiarBusqueda(juego.Titulo).ToString.Contains(LimpiarBusqueda(busqueda)) Then
+                        BotonEstilo(juego, gvTiles)
+                    End If
+                Next
+            Else
+                For Each juego In listaJuegos
+                    BotonEstilo(juego, gvTiles)
+                Next
+            End If
+        End If
+
+    End Sub
+
+    Private Function LimpiarBusqueda(texto As String)
+
+        Dim listaCaracteres As New List(Of String) From {"Early Access", " ", "•", ">", "<", "¿", "?", "!", "¡", ":",
+            ".", "_", "–", "-", ";", ",", "™", "®", "'", "’", "´", "`", "(", ")", "/", "\", "|", "&", "#", "=", ChrW(34),
+            "@", "^", "[", "]", "ª", "«"}
+
+        For Each item In listaCaracteres
+            texto = texto.Replace(item, Nothing)
+        Next
+
+        texto = texto.ToLower
+        texto = texto.Trim
+
+        Return texto
+    End Function
+
 
     Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
 
