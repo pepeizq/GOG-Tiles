@@ -114,12 +114,14 @@ Public NotInheritable Class MainPage
         gridPersonalizarTiles.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
 
-        spBuscador.Visibility = Visibility.Collapsed
-
         If tag = recursos.GetString("Tiles") Then
             If gvTiles.Items.Count > 0 Then
                 spBuscador.Visibility = Visibility.Visible
+            Else
+                spBuscador.Visibility = Visibility.Collapsed
             End If
+        Else
+            spBuscador.Visibility = Visibility.Collapsed
         End If
 
         grid.Visibility = Visibility.Visible
