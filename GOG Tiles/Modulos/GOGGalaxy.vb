@@ -38,8 +38,7 @@ Module GOGGalaxy
         Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
         tbProgreso.Text = String.Empty
 
-        Dim botonCache As Button = pagina.FindName("botonConfigLimpiarCache")
-        botonCache.IsEnabled = False
+        Cache.Estado(False)
 
         Dim gridSeleccionarJuego As Grid = pagina.FindName("gridSeleccionarJuego")
         gridSeleccionarJuego.Visibility = Visibility.Collapsed
@@ -239,77 +238,6 @@ Module GOGGalaxy
                             Next
                         End If
                     End If
-
-                    'Dim k As Integer = 0
-                    'For Each temporal In listaTemporal
-                    '    Dim temp0 As String
-                    '    Dim int0 As Integer
-
-                    '    int0 = html.IndexOf(ChrW(34) + "id" + ChrW(34) + ":" + temporal.ID)
-
-                    '    If Not int0 = -1 Then
-                    '        temp0 = html.Remove(0, int0 + 6)
-
-                    '        Dim temp, temp2 As String
-                    '        Dim int, int2 As Integer
-
-                    '        int = temp0.IndexOf(ChrW(34) + "title" + ChrW(34))
-                    '        temp = temp0.Remove(0, int + 9)
-
-                    '        int2 = temp.IndexOf(ChrW(34))
-                    '        temp2 = temp.Remove(int2, temp.Length - int2)
-
-                    '        temp2 = temp2.Trim
-                    '        temp2 = Regex.Unescape(temp2)
-
-                    '        Dim titulo As String = temp2.Trim
-
-                    '        Dim temp3, temp4 As String
-                    '        Dim int3, int4 As Integer
-
-                    '        int3 = temp0.IndexOf(ChrW(34) + "logo2x" + ChrW(34))
-                    '        temp3 = temp0.Remove(0, int3 + 10)
-
-                    '        int4 = temp3.IndexOf(ChrW(34))
-                    '        temp4 = temp3.Remove(int4, temp3.Length - int4)
-
-                    '        temp4 = temp4.Replace("\/", "/")
-                    '        temp4 = "https:" + temp4
-
-                    '        Dim imagenAncha As String = temp4.Trim
-
-                    '        imagenAncha = imagenAncha.Replace("_glx_logo_2x.jpg", "_product_tile_536.jpg")
-
-                    '        Dim imagenGrande As String = imagenAncha
-
-                    '        imagenGrande = imagenGrande.Replace("_glx_logo_2x.jpg", "_bg_crop_1366x655.jpg")
-
-                    '        Dim temp7, temp8 As String
-                    '        Dim int7, int8 As Integer
-
-                    '        int7 = temp0.IndexOf(ChrW(34) + "icon" + ChrW(34))
-                    '        temp7 = temp0.Remove(0, int7 + 8)
-
-                    '        int8 = temp7.IndexOf(ChrW(34))
-                    '        temp8 = temp7.Remove(int8, temp7.Length - int8)
-
-                    '        temp8 = temp8.Replace("\/", "/")
-                    '        temp8 = "https:" + temp8
-
-                    '        Dim imagenPequeña As String = temp8.Trim
-
-                    '        'Dim enlace As String = ChrW(34) + "C:\GOG Galaxy\GalaxyClient.exe" + ChrW(34) + " /gameId=" + temporal.ID + " /command=runGame /path=" + ChrW(34) + temporal.Enlace + ChrW(34)
-                    '        Dim enlace As String = "goggalaxy://openGameView/" + temporal.ID
-
-                    '        Dim juego As New Tile(titulo, temporal.ID, enlace, imagenPequeña, imagenPequeña, imagenAncha, imagenGrande)
-
-                    '        listaJuegos.Add(juego)
-                    '    End If
-
-                    'pbProgreso.Value = CInt((100 / listaTemporal.Count) * k)
-                    '    tbProgreso.Text = k.ToString + "/" + listaTemporal.Count.ToString
-                    '    k += 1
-                    'Next
                 End If
             End If
         End If
@@ -355,7 +283,7 @@ Module GOGGalaxy
 
         botonAñadir.IsEnabled = True
         botonBorrar.IsEnabled = True
-        botonCache.IsEnabled = True
+        Cache.Estado(True)
 
     End Sub
 
