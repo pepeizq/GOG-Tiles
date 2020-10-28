@@ -291,4 +291,10 @@
   <data name="MoreThings_Video" xml:space="preserve">
     <value>Vídeo en YouTube</value>
   </data>
+  <data name="MoreThings_RateApp" xml:space="preserve">
+    <value>Califica la App</value>
+  </data>
+  <data name="MoreThings_RateAppThanks" xml:space="preserve">
+    <value>Gracias por calificar la app</value>
+  </data>
 </root>
