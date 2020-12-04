@@ -111,8 +111,6 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="GOG Tiles_StoreKey.pfx" />
-    <PRIResource Include="Strings\pl-PL\Resources.resw" />
-    <PRIResource Include="Strings\zh-CN\Resources.resw" />
     <PRIResource Include="Strings\es-ES\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
@@ -132,8 +130,13 @@
     <Compile Include="Modulos\Configuracion.vb" />
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\GOGGalaxy.vb" />
+    <Compile Include="Modulos\Interfaz\AñadirTile.vb" />
+    <Compile Include="Modulos\Interfaz\Busqueda.vb" />
+    <Compile Include="Modulos\Interfaz\EfectosHover.vb" />
+    <Compile Include="Modulos\Interfaz\MasTiles.vb" />
+    <Compile Include="Modulos\Interfaz\NavigationViewItems.vb" />
+    <Compile Include="Modulos\Interfaz\Pestañas.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
-    <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Tiles\Añadir.vb" />
     <Compile Include="Modulos\Tiles\Imagen.vb" />
@@ -148,6 +151,7 @@
     <None Include="GOG Tiles_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Config\config.png" />
     <Content Include="Assets\gog_logo.png" />
     <Content Include="Assets\Iconos\1.png" />
     <Content Include="Assets\Iconos\2.png" />
@@ -203,7 +207,6 @@
     <Content Include="Assets\Logos\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-400.png" />
     <Content Include="My Project\Default.rd.xml" />
-    <Content Include="Strings\Estados.txt" />
     <None Include="Package.xml" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>

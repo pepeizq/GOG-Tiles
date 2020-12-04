@@ -1,6 +1,4 @@
-﻿Imports System.Text.RegularExpressions
-Imports Microsoft.Toolkit.Uwp.Helpers
-Imports Microsoft.Toolkit.Uwp.UI.Animations
+﻿Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Newtonsoft.Json
 Imports Windows.Storage
@@ -8,29 +6,18 @@ Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 Imports Windows.Storage.Search
 Imports Windows.UI
-Imports Windows.UI.Core
-Imports Windows.UI.Xaml.Media.Animation
 
 Module GOGGalaxy
 
-    Public anchoColumna As Integer = 375
-    Dim clave As String = "carpetagog02"
+    Public anchoColumna As Integer = 180
+    Dim clave As String = "carpetagog03"
 
-    Public Async Sub Generar(boolBuscarCarpeta As Boolean)
+    Public Async Sub Generar(buscarCarpeta As Boolean)
 
         Dim helper As New LocalObjectStorageHelper
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
-
-        Dim botonAñadir As Button = pagina.FindName("botonAñadirCarpetaGOGGalaxy")
-        botonAñadir.IsEnabled = False
-
-        Dim botonBorrar As Button = pagina.FindName("botonBorrarCarpetasGOGGalaxy")
-        botonBorrar.IsEnabled = False
-
-        Dim spProgreso As StackPanel = pagina.FindName("spProgreso")
-        spProgreso.Visibility = Visibility.Visible
 
         Dim pbProgreso As ProgressBar = pagina.FindName("pbProgreso")
         pbProgreso.Value = 0
@@ -38,12 +25,11 @@ Module GOGGalaxy
         Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
         tbProgreso.Text = String.Empty
 
+        Configuracion.Estado(False)
         Cache.Estado(False)
 
-        Dim gridSeleccionarJuego As Grid = pagina.FindName("gridSeleccionarJuego")
-        gridSeleccionarJuego.Visibility = Visibility.Collapsed
-
-        Dim gv As GridView = pagina.FindName("gvTiles")
+        Dim gv As AdaptiveGridView = pagina.FindName("gvTiles")
+        gv.DesiredWidth = anchoColumna
         gv.Items.Clear()
 
         Dim listaJuegos As New List(Of Tile)
@@ -52,17 +38,11 @@ Module GOGGalaxy
             listaJuegos = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
         End If
 
-        Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadasGOGGalaxy")
-
-        If Not tbCarpetas.Text = Nothing Then
-            tbCarpetas.Text = String.Empty
-        End If
-
         Dim recursos As New Resources.ResourceLoader()
         Dim carpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
         Dim i As Integer = 0
-        If boolBuscarCarpeta = True Then
+        If buscarCarpeta = True Then
             Try
                 Dim picker As New FolderPicker()
 
@@ -72,190 +52,138 @@ Module GOGGalaxy
                 Dim carpeta As StorageFolder = Await picker.PickSingleFolderAsync()
 
                 If Not carpeta Is Nothing Then
-                    Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
-                    Dim detectadoBool As Boolean = False
-
-                    For Each carpetaJuego As StorageFolder In carpetasJuegos
-                        Dim ficheros As IReadOnlyList(Of StorageFile) = Await carpetaJuego.GetFilesAsync()
-
-                        For Each fichero As StorageFile In ficheros
-                            If fichero.DisplayName.Contains("goggame-") Then
-                                detectadoBool = True
-                            End If
-                        Next
-                    Next
-
-                    If detectadoBool = True Then
-                        i = 0
-                        While i < (carpetas.Values("numCarpetasGOG") + 1)
-                            Try
-                                Dim carpetaTemp As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
-                            Catch ex As Exception
-                                StorageApplicationPermissions.FutureAccessList.AddOrReplace(clave + i.ToString, carpeta)
-                                carpetas.Values("numCarpetasGOG") = i + 1
-                                Exit While
-                            End Try
-                            i += 1
-                        End While
-                    End If
+                    StorageApplicationPermissions.FutureAccessList.AddOrReplace(clave, carpeta)
                 End If
-
             Catch ex As Exception
 
             End Try
-        End If
-
-        While i < carpetas.Values("numCarpetasGOG")
-            Try
-                Dim carpetaTemp As StorageFolder = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
-                tbCarpetas.Text = tbCarpetas.Text + carpetaTemp.Path + Environment.NewLine
-            Catch ex As Exception
-
-            End Try
-            i += 1
-        End While
-
-        If tbCarpetas.Text = Nothing Then
-            tbCarpetas.Text = recursos.GetString("NoFoldersDetected")
-        Else
-            tbCarpetas.Text = tbCarpetas.Text.Trim
         End If
 
         '-------------------------------------------------------------
 
         Dim listaTemporal As New List(Of Tile)
+        Dim carpetaMaestra As StorageFolder = Nothing
 
-        i = 0
-        While i < carpetas.Values("numCarpetasGOG") + 1
-            Dim carpeta As StorageFolder = Nothing
+        Try
+            carpetaMaestra = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave)
+        Catch ex As Exception
 
-            Try
-                carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(clave + i.ToString)
-            Catch ex As Exception
+        End Try
 
-            End Try
+        If Not carpetaMaestra Is Nothing Then
+            Dim gridProgreso As Grid = pagina.FindName("gridProgreso")
+            Interfaz.Pestañas.Visibilidad_Pestañas(gridProgreso, Nothing)
 
-            If Not carpeta Is Nothing Then
-                Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpeta.GetFoldersAsync()
+            Dim carpetasJuegos As IReadOnlyList(Of StorageFolder) = Await carpetaMaestra.GetFoldersAsync()
 
-                For Each carpetaJuego As StorageFolder In carpetasJuegos
-                    Dim filtro As New List(Of String) From {
-                        ".dll", ".info"
-                    }
+            For Each carpetaJuego As StorageFolder In carpetasJuegos
+                Dim filtro As New List(Of String) From {
+                    ".webp"
+                }
 
-                    Dim opciones As New QueryOptions(CommonFileQuery.DefaultQuery, filtro)
+                Dim opciones As New QueryOptions(CommonFileQuery.DefaultQuery, filtro)
 
-                    Dim query As StorageFileQueryResult = carpetaJuego.CreateFileQueryWithOptions(opciones)
-                    Dim ficheros As IReadOnlyList(Of StorageFile) = Await query.GetFilesAsync()
+                Dim query As StorageFileQueryResult = carpetaJuego.CreateFileQueryWithOptions(opciones)
+                Dim ficheros As IReadOnlyList(Of StorageFile) = Await query.GetFilesAsync()
 
-                    If Not ficheros.Count = 0 Then
-                        For Each fichero As StorageFile In ficheros
-                            If fichero.DisplayName.Contains("goggame-") And fichero.FileType.Contains(".info") Then
-                                Dim id As String = fichero.DisplayName.Replace("goggame-", Nothing)
-                                Dim juego As New Tile(Nothing, id, carpetaJuego.Path, Nothing, Nothing, Nothing, Nothing)
-                                listaTemporal.Add(juego)
-                                Exit For
-                            End If
-                        Next
-                    End If
-                Next
-            End If
-            i += 1
-        End While
+                If Not ficheros.Count = 0 Then
+                    For Each fichero As StorageFile In ficheros
+                        If fichero.Name.Contains("glx_vertical_cover") Then
+                            Dim juego As New Tile(Nothing, carpetaJuego.Name, Nothing, Nothing, Nothing, Nothing, fichero.Path)
+                            listaTemporal.Add(juego)
+                            Exit For
+                        End If
+                    Next
+                End If
+            Next
+        End If
 
+        Dim k As Integer = 0
         If listaTemporal.Count > 0 Then
             Dim query As String = "http://api.gog.com/products?ids="
 
-            i = 0
             For Each temporal In listaTemporal
-                Dim añadir As Boolean = True
+                Dim buscar As Boolean = True
                 Dim g As Integer = 0
+
                 While g < listaJuegos.Count
                     If listaJuegos(g).ID = temporal.ID Then
-                        añadir = False
+                        buscar = False
                     End If
                     g += 1
                 End While
 
-                If añadir = True Then
-                    If query = "http://api.gog.com/products?ids=" Then
-                        query = query + temporal.ID
-                    Else
-                        query = query + "%2C" + temporal.ID
-                    End If
-                End If
+                If buscar = True Then
+                    Dim html As String = Await Decompiladores.HttpClient(New Uri("http://api.gog.com/products?ids=" + temporal.ID))
 
-                i += 1
-            Next
+                    If Not html = Nothing Then
+                        Dim listaJuegos2 As List(Of GOGAPIJuego) = JsonConvert.DeserializeObject(Of List(Of GOGAPIJuego))(html)
 
-            If i > 0 Then
-                Dim html As String = Await Decompiladores.HttpClient(New Uri(query))
+                        If Not listaJuegos2 Is Nothing Then
+                            If listaJuegos2.Count > 0 Then
+                                For Each juego2 In listaJuegos2
+                                    Dim titulo As String = juego2.Titulo
+                                    Dim id As String = juego2.ID
 
-                If Not html = Nothing Then
-                    Dim listaJuegos2 As List(Of GOGAPIJuego) = JsonConvert.DeserializeObject(Of List(Of GOGAPIJuego))(html)
+                                    Dim imagenPequeña As String = String.Empty
+                                    Dim imagenMediana As String = String.Empty
+                                    Dim imagenAncha As String = String.Empty
+                                    Dim imagenGrande As String = String.Empty
 
-                    Dim k As Integer = 0
-                    If Not listaJuegos2 Is Nothing Then
-                        If listaJuegos2.Count > 0 Then
-                            For Each juego2 In listaJuegos2
-                                Dim titulo As String = juego2.Titulo
+                                    imagenPequeña = juego2.Imagenes.Icono
 
-                                Dim id As String = juego2.ID
-
-                                Dim fondo As String = Await Cache.DescargarImagen(juego2.Imagenes.Fondo, id, "fondo")
-
-                                If Not fondo = String.Empty Then
-                                    If Not fondo.Contains("https:") Then
-                                        fondo = "https:" + fondo
+                                    If Not imagenPequeña = String.Empty Then
+                                        If Not imagenPequeña.Contains("https:") Then
+                                            imagenPequeña = "https:" + imagenPequeña
+                                        End If
                                     End If
-                                End If
 
-                                Dim icono As String = Await Cache.DescargarImagen(juego2.Imagenes.Icono, id, "icono")
+                                    imagenPequeña = Await Cache.DescargarImagen(imagenPequeña, id, "pequeña")
 
-                                If Not icono = String.Empty Then
-                                    If Not icono.Contains("https:") Then
-                                        icono = "https:" + icono
+                                    imagenMediana = imagenPequeña
+
+                                    imagenAncha = juego2.Imagenes.Logo.Replace("_glx_logo", Nothing)
+
+                                    If Not imagenAncha = String.Empty Then
+                                        If Not imagenAncha.Contains("https:") Then
+                                            imagenAncha = "https:" + imagenAncha
+                                        End If
                                     End If
-                                End If
 
-                                Dim logo As String = Await Cache.DescargarImagen(juego2.Imagenes.Logo.Replace("_glx_logo", Nothing), id, "logo")
+                                    imagenAncha = Await Cache.DescargarImagen(imagenAncha, id, "ancha")
 
-                                If Not logo = String.Empty Then
-                                    If Not logo.Contains("https:") Then
-                                        logo = "https:" + logo
-                                    End If
-                                End If
+                                    Dim temp2 As String = temporal.ImagenGrande
+                                    Dim int As Integer = temp2.LastIndexOf("\")
 
-                                'Dim enlace As String = ChrW(34) + "C:\GOG Galaxy\GalaxyClient.exe" + ChrW(34) + " /gameId=" + temporal.ID + " /command=runGame /path=" + ChrW(34) + temporal.Enlace + ChrW(34)
-                                Dim enlace As String = "goggalaxy://openGameView/" + id
+                                    temp2 = temp2.Remove(0, int + 1)
+                                    temp2 = temp2.Replace(".webp", ".png?namespace=gamesdb")
+                                    temp2 = "https://images.gog.com/" + temp2
 
-                                Dim juego As New Tile(titulo, id, enlace, icono, icono, logo, fondo)
-                                listaJuegos.Add(juego)
+                                    imagenGrande = Await Cache.DescargarImagen(temp2.Trim, id, "grande")
 
-                                pbProgreso.Value = CInt((100 / listaJuegos2.Count) * k)
-                                tbProgreso.Text = k.ToString + "/" + listaJuegos2.Count.ToString
-                                k += 1
-                            Next
+                                    'Dim enlace As String = ChrW(34) + "C:\GOG Galaxy\GalaxyClient.exe" + ChrW(34) + " /gameId=" + temporal.ID + " /command=runGame /path=" + ChrW(34) + temporal.Enlace + ChrW(34)
+                                    Dim enlace As String = "goggalaxy://openGameView/" + id
+
+                                    Dim juego As New Tile(titulo, id, enlace, imagenPequeña, imagenMediana, imagenAncha, imagenGrande)
+                                    listaJuegos.Add(juego)
+
+                                    pbProgreso.Value = CInt((100 / listaTemporal.Count) * k)
+                                    tbProgreso.Text = k.ToString + "/" + listaTemporal.Count.ToString
+                                    k += 1
+                                Next
+                            End If
                         End If
                     End If
                 End If
-            End If
+            Next
         End If
 
         Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
 
-        spProgreso.Visibility = Visibility.Collapsed
-
-        Dim gridTiles As Grid = pagina.FindName("gridTiles")
-        Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
-        Dim spBuscador As StackPanel = pagina.FindName("spBuscador")
-
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
-                gridTiles.Visibility = Visibility.Visible
-                gridAvisoNoJuegos.Visibility = Visibility.Collapsed
-                gridSeleccionarJuego.Visibility = Visibility.Visible
-                spBuscador.Visibility = Visibility.Visible
+                Dim gridJuegos As Grid = pagina.FindName("gridJuegos")
+                Interfaz.Pestañas.Visibilidad_Pestañas(gridJuegos, recursos.GetString("Games"))
 
                 listaJuegos.Sort(Function(x, y) x.Titulo.CompareTo(y.Titulo))
 
@@ -264,25 +192,16 @@ Module GOGGalaxy
                 For Each juego In listaJuegos
                     BotonEstilo(juego, gv)
                 Next
-
-                'If boolBuscarCarpeta = True Then
-                '    Toast(listaJuegos.Count.ToString + " " + recursos.GetString("GamesDetected"), Nothing)
-                'End If
             Else
-                gridTiles.Visibility = Visibility.Collapsed
-                gridAvisoNoJuegos.Visibility = Visibility.Visible
-                gridSeleccionarJuego.Visibility = Visibility.Collapsed
-                spBuscador.Visibility = Visibility.Collapsed
+                Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
+                Interfaz.Pestañas.Visibilidad_Pestañas(gridAvisoNoJuegos, Nothing)
             End If
         Else
-            gridTiles.Visibility = Visibility.Collapsed
-            gridAvisoNoJuegos.Visibility = Visibility.Visible
-            gridSeleccionarJuego.Visibility = Visibility.Collapsed
-            spBuscador.Visibility = Visibility.Collapsed
+            Dim gridAvisoNoJuegos As Grid = pagina.FindName("gridAvisoNoJuegos")
+            Interfaz.Pestañas.Visibilidad_Pestañas(gridAvisoNoJuegos, Nothing)
         End If
 
-        botonAñadir.IsEnabled = True
-        botonBorrar.IsEnabled = True
+        Configuracion.Estado(True)
         Cache.Estado(True)
 
     End Sub
@@ -300,10 +219,8 @@ Module GOGGalaxy
 
         Dim boton As New Button
 
-        Dim grid As New Grid
-
-        Dim imagenFondo As New ImageEx With {
-            .Source = juego.ImagenAncha,
+        Dim imagen As New ImageEx With {
+            .Source = juego.ImagenGrande,
             .IsCacheEnabled = True,
             .Stretch = Stretch.UniformToFill,
             .Padding = New Thickness(0, 0, 0, 0),
@@ -311,10 +228,8 @@ Module GOGGalaxy
             .VerticalAlignment = VerticalAlignment.Center
         }
 
-        grid.Children.Add(imagenFondo)
-
         boton.Tag = juego
-        boton.Content = grid
+        boton.Content = imagen
         boton.Padding = New Thickness(0, 0, 0, 0)
         boton.Background = New SolidColorBrush(Colors.Transparent)
 
@@ -330,8 +245,8 @@ Module GOGGalaxy
         ToolTipService.SetPlacement(boton, PlacementMode.Mouse)
 
         AddHandler boton.Click, AddressOf BotonTile_Click
-        AddHandler boton.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler boton.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler boton.PointerEntered, AddressOf Interfaz.Entra_Boton_Imagen
+        AddHandler boton.PointerExited, AddressOf Interfaz.Sale_Boton_Imagen
 
         gv.Items.Add(panel)
 
@@ -340,15 +255,16 @@ Module GOGGalaxy
     Private Sub BotonTile_Click(sender As Object, e As RoutedEventArgs)
 
         Trial.Detectar()
+        Interfaz.AñadirTile.ResetearValores()
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim spBuscador As StackPanel = pagina.FindName("spBuscador")
-        spBuscador.Visibility = Visibility.Collapsed
-
         Dim botonJuego As Button = e.OriginalSource
         Dim juego As Tile = botonJuego.Tag
+
+        Dim gridAñadirTile As Grid = pagina.FindName("gridAñadirTile")
+        Interfaz.Pestañas.Visibilidad_Pestañas(gridAñadirTile, juego.Titulo)
 
         Dim botonAñadirTile As Button = pagina.FindName("botonAñadirTile")
         botonAñadirTile.Tag = juego
@@ -358,32 +274,6 @@ Module GOGGalaxy
 
         Dim tbJuegoSeleccionado As TextBlock = pagina.FindName("tbJuegoSeleccionado")
         tbJuegoSeleccionado.Text = juego.Titulo
-
-        Dim gridSeleccionarJuego As Grid = pagina.FindName("gridSeleccionarJuego")
-        gridSeleccionarJuego.Visibility = Visibility.Collapsed
-
-        Dim gvTiles As GridView = pagina.FindName("gvTiles")
-
-        If gvTiles.ActualWidth > anchoColumna Then
-            ApplicationData.Current.LocalSettings.Values("ancho_grid_tiles") = gvTiles.ActualWidth
-        End If
-
-        gvTiles.Width = anchoColumna
-        gvTiles.Padding = New Thickness(0, 0, 15, 0)
-
-        Dim gridAñadir As Grid = pagina.FindName("gridAñadirTile")
-        gridAñadir.Visibility = Visibility.Visible
-
-        ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("tile", botonJuego)
-
-        Dim animacion As ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("tile")
-
-        If Not animacion Is Nothing Then
-            animacion.TryStart(gridAñadir)
-        End If
-
-        Dim tbTitulo As TextBlock = pagina.FindName("tbTitulo")
-        tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + juego.Titulo
 
         '---------------------------------------------
 
@@ -412,46 +302,12 @@ Module GOGGalaxy
         If Not juego.ImagenAncha = Nothing Then
             imagenAncha.Source = juego.ImagenAncha
             imagenAncha.Tag = juego.ImagenAncha
-
-            imagenGrande.Source = juego.ImagenAncha
-            imagenGrande.Tag = juego.ImagenAncha
         End If
 
-    End Sub
-
-    Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
-
-        Dim boton As Button = sender
-        boton.Saturation(0).Scale(1.05, 1.05, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
-
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
-
-    End Sub
-
-    Private Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
-
-        Dim boton As Button = sender
-        boton.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
-
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
-
-    End Sub
-
-    Public Sub Borrar()
-
-        StorageApplicationPermissions.FutureAccessList.Clear()
-
-        Dim recursos As New Resources.ResourceLoader()
-        Dim numCarpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
-        numCarpetas.Values("numCarpetasGOG") = 0
-
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-        Dim tbCarpetas As TextBlock = pagina.FindName("tbCarpetasDetectadasGOGGalaxy")
-
-        tbCarpetas.Text = recursos.GetString("NoFoldersDetected")
-
-        Generar(False)
+        If Not juego.ImagenGrande = Nothing Then
+            imagenGrande.Source = juego.ImagenGrande
+            imagenGrande.Tag = juego.ImagenGrande
+        End If
 
     End Sub
 

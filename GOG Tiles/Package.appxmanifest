@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" IgnorableNamespaces="uap mp desktop">
-  <Identity Name="5078pepeizq.GOGTiles" Publisher="CN=C91088FC-231C-4E13-86D1-5F9658173DA7" Version="2.1.8.0" />
+  <Identity Name="5078pepeizq.GOGTiles" Publisher="CN=C91088FC-231C-4E13-86D1-5F9658173DA7" Version="2.2.0.0" />
   <mp:PhoneIdentity PhoneProductId="2a830a11-b832-4261-b8de-6666651efb7f" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>GOG Tiles</DisplayName>
+    <DisplayName>Tiles for GOG Games</DisplayName>
     <PublisherDisplayName>pepeizq's apps</PublisherDisplayName>
     <Logo>assets\Logos\StoreLogo.png</Logo>
   </Properties>
@@ -15,15 +15,15 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="GOG_Tiles.App">
-      <uap:VisualElements DisplayName="GOG Tiles" Square150x150Logo="assets\Logos\Medium150x150Logo.png" Square44x44Logo="assets\Logos\AppList.png" Description="https://pepeizqapps.com" BackgroundColor="#330135">
-        <uap:DefaultTile Wide310x150Logo="assets\Logos\Wide310x150Logo.png" ShortName="GOG Tiles" Square310x310Logo="assets\Logos\Large310x310Logo.png" Square71x71Logo="assets\Logos\Small71x71Logo.png">
+      <uap:VisualElements DisplayName="Tiles for GOG Games" Square150x150Logo="assets\Logos\Medium150x150Logo.png" Square44x44Logo="assets\Logos\AppList.png" Description="https://pepeizqapps.com" BackgroundColor="#330135">
+        <uap:DefaultTile Wide310x150Logo="assets\Logos\Wide310x150Logo.png" ShortName="Tiles for GOG Games" Square310x310Logo="assets\Logos\Large310x310Logo.png" Square71x71Logo="assets\Logos\Small71x71Logo.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
             <uap:ShowOn Tile="wide310x150Logo" />
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="assets\Logos\SplashScreen.png" BackgroundColor="#330135" />
+        <uap:SplashScreen Image="assets\Logos\SplashScreen.png" a:Optional ="true" xmlns:a="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" BackgroundColor="#330135" />
         <uap:LockScreen BadgeLogo="assets\Logos\Badge.png" Notification="badge" />
       </uap:VisualElements>
     </Application>
