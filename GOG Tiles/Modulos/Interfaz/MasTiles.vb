@@ -186,6 +186,37 @@ Namespace Interfaz
                                     AddHandler boton.PointerEntered, AddressOf Entra_Boton
                                     AddHandler boton.PointerExited, AddressOf Sale_Boton
 
+                                    Dim imagenF As String = String.Empty
+
+                                    For Each imagen2 In app2.Detalles(0).Imagenes
+                                        If imagen2.Posicion = "Desktop/0" Then
+                                            imagenF = imagen2.Enlace
+                                        End If
+                                    Next
+
+                                    If Not imagenF = String.Empty Then
+                                        If Not imagenF.Contains("http:") Then
+                                            imagenF = "http:" + imagenF
+                                        End If
+
+                                        Dim fondoBoton As New ImageBrush With {
+                                            .ImageSource = New BitmapImage(New Uri(imagenF)),
+                                            .Stretch = Stretch.UniformToFill,
+                                            .Opacity = 0.1
+                                        }
+
+                                        boton.Background = fondoBoton
+                                    End If
+
+                                    Dim tbToolTip As TextBlock = New TextBlock With {
+                                        .FontSize = 16,
+                                        .TextWrapping = TextWrapping.Wrap,
+                                        .Text = recursos.GetString("MoreTilesOpen")
+                                    }
+
+                                    ToolTipService.SetToolTip(boton, tbToolTip)
+                                    ToolTipService.SetPlacement(boton, PlacementMode.Mouse)
+
                                     sp.Children.Add(boton)
                                 Next
                             End If
@@ -267,14 +298,12 @@ Namespace Interfaz
             Dim sp As StackPanel = boton.Content
 
             Dim fondo As New SolidColorBrush With {
-                .Opacity = 1,
+                .Opacity = 0.7,
                 .Color = App.Current.Resources("ColorCuarto")
             }
 
             sp.Background = fondo
-
-            Dim icono As ImageEx = sp.Children(0)
-            icono.Saturation(1).Scale(1.1, 1.1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
+            sp.Saturation(1).Scale(1.01, 1.01, sp.ActualWidth / 2, sp.ActualHeight / 2).Start()
 
             Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
 
@@ -291,9 +320,7 @@ Namespace Interfaz
             }
 
             sp.Background = fondo
-
-            Dim icono As ImageEx = sp.Children(0)
-            icono.Saturation(1).Scale(1, 1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
+            sp.Saturation(1).Scale(1, 1, sp.ActualWidth / 2, sp.ActualHeight / 2).Start()
 
             Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
@@ -341,6 +368,9 @@ Namespace Interfaz
 
         <JsonProperty("Uri")>
         Public Enlace As String
+
+        <JsonProperty("ImagePositionInfo")>
+        Public Posicion As String
 
     End Class
 

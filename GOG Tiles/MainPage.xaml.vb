@@ -20,19 +20,21 @@
 
         Dim item As TextBlock = args.InvokedItem
 
-        If Not item Is Nothing Then
-            If item.Text = recursos.GetString("Games") Then
-                If gvTiles.Items.Count = 0 Then
-                    Interfaz.Pestañas.Visibilidad_Pestañas(gridAvisoNoJuegos, Nothing)
-                Else
-                    Interfaz.Pestañas.Visibilidad_Pestañas(gridJuegos, item.Text)
+        If gridProgreso.Visibility = Visibility.Collapsed Then
+            If Not item Is Nothing Then
+                If item.Text = recursos.GetString("Games") Then
+                    If gvTiles.Items.Count = 0 Then
+                        Interfaz.Pestañas.Visibilidad_Pestañas(gridAvisoNoJuegos, Nothing)
+                    Else
+                        Interfaz.Pestañas.Visibilidad_Pestañas(gridJuegos, item.Text)
+                    End If
+                ElseIf item.Text = recursos.GetString("Config") Then
+                    Interfaz.Pestañas.Visibilidad_Pestañas(gridConfig, item.Text)
+                ElseIf item.Text = recursos.GetString("MoreTiles") Then
+                    Interfaz.Pestañas.Visibilidad_Pestañas(gridMasTiles, item.Text)
+                ElseIf item.Text = recursos.GetString("MoreThings") Then
+                    Interfaz.Pestañas.Visibilidad_Pestañas(gridMasCosas, item.Text)
                 End If
-            ElseIf item.Text = recursos.GetString("Config") Then
-                Interfaz.Pestañas.Visibilidad_Pestañas(gridConfig, item.Text)
-            ElseIf item.Text = recursos.GetString("MoreTiles") Then
-                Interfaz.Pestañas.Visibilidad_Pestañas(gridMasTiles, item.Text)
-            ElseIf item.Text = recursos.GetString("MoreThings") Then
-                Interfaz.Pestañas.Visibilidad_Pestañas(gridMasCosas, item.Text)
             End If
         End If
 

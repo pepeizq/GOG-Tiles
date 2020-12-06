@@ -1,7 +1,9 @@
-﻿Imports Windows.Services.Store
+﻿Imports Microsoft.Toolkit.Uwp.UI.Animations
+Imports Windows.Services.Store
 Imports Windows.Storage
 Imports Windows.System
 Imports Windows.UI
+Imports Windows.UI.Core
 
 Module MasCosas
 
@@ -33,42 +35,42 @@ Module MasCosas
 
         If Not codigoFuente = Nothing Then
             sp.Children.Add(GenerarCaja(recursos.GetString("MoreThingsSourceCode"), recursos.GetString("MoreThingsSourceCodeDescription"),
-                                        codigoFuente, Nothing, FontAwesome5.EFontAwesomeIcon.Brands_Github, False))
+                                        codigoFuente, FontAwesome5.EFontAwesomeIcon.Brands_Github, False, "github.png"))
         End If
 
         If Not traduccion = Nothing Then
             sp.Children.Add(GenerarCaja(recursos.GetString("MoreThingsHelpTranslate"), recursos.GetString("MoreThingsHelpTranslateDescription"),
-                                        traduccion, Nothing, FontAwesome5.EFontAwesomeIcon.Solid_GlobeEurope, False))
+                                        traduccion, FontAwesome5.EFontAwesomeIcon.Solid_GlobeEurope, False, "traducir.png"))
         End If
 
         If calificar = True Then
             sp.Children.Add(GenerarCaja(recursos.GetString("MoreThingsRateApp"), recursos.GetString("MoreThingsRateAppDescription"),
-                                        Nothing, Nothing, FontAwesome5.EFontAwesomeIcon.Solid_ThumbsUp, True))
+                                        Nothing, FontAwesome5.EFontAwesomeIcon.Solid_ThumbsUp, True, Nothing))
         End If
 
         If Not youtube = Nothing Then
             sp.Children.Add(GenerarCaja(recursos.GetString("MoreThingsVideo"), recursos.GetString("MoreThingsVideoDescription"),
-                                        youtube, Nothing, FontAwesome5.EFontAwesomeIcon.Brands_Youtube, False))
+                                        youtube, FontAwesome5.EFontAwesomeIcon.Brands_Youtube, False, "youtube.png"))
         End If
 
         If pepeizqapps = True Then
             sp.Children.Add(GenerarCaja("pepeizqapps.com", recursos.GetString("MoreThingspepeizqappsDescription"),
-                                        "https://pepeizqapps.com/", "https://pepeizqapps.com/contact/", FontAwesome5.EFontAwesomeIcon.Solid_Cube, False))
+                                        "https://pepeizqapps.com/", FontAwesome5.EFontAwesomeIcon.Solid_Cube, False, "pepeizqapps.png"))
         End If
 
         If pepeizqdeals = True Then
             sp.Children.Add(GenerarCaja("pepeizqdeals.com", recursos.GetString("MoreThingspepeizqdealsDescription"),
-                                        "https://pepeizqdeals.com/", Nothing, FontAwesome5.EFontAwesomeIcon.Solid_Cube, False))
+                                        "https://pepeizqdeals.com/", FontAwesome5.EFontAwesomeIcon.Solid_Cube, False, "pepeizqdeals.png"))
         End If
 
         If Not twitter = Nothing Then
             sp.Children.Add(GenerarCaja("@pepeizqu", recursos.GetString("MoreThingsMyTwitterDescription"),
-                                        twitter, Nothing, FontAwesome5.EFontAwesomeIcon.Brands_Twitter, False))
+                                        twitter, FontAwesome5.EFontAwesomeIcon.Brands_Twitter, False, "twitter.png"))
         End If
 
         If sp.Children.Count > 1 Then
-            Dim spUltimo As StackPanel = sp.Children(sp.Children.Count - 1)
-            spUltimo.Margin = New Thickness(0, 0, 0, 0)
+            Dim botonUltimo As Button = sp.Children(sp.Children.Count - 1)
+            botonUltimo.Margin = New Thickness(0, 0, 0, 0)
         End If
 
         sv.Content = sp
@@ -76,7 +78,7 @@ Module MasCosas
 
     End Sub
 
-    Private Function GenerarCaja(titulo As String, descripcion As String, enlace1 As String, enlace2 As String, icono2 As FontAwesome5.EFontAwesomeIcon, calificar As Boolean)
+    Private Function GenerarCaja(titulo As String, descripcion As String, enlace As String, icono2 As FontAwesome5.EFontAwesomeIcon, calificar As Boolean, imagenFondo As String)
 
         Dim recursos As New Resources.ResourceLoader
 
@@ -85,13 +87,12 @@ Module MasCosas
             .Opacity = 0.5
         }
 
-        Dim sp As New StackPanel With {
+        Dim spBoton As New StackPanel With {
             .Orientation = Orientation.Vertical,
-            .Padding = New Thickness(25, 25, 25, 25),
+            .Padding = New Thickness(30, 30, 30, 30),
             .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorPrimario")),
             .BorderThickness = New Thickness(1, 1, 1, 1),
-            .Background = colorFondo,
-            .Margin = New Thickness(0, 0, 0, 30)
+            .Background = colorFondo
         }
 
         Dim spTitulo As New StackPanel With {
@@ -116,7 +117,7 @@ Module MasCosas
 
         spTitulo.Children.Add(tbTitulo)
 
-        sp.Children.Add(spTitulo)
+        spBoton.Children.Add(spTitulo)
 
         Dim tbDescripcion As New TextBlock With {
             .Text = descripcion,
@@ -127,80 +128,54 @@ Module MasCosas
             .TextWrapping = TextWrapping.Wrap
         }
 
-        sp.Children.Add(tbDescripcion)
+        spBoton.Children.Add(tbDescripcion)
 
-        Dim spEnlaces As New StackPanel With {
-            .Orientation = Orientation.Horizontal,
-            .Margin = New Thickness(0, 20, 0, 0)
+        Dim boton As New Button With {
+            .Content = spBoton,
+            .Padding = New Thickness(0, 0, 0, 0),
+            .BorderBrush = New SolidColorBrush(Colors.Transparent),
+            .BorderThickness = New Thickness(0, 0, 0, 0),
+            .Style = App.Current.Resources("ButtonRevealStyle"),
+            .Margin = New Thickness(0, 0, 0, 30),
+            .HorizontalAlignment = HorizontalAlignment.Stretch,
+            .HorizontalContentAlignment = HorizontalAlignment.Stretch
+        }
+
+        AddHandler boton.PointerEntered, AddressOf Entra_Boton
+        AddHandler boton.PointerExited, AddressOf Sale_Boton
+
+        If calificar = False Then
+            AddHandler boton.Click, AddressOf AbrirClick
+        Else
+            AddHandler boton.Click, AddressOf CalificarClick
+        End If
+
+        Dim tbToolTip As TextBlock = New TextBlock With {
+            .FontSize = 16,
+            .TextWrapping = TextWrapping.Wrap
         }
 
         If calificar = False Then
-            Dim tbAbrir As New TextBlock With {
-                .Foreground = New SolidColorBrush(Colors.White),
-                .Text = recursos.GetString("MoreThingsOpen")
-            }
-
-            Dim botonAbrir As New Button With {
-                .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
-                .BorderThickness = New Thickness(0, 0, 0, 0),
-                .Style = App.Current.Resources("ButtonRevealStyle"),
-                .Padding = New Thickness(15, 12, 15, 12),
-                .Tag = enlace1,
-                .Content = tbAbrir
-            }
-
-            AddHandler botonAbrir.Click, AddressOf AbrirClick
-            AddHandler botonAbrir.PointerEntered, AddressOf Interfaz.Entra_Boton_Texto
-            AddHandler botonAbrir.PointerExited, AddressOf Interfaz.Sale_Boton_Texto
-
-            spEnlaces.Children.Add(botonAbrir)
+            tbToolTip.Text = recursos.GetString("MoreThingsOpen")
         Else
-            Dim tbCalificar As New TextBlock With {
-                .Foreground = New SolidColorBrush(Colors.White),
-                .Text = recursos.GetString("MoreThingsRate")
-            }
-
-            Dim botonCalificar As New Button With {
-                .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
-                .BorderThickness = New Thickness(0, 0, 0, 0),
-                .Style = App.Current.Resources("ButtonRevealStyle"),
-                .Padding = New Thickness(15, 12, 15, 12),
-                .Content = tbCalificar
-            }
-
-            AddHandler botonCalificar.Click, AddressOf CalificarClick
-            AddHandler botonCalificar.PointerEntered, AddressOf Interfaz.Entra_Boton_Texto
-            AddHandler botonCalificar.PointerExited, AddressOf Interfaz.Sale_Boton_Texto
-
-            spEnlaces.Children.Add(botonCalificar)
+            tbToolTip.Text = recursos.GetString("MoreThingsRate")
         End If
 
-        If Not enlace2 = Nothing Then
-            Dim tbContactar As New TextBlock With {
-                .Foreground = New SolidColorBrush(Colors.White),
-                .Text = recursos.GetString("MoreThingsContact")
+        ToolTipService.SetToolTip(boton, tbToolTip)
+        ToolTipService.SetPlacement(boton, PlacementMode.Mouse)
+
+        If Not imagenFondo = Nothing Then
+            Dim fondoBoton As New ImageBrush With {
+                .ImageSource = New BitmapImage(New Uri("ms-appx:///Assets/MasCosas/" + imagenFondo)),
+                .Stretch = Stretch.UniformToFill,
+                .Opacity = 0.1,
+                .AlignmentY = AlignmentY.Top
             }
 
-            Dim botonContactar As New Button With {
-                .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
-                .BorderThickness = New Thickness(0, 0, 0, 0),
-                .Style = App.Current.Resources("ButtonRevealStyle"),
-                .Padding = New Thickness(15, 12, 15, 12),
-                .Tag = enlace2,
-                .Content = tbContactar,
-                .Margin = New Thickness(25, 0, 0, 0)
-            }
-
-            AddHandler botonContactar.Click, AddressOf AbrirClick
-            AddHandler botonContactar.PointerEntered, AddressOf Interfaz.Entra_Boton_Texto
-            AddHandler botonContactar.PointerExited, AddressOf Interfaz.Sale_Boton_Texto
-
-            spEnlaces.Children.Add(botonContactar)
+            boton.Background = fondoBoton
         End If
 
-        sp.Children.Add(spEnlaces)
-
-        Return sp
+        Return boton
 
     End Function
 
@@ -259,6 +234,40 @@ Module MasCosas
                 End If
             End If
         End If
+
+    End Sub
+
+    Private Sub Entra_Boton(sender As Object, e As PointerRoutedEventArgs)
+
+        Dim boton As Button = sender
+        Dim sp As StackPanel = boton.Content
+
+        Dim fondo As New SolidColorBrush With {
+            .Opacity = 0.7,
+            .Color = App.Current.Resources("ColorCuarto")
+        }
+
+        sp.Background = fondo
+        sp.Saturation(1).Scale(1.01, 1.01, sp.ActualWidth / 2, sp.ActualHeight / 2).Start()
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
+
+    End Sub
+
+    Private Sub Sale_Boton(sender As Object, e As PointerRoutedEventArgs)
+
+        Dim boton As Button = sender
+        Dim sp As StackPanel = boton.Content
+
+        Dim fondo As New SolidColorBrush With {
+            .Opacity = 0.5,
+            .Color = App.Current.Resources("ColorCuarto")
+        }
+
+        sp.Background = fondo
+        sp.Saturation(1).Scale(1, 1, sp.ActualWidth / 2, sp.ActualHeight / 2).Start()
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
     End Sub
 

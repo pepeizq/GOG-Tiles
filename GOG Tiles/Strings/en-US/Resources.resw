@@ -268,7 +268,7 @@
     <value>Select the folder: C:\ProgramData\GOG.com\Galaxy\webcache\[Your ID User]\gog</value>
   </data>
   <data name="Gog_StoreDescription" xml:space="preserve">
-    <value>Pin Tiles of your games from the GOG Galaxy to the Windows 10 Start Menu.</value>
+    <value>Pin Tiles of your games from GOG Galaxy to the Windows 10 Start Menu.</value>
   </data>
   <data name="Gog_StoreTags" xml:space="preserve">
     <value>Gog,Galaxy,Witcher,Gwent,Cyberpunk</value>
@@ -381,11 +381,26 @@
   <data name="MoreTilesError" xml:space="preserve">
     <value>The list of applications could not be loaded, but you can visit my website to see them.</value>
   </data>
+  <data name="MoreTilesOpen" xml:space="preserve">
+    <value>Open App in Store</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="OpenWeb" xml:space="preserve">
     <value>Open Web</value>
+  </data>
+  <data name="Origin_ConfigMessage.Text" xml:space="preserve">
+    <value>Select the folder: C:\ProgramData\Origin\LocalContent</value>
+  </data>
+  <data name="Origin_StoreDescription" xml:space="preserve">
+    <value>Pin Tiles of your games from Origin to the Windows 10 Start Menu.</value>
+  </data>
+  <data name="Origin_StoreTags" xml:space="preserve">
+    <value>Origin,EA Play,Apex,Mass Effect,Battlefield,Star Wars,FIFA</value>
+  </data>
+  <data name="Origin_Title" xml:space="preserve">
+    <value>Tiles for Origin Games</value>
   </data>
   <data name="Personalization.Text" xml:space="preserve">
     <value>Personalization</value>

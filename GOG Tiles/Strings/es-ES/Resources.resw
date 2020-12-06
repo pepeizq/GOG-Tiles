@@ -381,11 +381,26 @@
   <data name="MoreTilesError" xml:space="preserve">
     <value>No se ha podido cargar el listado de aplicaciones, pero puedes visitar mi web para verlas.</value>
   </data>
+  <data name="MoreTilesOpen" xml:space="preserve">
+    <value>Abrir App en la Tienda</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="OpenWeb" xml:space="preserve">
     <value>Abrir Web</value>
+  </data>
+  <data name="Origin_ConfigMessage.Text" xml:space="preserve">
+    <value>Selecciona la carpeta: C:\ProgramData\Origin\LocalContent</value>
+  </data>
+  <data name="Origin_StoreDescription" xml:space="preserve">
+    <value>Añade Tiles de tus juegos de Origin en el Menú Inicio de Windows 10.</value>
+  </data>
+  <data name="Origin_StoreTags" xml:space="preserve">
+    <value>Origin,EA Play,Apex,Mass Effect,Battlefield,Star Wars,FIFA</value>
+  </data>
+  <data name="Origin_Title" xml:space="preserve">
+    <value>Tiles para los juegos de Origin</value>
   </data>
   <data name="Personalization.Text" xml:space="preserve">
     <value>Personalización</value>
