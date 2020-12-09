@@ -138,7 +138,7 @@
   <data name="Bethesda_MissingGames.Text" xml:space="preserve">
     <value>Por restricciones en la API de Bethesda, debo integrar sus juegos manualmente en la app.</value>
   </data>
-  <data name="Bethesda_SelectGame.Text" xml:space="preserve">
+  <data name="Bethesda_SelectGame" xml:space="preserve">
     <value>Selecciona un juego (debes tener el juego en el launcher de Bethesda)</value>
   </data>
   <data name="Bethesda_StoreDescription" xml:space="preserve">
@@ -153,7 +153,7 @@
   <data name="Black" xml:space="preserve">
     <value>Negro</value>
   </data>
-  <data name="Blizzard_SelectGame.Text" xml:space="preserve">
+  <data name="Blizzard_SelectGame" xml:space="preserve">
     <value>Selecciona un juego (debes tener el juego en Blizzard Battle.net)</value>
   </data>
   <data name="Blizzard_StoreDescription" xml:space="preserve">
@@ -200,6 +200,9 @@
   </data>
   <data name="ConfigCacheMessage.Text" xml:space="preserve">
     <value>Si limpias la caché, automáticamente volverá a descargar las imágenes de los juegos.</value>
+  </data>
+  <data name="ConfigDeleteFolders.Text" xml:space="preserve">
+    <value>Borrar Carpetas</value>
   </data>
   <data name="ConfigFileMessage.Text" xml:space="preserve">
     <value>Desoculta los ficheros y carpetas, esta opción se encuentra en Opciones del Exploradores de Archivos (usar el buscador para encontrar la opción).</value>
@@ -260,6 +263,36 @@
   </data>
   <data name="Discord_Title" xml:space="preserve">
     <value>Tiles para los juegos de Discord</value>
+  </data>
+  <data name="Epic_ConfigFolderMessage.Text" xml:space="preserve">
+    <value>Selecciona la carpeta: C:\ProgramData\Epic</value>
+  </data>
+  <data name="Epic_ConfigImport1" xml:space="preserve">
+    <value>Juegos Instalados</value>
+  </data>
+  <data name="Epic_ConfigImport2" xml:space="preserve">
+    <value>Todos los Juegos</value>
+  </data>
+  <data name="Epic_ConfigMessage.Text" xml:space="preserve">
+    <value>La aplicación permite cargar tus juegos de Epic Games que estén instalados o directamente seleccionar cualquier juego en la plataforma (en este caso deberás tener el juego para poder ejecutarlo).</value>
+  </data>
+  <data name="Epic_ConfigModeMessage.Text" xml:space="preserve">
+    <value>Selecciona el modo:</value>
+  </data>
+  <data name="Epic_MissingGames.Text" xml:space="preserve">
+    <value>Por restricciones en la API de Epic Games, debo integrar sus juegos manualmente en la app.</value>
+  </data>
+  <data name="Epic_SelectGame" xml:space="preserve">
+    <value>Selecciona un juego (debes tener el juego en Epic Games)</value>
+  </data>
+  <data name="Epic_StoreDescription" xml:space="preserve">
+    <value>Añade Tiles de tus juegos del launcher de Epic Games en el Menú Inicio de Windows 10.</value>
+  </data>
+  <data name="Epic_StoreTags" xml:space="preserve">
+    <value>Epic Games,Fortnite,World War Z,Rocket League,</value>
+  </data>
+  <data name="Epic_Title" xml:space="preserve">
+    <value>Tiles para los juegos de Epic Games</value>
   </data>
   <data name="Games" xml:space="preserve">
     <value>Juegos</value>
@@ -408,8 +441,41 @@
   <data name="SearchGame" xml:space="preserve">
     <value>Busca un juego</value>
   </data>
-  <data name="SelectGame.Text" xml:space="preserve">
+  <data name="SelectGame" xml:space="preserve">
     <value>Selecciona un juego</value>
+  </data>
+  <data name="Steam_AccountExample" xml:space="preserve">
+    <value>Ejemplo: https://steamcommunity.com/id/pepeizq/</value>
+  </data>
+  <data name="Steam_ConfigAccount.Text" xml:space="preserve">
+    <value>Antes de añadir tu cuenta debes permitir leer la información de tus juegos.</value>
+  </data>
+  <data name="Steam_ConfigAccount2.Text" xml:space="preserve">
+    <value>Añade el enlace a tu cuenta de Steam Community:</value>
+  </data>
+  <data name="Steam_ConfigFolderMessage.Text" xml:space="preserve">
+    <value>Selecciona las carpetas donde tengas instalados tus juegos, ejemplo: C:\Steam\steamapps</value>
+  </data>
+  <data name="Steam_ConfigImport1" xml:space="preserve">
+    <value>Juegos Instalados</value>
+  </data>
+  <data name="Steam_ConfigImport2" xml:space="preserve">
+    <value>Juegos en tu Cuenta</value>
+  </data>
+  <data name="Steam_ConfigMessage.Text" xml:space="preserve">
+    <value>La aplicación permite cargar tus juegos de Steam que estén instalados o directamente todos los juegos que tengas en tu cuenta (si tienes cientos o miles de juegos recomiendo elegir los juegos instalados).</value>
+  </data>
+  <data name="Steam_ConfigModeMessage.Text" xml:space="preserve">
+    <value>Selecciona el modo:</value>
+  </data>
+  <data name="Steam_StoreDescription" xml:space="preserve">
+    <value>Añade Tiles de tus juegos de Steam en el Menú Inicio de Windows 10.</value>
+  </data>
+  <data name="Steam_StoreTags" xml:space="preserve">
+    <value>Steam,Valve</value>
+  </data>
+  <data name="Steam_Title" xml:space="preserve">
+    <value>Tiles para los juegos de Steam</value>
   </data>
   <data name="StoreVideo" xml:space="preserve">
     <value>Como usar la app</value>
@@ -438,7 +504,7 @@
   <data name="Ubi_MissingGames.Text" xml:space="preserve">
     <value>Por restricciones en la API de Ubisoft Connect, debo integrar sus juegos manualmente en la app.</value>
   </data>
-  <data name="Ubi_SelectGame.Text" xml:space="preserve">
+  <data name="Ubi_SelectGame" xml:space="preserve">
     <value>Selecciona un juego (debes tener el juego en Ubisoft Connect)</value>
   </data>
   <data name="Ubi_StoreDescription" xml:space="preserve">

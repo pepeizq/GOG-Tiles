@@ -38,6 +38,10 @@ Module GOGGalaxy
             listaJuegos = Await helper.ReadFileAsync(Of List(Of Tile))("juegos")
         End If
 
+        If listaJuegos Is Nothing Then
+            listaJuegos = New List(Of Tile)
+        End If
+
         Dim recursos As New Resources.ResourceLoader()
         Dim carpetas As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
@@ -178,7 +182,11 @@ Module GOGGalaxy
             Next
         End If
 
-        Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
+        Try
+            Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
+        Catch ex As Exception
+
+        End Try
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
