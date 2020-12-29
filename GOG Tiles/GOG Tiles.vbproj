@@ -134,10 +134,10 @@
     <Compile Include="Modulos\Interfaz\Busqueda.vb" />
     <Compile Include="Modulos\Interfaz\EfectosHover.vb" />
     <Compile Include="Modulos\Interfaz\Juegos.vb" />
-    <Compile Include="Modulos\Interfaz\MasTiles.vb" />
     <Compile Include="Modulos\Interfaz\NavigationViewItems.vb" />
     <Compile Include="Modulos\Interfaz\Pestañas.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
+    <Compile Include="Modulos\MasTiles.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Tiles\Añadir.vb" />
     <Compile Include="Modulos\Tiles\Imagen.vb" />
@@ -207,12 +207,6 @@
     <Content Include="Assets\Logos\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\MasCosas\github.png" />
-    <Content Include="Assets\MasCosas\pepeizqapps.png" />
-    <Content Include="Assets\MasCosas\pepeizqdeals.png" />
-    <Content Include="Assets\MasCosas\traducir.png" />
-    <Content Include="Assets\MasCosas\twitter.png" />
-    <Content Include="Assets\MasCosas\youtube.png" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.xml" />
     <None Include="Package.StoreAssociation.xml" />
