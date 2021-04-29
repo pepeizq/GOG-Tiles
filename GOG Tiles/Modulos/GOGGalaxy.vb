@@ -2,11 +2,13 @@
 Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Newtonsoft.Json
+Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
 Imports Windows.Storage.Search
 Imports Windows.UI
+Imports Windows.UI.Core
 Imports Windows.UI.Xaml.Media.Animation
 
 Module GOGGalaxy
@@ -185,11 +187,14 @@ Module GOGGalaxy
             Next
         End If
 
-        Try
-            Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
-        Catch ex As Exception
+        Await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                                                                      Async Sub()
+                                                                          Try
+                                                                              Await helper.SaveFileAsync(Of List(Of Tile))("juegos", listaJuegos)
+                                                                          Catch ex As Exception
 
-        End Try
+                                                                          End Try
+                                                                      End Sub)
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
