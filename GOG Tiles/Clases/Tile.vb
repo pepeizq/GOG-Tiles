@@ -9,8 +9,8 @@
     Public ImagenAncha As String
     Public ImagenGrande As String
 
-    Public Sub New(ByVal titulo As String, ByVal id As String, ByVal enlace As String,
-                   ByVal imagenPequeña As String, ByVal imagenMediana As String, ByVal imagenAncha As String, ByVal imagenGrande As String)
+    Public Sub New(titulo As String, id As String, enlace As String,
+                   imagenPequeña As String, imagenMediana As String, imagenAncha As String, imagenGrande As String)
         Me.Titulo = titulo
         Me.ID = id
         Me.Enlace = enlace
